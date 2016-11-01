@@ -1,7 +1,21 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
-public abstract class Visualisation {
+import java.util.Observer;
+
+import com.google.gwt.user.client.ui.LayoutPanel;
+
+/**
+ * Abstract class, which has to be extended, to be visualised in the User Interface.
+ */
+public abstract class Visualisation implements Observer {
 	
+	private LayoutPanel panel;
 	
+	/**
+	 * @return the panel, which contains the visualisations.
+	 */
+	public LayoutPanel getPanel() {
+		return panel;
+	}
 	
 }
