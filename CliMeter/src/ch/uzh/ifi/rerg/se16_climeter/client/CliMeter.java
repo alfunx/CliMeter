@@ -13,7 +13,6 @@ public class CliMeter implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		ui.createGUI();
-		
 	}
 	
 }
