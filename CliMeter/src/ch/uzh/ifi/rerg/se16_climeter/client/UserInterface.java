@@ -27,7 +27,7 @@ public class UserInterface {
 			+ "attempting to contact the server. Please check your network " + "connection and try again.";
 
 	private TabLayoutPanel tabs;
-	//private Map map;
+	private Map map;
 	//private Table table;
 	
 	/**
@@ -35,8 +35,9 @@ public class UserInterface {
 	 */
 	public void createGUI() {
 		tabs = new TabLayoutPanel(20, Unit.PX);
+		map = new Map();
 		
-		tabs.add(new Label("Map"), "Map");
+		tabs.add(map.getPanel(), "Map");
 		tabs.add(new Label("Table"), "Table");
 		tabs.add(new Label("Filter"), "Filter");
 		
