@@ -1,16 +1,17 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 import com.google.gwt.maps.client.LoadApi;
 import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
-public class Map extends Visualisation{
+public class Map {
+	
+	LayoutPanel panel = new LayoutPanel();
 	
 	public Map() {
-		super();
+		//super();
 		loadMapApi();
 	}
 	
@@ -37,18 +38,12 @@ public class Map extends Visualisation{
 		
 		LoadApi.go(onLoad, loadLibraries, sensor);
 	}
-
+	
 	/**
 	 * @return the panel
 	 */
 	public LayoutPanel getPanel() {
 		return panel;
-	}
-
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

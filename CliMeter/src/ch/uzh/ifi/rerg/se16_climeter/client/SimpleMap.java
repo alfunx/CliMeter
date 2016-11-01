@@ -22,7 +22,7 @@ public class SimpleMap extends Composite{
 		panel.clear();
 		
 		// zoom out for the clouds
-		LatLng center = LatLng.newInstance(40.74, -73.94);
+		LatLng center = LatLng.newInstance(47.37174, 8.54226);
 		MapOptions opts = MapOptions.newInstance();
 		opts.setZoom(11);
 		opts.setCenter(center);
@@ -30,7 +30,7 @@ public class SimpleMap extends Composite{
 		
 		mapWidget = new MapWidget(opts);
 		panel.add(mapWidget);
-		mapWidget.setSize("98%", "95%");
+		mapWidget.setSize("100%", "100%");
 	}
 	
 }

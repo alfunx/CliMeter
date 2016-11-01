@@ -27,7 +27,7 @@ public class UserInterface {
 			+ "attempting to contact the server. Please check your network " + "connection and try again.";
 
 	private TabLayoutPanel tabs;
-	private Visualisation map;
+	private Map map;
 	//private Table table;
 	
 	/**
