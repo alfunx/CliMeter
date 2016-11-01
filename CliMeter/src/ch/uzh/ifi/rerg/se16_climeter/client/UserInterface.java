@@ -1,6 +1,6 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
-import com.google.gwt.core.client.EntryPoint;
+import ch.uzh.ifi.rerg.se16_climeter.shared.FieldVerifier;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -15,8 +15,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import ch.uzh.ifi.rerg.se16_climeter.shared.FieldVerifier;
 
 public class UserInterface {
 	/**
