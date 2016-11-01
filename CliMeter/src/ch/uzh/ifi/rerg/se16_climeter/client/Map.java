@@ -9,12 +9,8 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 
 public class Map extends Visualisation{
 	
-	LayoutPanel panel = new LayoutPanel();
-	
 	public Map() {
 		super();
-		panel.setSize("100%", "100%");
-		
 		loadMapApi();
 	}
 	
