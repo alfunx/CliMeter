@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
  */
 public abstract class Visualisation implements Observer {
 	
-	private LayoutPanel panel;
+	private LayoutPanel panel = new LayoutPanel();
 	
 	/**
 	 * @return the panel, which contains the visualisations.
