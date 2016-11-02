@@ -11,14 +11,13 @@ public class Map extends Visualisation {
 	LayoutPanel panel = new LayoutPanel();
 	
 	public Map() {
-		//super();
 		loadMapApi();
 	}
 	
 	private void loadMapApi() {
 		boolean sensor = true;
 		
-		// load all the libs for use in the maps
+		// load all the libraries for use in the maps
 		ArrayList<LoadLibrary> loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
 		loadLibraries.add(LoadLibrary.ADSENSE);
 		loadLibraries.add(LoadLibrary.DRAWING);
@@ -31,7 +30,7 @@ public class Map extends Visualisation {
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
-				SimpleMap map = new SimpleMap();
+				AbstractMap map = new SimpleMap();
 				panel.add(map);
 			}
 		};
