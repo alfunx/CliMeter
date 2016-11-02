@@ -6,7 +6,7 @@ import com.google.gwt.maps.client.LoadApi;
 import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
-public class Map {
+public class Map extends Visualisation {
 	
 	LayoutPanel panel = new LayoutPanel();
 	
