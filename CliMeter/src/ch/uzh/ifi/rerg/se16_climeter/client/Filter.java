@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
-public class Filter extends Observable{
+public class Filter extends Observable {
 	
 	private Date beginDate;
 	private Date endDate;
