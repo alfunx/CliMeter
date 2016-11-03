@@ -7,4 +7,9 @@
 
 .tableHeader {
 	background-color: lime;
+	font-style: bold;
+}
+
+.tableNummericColumn {
+	
 }

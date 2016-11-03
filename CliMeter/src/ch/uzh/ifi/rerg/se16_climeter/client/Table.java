@@ -6,6 +6,7 @@ public class Table extends Visualisation implements Exportable{
 	
 	private FlexTable table;
 	
+	
 	public Table(){
 		initTable();
 	}
@@ -28,17 +29,24 @@ public class Table extends Visualisation implements Exportable{
 		
 		table.setStyleName("table");
 		table.getRowFormatter().addStyleName(0, "tableHeader");
+		table.getCellFormatter().addStyleName(0, 0, "tableNumericColumn");
+		table.getCellFormatter().addStyleName(0, 1, "tableNumericColumn");
+		table.getCellFormatter().addStyleName(0, 2, "tableNumericColumn");
+		table.getCellFormatter().addStyleName(0, 3, "tableNumericColumn");
+		table.getCellFormatter().addStyleName(0, 4, "tableNumericColumn");
+		table.getCellFormatter().addStyleName(0, 5, "tableNumericColumn");
+		table.getCellFormatter().addStyleName(0, 6, "tableNumericColumn");
+		table.getCellFormatter().addStyleName(0, 7, "tableNumericColumn");
+		
+		
+		
+		
 		
 		
 		
 		
 		panel.add(table);
 	}
-
-
-
-
-
 
 	@Override
 	public void export() throws Exception {
