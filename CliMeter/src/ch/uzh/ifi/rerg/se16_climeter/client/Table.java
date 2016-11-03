@@ -1,5 +1,9 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
+import java.util.Date;
+import java.text.DateFormat;
+import com.google.gwt.i18n.client.NumberFormat;
+
 import com.google.gwt.user.client.ui.FlexTable;
 
 public class Table extends Visualisation implements Exportable{
@@ -11,7 +15,9 @@ public class Table extends Visualisation implements Exportable{
 		initTable();
 	}
 	
-	
+	/*
+	 * init a new table 
+	 */
 	private void initTable() {
 		table  = new FlexTable();
 		
@@ -39,13 +45,39 @@ public class Table extends Visualisation implements Exportable{
 		table.getCellFormatter().addStyleName(0, 7, "tableNumericColumn");
 		
 		
-		
-		
-		
-		
-		
-		
 		panel.add(table);
+	}
+	
+	/*
+	 * add a Data object to the table
+	 * @param Data object
+	 */
+	public void addData(Data data){
+		
+		// get all the information out of the object
+		
+		Date date = data.getDate();
+		double averageTemperature = data.getAverageTemperature();
+		double uncertainty = data.getUncertainty();
+		String city = data.getCity();
+		String country = data.getCountry();
+		double latitude = data.getLatitude();
+		double longitude = data.getLongitude();
+		
+		// fill in information into cells
+		
+		int row = table.getRowCount();
+		
+//		table.setText(row, 0, date.toString());
+//		table.setText(row, 1, NumberFormat.);
+//		table.setText(row, 2, date.toString());
+//		table.setText(row, 3, date.toString());
+//		table.setText(row, 4, date.toString());
+//		table.setText(row, 5, date.toString());
+//		table.setText(row, 6, date.toString());
+		
+		
+		
 	}
 
 	@Override
