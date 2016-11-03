@@ -1,22 +1,9 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
-import ch.uzh.ifi.rerg.se16_climeter.shared.FieldVerifier;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class UserInterface {
 	/**
@@ -34,7 +21,7 @@ public class UserInterface {
 	 * This is the entry point method.
 	 */
 	public void createGUI() {
-		tabs = new TabLayoutPanel(20, Unit.PX);
+		tabs = new TabLayoutPanel(20, Unit.PT);
 		map = new Map();
 		
 		tabs.add(map.getPanel(), "Map");

@@ -8,10 +8,10 @@ import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 public class Map extends Visualisation {
 
 	public Map() {
-		loadMapApi();
+		initMap();
 	}
 	
-	private void loadMapApi() {
+	private void initMap() {
 		boolean sensor = true;
 		
 		// load all the libraries for use in the maps
@@ -24,6 +24,7 @@ public class Map extends Visualisation {
 		loadLibraries.add(LoadLibrary.WEATHER);
 		loadLibraries.add(LoadLibrary.VISUALIZATION);
 		
+		// thread with running map
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
