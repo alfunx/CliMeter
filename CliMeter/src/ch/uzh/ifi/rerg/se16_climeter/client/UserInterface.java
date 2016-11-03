@@ -34,11 +34,10 @@ public class UserInterface {
 
 		tabs.setHeight("400px");
 		
-		
 		Label sourceInfo = new Label("Following hyperlink leads to datasource: ");
 		sourceInfo.addStyleName("sourceInfo");
 		
-		Anchor sourceLink = new Anchor("Google.ch", "www.google.ch");
+		Anchor sourceLink = new Anchor("Google.ch", "http://www.google.ch");
 		
 		RootPanel.get("sourceInfoContainer").add(sourceInfo);
 		RootPanel.get("sourceLinkContainer").add(sourceLink);
