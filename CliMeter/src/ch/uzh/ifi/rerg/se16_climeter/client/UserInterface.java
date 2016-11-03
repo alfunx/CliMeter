@@ -28,16 +28,17 @@ public class UserInterface {
 
 	private TabLayoutPanel tabs;
 	//private Map map;
-	//private Table table;
+	private Table table;
 	
 	/**
 	 * This is the entry point method.
 	 */
 	public void createGUI() {
 		tabs = new TabLayoutPanel(20, Unit.PX);
+		table = new Table();
 		
 		tabs.add(new Label("Map"), "Map");
-		tabs.add(new Label("Table"), "Table");
+		tabs.add(table.getPanel(), "Table");
 		tabs.add(new Label("Filter"), "Filter");
 		
 		RootPanel.get().add(tabs);
