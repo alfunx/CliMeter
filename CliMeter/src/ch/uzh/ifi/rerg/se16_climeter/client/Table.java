@@ -39,22 +39,8 @@ public class Table extends Visualisation implements Exportable{
 		  
 		  table.addColumn(dateColumn, "Date");
 		  
-		  DateCell dateCell = new DateCell();
-			 Column<Data, Date> dateColumn = new Column<Data, Date>(dateCell) {
-				 
-				 @Override
-				 public Date getValue(Data object) {
-					 return object.getDate();
-			     }
-			  };
-			  
-			  table.addColumn(dateColumn, "Date");
-		    
 		  
-		
-		
-		
-		
+		    
 		
 		// add styles
 		
