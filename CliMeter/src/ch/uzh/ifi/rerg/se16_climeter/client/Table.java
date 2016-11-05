@@ -163,10 +163,19 @@ public class Table extends Visualisation implements Exportable{
 		double latitude = data.getLatitude();
 		double longitude = data.getLongitude();
 		
-
 		
+			
+	}
+	
+	/*
+	 * add an arrayList with Data objects to the table
+	 * @param Data objects in arrayList
+	 */
+	public void addData(ArrayList<Data> data){
 		
 	}
+	
+	
 
 	@Override
 	public void export() throws Exception {
