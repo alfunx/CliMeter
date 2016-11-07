@@ -152,7 +152,8 @@ public class Table extends Visualisation implements Exportable{
 	 */
 	public void addData(Data data){
 		
-		// get all the information out of the object
+		// get all the information out of the object 
+		
 		
 		Date date = data.getDate();
 		double averageTemperature = data.getAverageTemperature();
