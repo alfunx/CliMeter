@@ -1,14 +1,14 @@
 /* Stylesheet for table*/
 
 .table {
-	border: 1px solid black;
 	width: 100%;
 
 }
 
 .tableHeader {
-	background-color: lime;
-	font-style: bold;
+	background-color: #68bb79;
+	
+	
 }
 
 .tableNummericColumn {

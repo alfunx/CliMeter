@@ -19,7 +19,7 @@ public class Table extends Visualisation implements Exportable{
 	
 	
 	
-	public Table(ArrayList<Data> data){
+	protected Table(ArrayList<Data> data){
 		panel.add(initTable(data));
 	}
 	
@@ -131,6 +131,7 @@ public class Table extends Visualisation implements Exportable{
 		table.addColumnStyleName(6, "tableHeader");
 		
 		table.setRowCount(data.size(), true);
+		
 		/*
 		 * TEST DATA!!
 		 */
@@ -142,8 +143,6 @@ public class Table extends Visualisation implements Exportable{
 		 * END TEST DATA
 		 */
 	
-		
-		
 		
 		return table;
 	}
@@ -165,12 +164,12 @@ public class Table extends Visualisation implements Exportable{
 		double latitude = data.getLatitude();
 		double longitude = data.getLongitude();
 		
-		
+		// to be continued...
 			
 	}
 	
 	/*
-	 * add an arrayList with Data objects to the table
+	 * add an arrayList with Data objects to a table
 	 * @param Data objects in arrayList
 	 */
 	public void addData(ArrayList<Data> data, DataGrid<Data> table){
