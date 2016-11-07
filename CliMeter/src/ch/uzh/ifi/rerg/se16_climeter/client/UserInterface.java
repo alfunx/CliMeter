@@ -28,7 +28,7 @@ public class UserInterface {
 		tabs.add(new Label("Table"), "Table");
 		tabs.add(new Label("Filter"), "Filter");
 		
-		RootPanel.get().add(tabs);
+		RootPanel.get("tabContainer").add(tabs);
 
 		tabs.setHeight("400px");
 	}

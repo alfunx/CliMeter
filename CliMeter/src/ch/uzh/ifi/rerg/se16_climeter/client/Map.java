@@ -28,7 +28,7 @@ public class Map extends Visualisation {
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
-				AbstractMap map = new SimpleMap();
+				AbstractMap map = new TemperatureMap();
 				panel.add(map);
 			}
 		};
