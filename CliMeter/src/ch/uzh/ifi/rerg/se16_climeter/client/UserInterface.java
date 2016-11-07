@@ -22,7 +22,7 @@ public class UserInterface {
 	 */
 	public void createGUI() {
 		tabs = new TabLayoutPanel(20, Unit.PT);
-		map = new Map();
+		map = new Map(Data.getRandomData());
 		
 		tabs.add(map.getPanel(), "Map");
 		tabs.add(new Label("Table"), "Table");
