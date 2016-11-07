@@ -2,9 +2,8 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import com.google.gwt.core.client.EntryPoint;
 
-
 /**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * Entry point class which defines the onModuleLoad()-method.
  */
 public class CliMeter implements EntryPoint {
 
