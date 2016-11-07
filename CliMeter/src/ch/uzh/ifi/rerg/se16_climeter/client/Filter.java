@@ -4,6 +4,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * The class Filter contains all filtering criteria.
+ * 
+ * @author Alphonse Mariyagnanaseelan
+ * @history 2016-11-02 AM Initial Commit
+ * @version 2016-11-02 AM 1.0
+ * 
+ * @responsibilities This class contains filtering criteria. Is subject and 
+ *                   updates observers if changes occur. 
+ */
 public class Filter extends Observable {
 	
 	private Date beginDate;

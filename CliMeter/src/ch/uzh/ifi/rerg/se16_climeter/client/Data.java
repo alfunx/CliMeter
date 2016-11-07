@@ -1,7 +1,20 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
+/**
+ * The class Data represents one data point of the measurements.
+ * 
+ * @author Alphonse Mariyagnanaseelan
+ * @history 2016-11-01 AM Initial Commit
+ *          2016-11-07 AM Added method getRandomData()
+ * @version 2016-11-07 AM 1.0
+ * 
+ * @responsibilities This class represents one data point. Offers method
+ *                   getRandomData() for testing purposes.
+ */
 public class Data {
 	
 	private Date date;
@@ -11,6 +24,40 @@ public class Data {
 	private String country;
 	private double latitude;
 	private double longitude;
+	
+	/**
+	 * @return an ArrayList<Data> with random data
+	 */
+	public static ArrayList<Data> getRandomData(int quantity) {
+		ArrayList<Data> dataSet = new ArrayList<Data>();
+		
+		// one data-point in zurich
+		Data d = new Data();
+		d.setAverageTemperature(88.888);
+		d.setCity("Zurich");
+		d.setCountry("Switzerland");
+		d.setDate(new Date());
+		d.setLatitude(47.37174);
+		d.setLongitude(8.54226);
+		d.setUncertainty(1.5);
+		dataSet.add(d);
+		
+		// 100 random data-points for testing
+		Random r = new Random();
+		for(int i = 0; i < quantity; i++) {
+			d = new Data();
+			d.setAverageTemperature((int) ((r.nextDouble() * 2 - 1) * 30));
+			d.setCity("City");
+			d.setCountry("Country");
+			d.setDate(new Date(r.nextLong()));
+			d.setLatitude((r.nextDouble() * 2 - 1) * 100);
+			d.setLongitude((r.nextDouble() * 2 - 1) * 100);
+			d.setUncertainty(r.nextDouble() * 10);
+			dataSet.add(d);
+		}
+		
+		return dataSet;
+	}
 	
 	/**
 	 * @return the date
