@@ -1,22 +1,21 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
-import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.Label;
 
-import java.text.DateFormat;
+
 
 
 public class Table extends Visualisation implements Exportable{
 	
-	private CellTable<Data> table;
+	private DataGrid<Data> table;
 	
 	
 	
@@ -28,9 +27,21 @@ public class Table extends Visualisation implements Exportable{
 	 * init a new table 
 	 */
 	private void initTable() {
-		table  = new CellTable<Data>();
+		table  = new DataGrid<Data>();
+		
+		/*
+	    * Do not refresh the headers every time the data is updated. The footer
+	    * depends on the current data, so we do not disable auto refresh on the
+	    * footer.
+	    */
+		table.setAutoHeaderRefreshDisabled(true);
+		
+		
+		// Set the message to display when the table is empty.
+	    table.setEmptyTableWidget(new Label("Table does not contain any data"));
 		
 		// create header cells
+		
 		// add dates
 		
 		DateCell dateCell = new DateCell();
@@ -119,28 +130,39 @@ public class Table extends Visualisation implements Exportable{
 		table.addColumnStyleName(5, "tableHeader");
 		table.addColumnStyleName(6, "tableHeader");
 		
+		
 		/*
 		 * TEST DATA!!
 		 */
 		
+		ArrayList<Data> DATA = new ArrayList<Data>();
+		
 		Data testData = new Data();
 		testData.setAverageTemperature(23.4);
 		testData.setCity("Winterthur");
+		testData.setUncertainty(0.5);
 		testData.setCountry("Switzerland");
 		testData.setDate(new Date());
 		testData.setLatitude(123456);
 		testData.setLongitude(7890);
-		
-		ArrayList<Data> DATA = new ArrayList<Data>();
-		
 		DATA.add(testData);
+		
+		Data testData1 = new Data();
+		testData1.setAverageTemperature(15);
+		testData1.setCity("Stockholm");
+		testData1.setUncertainty(0.9);
+		testData1.setCountry("Sweden");
+		testData1.setDate(new Date());
+		testData1.setLatitude(1357);
+		testData1.setLongitude(2468);
+		DATA.add(testData1);
 		
 		/*
 		 * END TEST DATA
 		 */
+	
 		
-		
-		
+		table.setRowCount(DATA.size(), true);
 		table.setRowData(0, DATA);
 		
 		panel.add(table);

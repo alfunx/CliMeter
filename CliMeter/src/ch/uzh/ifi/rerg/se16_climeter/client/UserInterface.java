@@ -27,9 +27,9 @@ public class UserInterface {
 	private final String sourceURL = "http://www.berkeleyearth.org/";
 	
 	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);;
-	private Visualisation map;
-	private Visualisation table;
-	// private FilterMenu filterMenu;
+	//private Visualisation map;
+	private Visualisation table = new Table();
+	//private FilterMenu filterMenu;
 	
 	
 	/**
@@ -42,8 +42,8 @@ public class UserInterface {
 	 */
 	public void createGUI() {
 		
-		tabs.add(new Label("Map"), "Map");
 		tabs.add(table.getPanel(), "Table");
+		tabs.add(new Label("Map"), "Map");
 		tabs.add(new Label("Filter"), "Filter");
 
 		RootPanel.get("tabContainer").add(tabs);
