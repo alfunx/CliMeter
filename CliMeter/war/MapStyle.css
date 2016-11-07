@@ -1,0 +1,15 @@
+/* Stylesheet for Map*/
+
+.temperatureOverlay {
+	background-color: #FF0000;
+	border: 1px solid rgba(0,0,0,1);
+	border-radius: 50%;
+	width: 33px;
+	height: 33px;
+	line-height: 33px;
+}
+
+.temperatureText {
+	font-size: 10px;
+	text-align: center;
+}

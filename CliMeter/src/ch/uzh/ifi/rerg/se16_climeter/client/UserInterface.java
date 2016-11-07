@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  * @responsibilities This class holds several children-objects of the abstract
  *                   class Visualisation.
  */
-
 public class UserInterface {
 
 
@@ -27,10 +26,11 @@ public class UserInterface {
 	private final String sourceURL = "http://www.berkeleyearth.org/";
 	
 	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);;
-	//private Visualisation map;
-	private Visualisation table = new Table();
-	//private FilterMenu filterMenu;
 	
+	private Visualisation table = new Table();
+	private Visualisation map = new Map(Data.getRandomData(100));
+	// private FilterMenu filterMenu;
+
 	
 	/**
 	 * Creates the tab structured GUI and displays the data source information.
@@ -42,8 +42,9 @@ public class UserInterface {
 	 */
 	public void createGUI() {
 		
+
 		tabs.add(table.getPanel(), "Table");
-		tabs.add(new Label("Map"), "Map");
+		tabs.add(map.getPanel(), "Map");
 		tabs.add(new Label("Filter"), "Filter");
 
 		RootPanel.get("tabContainer").add(tabs);
