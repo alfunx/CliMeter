@@ -3,9 +3,11 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 public class UserInterface {
@@ -34,12 +36,19 @@ public class UserInterface {
 
 		tabs.setHeight("400px");
 		
-		Label sourceInfo = new Label("Following hyperlink leads to datasource: ");
+		HorizontalPanel sourceContainer = new HorizontalPanel();
+		sourceContainer.addStyleName("sourceContainer");
+		
+		Label sourceInfo = new Label("Source of raw data:");
+		Anchor sourceLink = new Anchor("Berkeley Earth", "http://www.berkeleyearth.org/");
+		sourceLink.setTarget("_blank");
+		
 		sourceInfo.addStyleName("sourceInfo");
 		
-		Anchor sourceLink = new Anchor("Google.ch", "http://www.google.ch");
+		sourceContainer.add(sourceInfo);
+		sourceContainer.add(sourceLink);
 		
-		RootPanel.get("sourceInfoContainer").add(sourceInfo);
-		RootPanel.get("sourceLinkContainer").add(sourceLink);
+		RootPanel.get("sourceContainer").add(sourceContainer);
+
 	}
 }

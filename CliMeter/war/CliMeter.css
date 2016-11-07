@@ -7,10 +7,16 @@ h1 {
 }
 
 .sourceContainer {
+	margin: auto;
 	margin-top: 50px;
 	color: black;
 	font-size: medium;
+	
 }
+
+.sourceInfo {
+	margin-right: 5px;	
+} 
 
 .sendButton {
   display: block;
