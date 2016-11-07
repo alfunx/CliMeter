@@ -8,11 +8,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 /**
- * The class createGUI creates the tab structured GUI and adds data source
+ * The class UserInterface creates the tab structured GUI and adds data source
  * information to the visible part of the web site.
  * 
  * @author Timo Surbeck
- * @history 2016-11-8 First Version 2016-11-10 Several layout improvements
+ * @history 2016-11-01 First Version 
+ * 			2016-11-03 Several layout improvements
  * @version 2016-11-07 Added data source information
  * 
  * @responsibilities This class holds several children-objects of the abstract
