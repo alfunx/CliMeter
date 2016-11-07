@@ -19,10 +19,6 @@ import com.google.gwt.user.client.ui.LayoutPanel;
  * @responsibilities This class starts the map in a thread and passes the data 
  *                   to it [and has to pass filter details in future].
  */
-/**
- * @author Alphonse
- *
- */
 public class Map extends Visualisation {
 	
 	private LayoutPanel panel = new LayoutPanel();
