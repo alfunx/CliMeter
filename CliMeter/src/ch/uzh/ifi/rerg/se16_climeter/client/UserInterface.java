@@ -26,9 +26,8 @@ public class UserInterface {
 	private final String sourceURL = "http://www.berkeleyearth.org/";
 	
 	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);;
-	
-	private Visualisation table = new Table();
 	private Visualisation map = new Map(Data.getRandomData(100));
+	private Visualisation table = new Table(Data.getRandomData(100));
 	// private FilterMenu filterMenu;
 
 	

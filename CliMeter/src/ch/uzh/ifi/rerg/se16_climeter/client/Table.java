@@ -19,14 +19,14 @@ public class Table extends Visualisation implements Exportable{
 	
 	
 	
-	public Table(){
-		initTable();
+	public Table(ArrayList<Data> data){
+		panel.add(initTable(data));
 	}
 	
 	/*
 	 * init a new table 
 	 */
-	private void initTable() {
+	private DataGrid<Data> initTable(ArrayList<Data> data) {
 		table  = new DataGrid<Data>();
 		
 		/*
@@ -130,42 +130,22 @@ public class Table extends Visualisation implements Exportable{
 		table.addColumnStyleName(5, "tableHeader");
 		table.addColumnStyleName(6, "tableHeader");
 		
-		
+		table.setRowCount(data.size(), true);
 		/*
 		 * TEST DATA!!
 		 */
 		
-		ArrayList<Data> DATA = new ArrayList<Data>();
+		addData(data, table);
 		
-		Data testData = new Data();
-		testData.setAverageTemperature(23.4);
-		testData.setCity("Winterthur");
-		testData.setUncertainty(0.5);
-		testData.setCountry("Switzerland");
-		testData.setDate(new Date());
-		testData.setLatitude(123456);
-		testData.setLongitude(7890);
-		DATA.add(testData);
-		
-		Data testData1 = new Data();
-		testData1.setAverageTemperature(15);
-		testData1.setCity("Stockholm");
-		testData1.setUncertainty(0.9);
-		testData1.setCountry("Sweden");
-		testData1.setDate(new Date());
-		testData1.setLatitude(1357);
-		testData1.setLongitude(2468);
-		DATA.add(testData1);
 		
 		/*
 		 * END TEST DATA
 		 */
 	
 		
-		table.setRowCount(DATA.size(), true);
-		table.setRowData(0, DATA);
 		
-		panel.add(table);
+		
+		return table;
 	}
 	
 	/*
@@ -193,8 +173,8 @@ public class Table extends Visualisation implements Exportable{
 	 * add an arrayList with Data objects to the table
 	 * @param Data objects in arrayList
 	 */
-	public void addData(ArrayList<Data> data){
-		
+	public void addData(ArrayList<Data> data, DataGrid<Data> table){
+		table.setRowData(0, data);
 	}
 	
 	
