@@ -1,26 +1,45 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import com.google.gwt.dom.client.Style.Unit;
+
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
-public class UserInterface {
-	/**
-	 * The message displayed to the user when the server cannot be reached or
-	 * returns an error.
-	 */
-	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network " + "connection and try again.";
+/**
+ * The class createGUI creates the tab structured GUI and adds data source
+ * information to the visible part of the web site.
+ * 
+ * @author Timo Surbeck
+ * @history 2016-11-8 First Version 2016-11-10 Several layout improvements
+ * @version 2016-11-07 Added data source information
+ * 
+ * @responsibilities This class holds several children-objects of the abstract
+ *                   class Visualisation.
+ */
 
-	private TabLayoutPanel tabs;
+public class UserInterface {
+	
+	private final String dataSource = "Berkeley Earth";
+	private final String sourceURL = "http://www.berkeleyearth.org/";
+	
+	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);;
 	private Visualisation map;
-	//private Table table;
+	// private Visualisation table;
+	// private FilterMenu filterMenu;
 	
 	/**
-	 * This is the entry point method.
+	 * Creates the tab structured GUI and displays the data source information.
+	 * Requires an already existing TabLayoutPanel object called tabs.
+	 * @pre	-
+	 * @post -
+	 * @param -
+	 * @return - 
 	 */
 	public void createGUI() {
+		
 		tabs = new TabLayoutPanel(20, Unit.PT);
 		map = new Map(Data.getRandomData());
 		
@@ -29,7 +48,23 @@ public class UserInterface {
 		tabs.add(new Label("Filter"), "Filter");
 		
 		RootPanel.get("tabContainer").add(tabs);
-
+		
 		tabs.setHeight("400px");
+		
+		HorizontalPanel sourceContainer = new HorizontalPanel();
+		sourceContainer.addStyleName("sourceContainer");
+		
+		Label sourceInfo = new Label("Source of raw data:");
+		Anchor sourceLink = new Anchor(dataSource, sourceURL);
+		sourceLink.setTarget("_blank");
+		
+		sourceInfo.addStyleName("sourceInfo");
+		
+		sourceContainer.add(sourceInfo);
+		sourceContainer.add(sourceLink);
+		
+		RootPanel.get("sourceContainer").add(sourceContainer);
+		
 	}
+	
 }
