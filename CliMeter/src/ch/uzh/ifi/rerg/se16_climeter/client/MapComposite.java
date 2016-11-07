@@ -21,12 +21,28 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * The class MapComposite is a concrete Map, which shows data on 
+ * corresponding coordinates.
+ * 
+ * @author Alphonse Mariyagnanaseelan
+ * @history 2016-11-03 AM Initial Commit
+ *          2016-11-04 AM Displays simple map
+ *          2016-11-06 AM Displays data points on the map
+ *          2016-11-07 AM Displays multiple data points
+ * @version 2016-11-07 AM 1.0
+ * 
+ * @responsibilities This class contains the map and all layers ontop of it.
+ */
 public class MapComposite extends Composite {
 	
 	private LayoutPanel panel;
 	private MapWidget mapWidget;
 	private List<OverlayView> temperatureOverlays;
 	
+	/**
+	 * @param dataSet Data objects which will be visualised on the map
+	 */
 	protected MapComposite(List<Data> dataSet) {
 		this.panel = new LayoutPanel();
 		initWidget(this.panel);
@@ -41,6 +57,9 @@ public class MapComposite extends Composite {
 		}
 	}
 	
+	/**
+	 * Draws the basic map.
+	 */
 	private void draw() {
 		// set up basic map
 		LatLng center = LatLng.newInstance(47.37174, 8.54226);
@@ -55,6 +74,10 @@ public class MapComposite extends Composite {
 		mapWidget.setSize("100%", "100%");
 	}
 	
+	/**
+	 * Visualises one Data object on the map.
+	 * @param data Data object to visualise on the map
+	 */
 	private void addTemperatureOverlay(final Data data) {
 		final VerticalPanel temperatureOverlayPanel = new VerticalPanel();
 		temperatureOverlayPanel.addStyleName("temperatureOverlay");
@@ -94,6 +117,11 @@ public class MapComposite extends Composite {
 		temperatureOverlays.add(OverlayView.newInstance(mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
 	}
 	
+	/**
+	 * Converts the coordinates of a Data object into a LatLng Object.
+	 * @param data Data object whose coordinates are needed
+	 * @return LatLng object containing the coordinates
+	 */
 	private LatLng getLatLng(Data data) {
 		return LatLng.newInstance(data.getLatitude(), data.getLongitude());
 	}

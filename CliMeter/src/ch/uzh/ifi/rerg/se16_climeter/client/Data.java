@@ -4,6 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+/**
+ * The class Data represents one data point of the measurements.
+ * 
+ * @author Alphonse Mariyagnanaseelan
+ * @history 2016-11-01 AM Initial Commit
+ *          2016-11-07 AM Added method getRandomData()
+ * @version 2016-11-07 AM 1.0
+ * 
+ * @responsibilities This class represents one data point. Offers method
+ *                   getRandomData() for testing purposes.
+ */
 public class Data {
 	
 	private Date date;
@@ -17,7 +28,7 @@ public class Data {
 	/**
 	 * @return an ArrayList<Data> with random data
 	 */
-	public static ArrayList<Data> getRandomData() {
+	public static ArrayList<Data> getRandomData(int quantity) {
 		ArrayList<Data> dataSet = new ArrayList<Data>();
 		
 		// one data-point in zurich
@@ -33,7 +44,7 @@ public class Data {
 		
 		// 100 random data-points for testing
 		Random r = new Random();
-		for(int i = 0; i < 100; i++) {
+		for(int i = 0; i < quantity; i++) {
 			d = new Data();
 			d.setAverageTemperature((int) ((r.nextDouble() * 2 - 1) * 30));
 			d.setCity("City");
