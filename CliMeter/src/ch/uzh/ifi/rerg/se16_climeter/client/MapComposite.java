@@ -2,7 +2,6 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.maps.client.MapOptions;

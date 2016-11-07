@@ -2,10 +2,8 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.gwt.maps.client.LoadApi;
 import com.google.gwt.maps.client.LoadApi.LoadLibrary;
-import com.google.gwt.user.client.ui.LayoutPanel;
 
 /**
  * The class Map initializes a running map and returns it in a pane.
@@ -21,7 +19,6 @@ import com.google.gwt.user.client.ui.LayoutPanel;
  */
 public class Map extends Visualisation {
 	
-	private LayoutPanel panel = new LayoutPanel();
 	private List<Data> dataSet;
 	
 	/**
