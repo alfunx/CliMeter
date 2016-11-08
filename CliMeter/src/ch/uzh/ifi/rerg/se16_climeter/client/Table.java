@@ -1,16 +1,28 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
 
 /**
  * The class Table initializes a table and returns it in a pane.
@@ -31,25 +43,28 @@ import com.google.gwt.user.client.ui.Label;
 public class Table extends Visualisation implements Exportable{
 	
 	private DataGrid<Data> table;
-	
+	private List<Data> dataList; // needed for ListDataProvider
+
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
 	 * @param data
 	 */
 	protected Table(ArrayList<Data> data){
-		panel.add(initTable(data));
+		initTable(data);
 	}
 	
 	/**
 	 * init a new table
 	 * @pre
 	 * @post
-	 * @param data an ArraList which contains all data added to the table
-	 * @returns the initi
+	 * @param data An ArraList which contains all data added to the table
+	 * @returns the initialized table
 	 */
 	private DataGrid<Data> initTable(ArrayList<Data> data) {
 		table  = new DataGrid<Data>();
 		
+		// set size of table
+		table.setRowCount(data.size(), true);
 		
 		// Do not refresh the headers every time the data is updated.
 		table.setAutoHeaderRefreshDisabled(true);
@@ -57,12 +72,13 @@ public class Table extends Visualisation implements Exportable{
 		// Set the message to display when the table is empty.
 	    table.setEmptyTableWidget(new Label("Table does not contain any data"));
 	    
-	    // create SortHandler
-	    ColumnSortEvent.AsyncHandler sortHandler = new ColumnSortEvent.AsyncHandler(table);
-	    table.addColumnSortHandler(sortHandler);
-		ColumnSortList columnSortList = table.getColumnSortList();
+	    // create pager for page handling and set table as the display
+	    SimplePager pager = new SimplePager(SimplePager.TextLocation.CENTER);
+	    pager.setDisplay(table);
+	  
 	    
 		// create columns with header cells
+		
 		// add dates
 		DateCell dateCell = new DateCell();
 		Column<Data, Date> dateColumn = new Column<Data, Date>(dateCell) {
@@ -73,7 +89,8 @@ public class Table extends Visualisation implements Exportable{
 		    }
 		};
 		table.addColumn(dateColumn, "Date");
-		columnSortList.push(new ColumnSortList.ColumnSortInfo(dateColumn, true));
+		dateColumn.setSortable(true);
+		
 		 
 		// add aveTemps
 		Column<Data, Number> avgTempColumn = new Column<Data, Number>(new NumberCell()) {
@@ -84,7 +101,8 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(avgTempColumn, "AvgTemperature");
-		columnSortList.push(new ColumnSortList.ColumnSortInfo(avgTempColumn, true));
+		avgTempColumn.setSortable(true);
+		
 		
 		//add uncertainty
 		Column<Data, Number> uncertainityColumn = new Column<Data, Number>(new NumberCell()) {
@@ -95,7 +113,7 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(uncertainityColumn, "Uncertainity");
-		columnSortList.push(new ColumnSortList.ColumnSortInfo(uncertainityColumn, true));
+		
 		
 		// add city 	
 		TextColumn<Data> cityColumn = new TextColumn<Data>() {
@@ -105,7 +123,7 @@ public class Table extends Visualisation implements Exportable{
 				}
 		};
 		table.addColumn(cityColumn, "City");
-		columnSortList.push(new ColumnSortList.ColumnSortInfo(cityColumn, true));
+		cityColumn.setSortable(true);
 		
 		// add country
 		TextColumn<Data> countryColumn = new TextColumn<Data>() {
@@ -115,7 +133,8 @@ public class Table extends Visualisation implements Exportable{
 				}
 		};
 		table.addColumn(countryColumn, "Country");
-		columnSortList.push(new ColumnSortList.ColumnSortInfo(countryColumn, true));
+		countryColumn.setSortable(true);
+		
 		
 		// add latitude
 		Column<Data, Number> latitudeColumn = new Column<Data, Number>(new NumberCell()) {
@@ -126,7 +145,7 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(latitudeColumn, "Latitude");
-		columnSortList.push(new ColumnSortList.ColumnSortInfo(latitudeColumn, true));
+		
 		
 		// add longitude
 		Column<Data, Number> longitudeColumn = new Column<Data, Number>(new NumberCell()) {
@@ -137,8 +156,6 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(longitudeColumn, "Longitude");
-		columnSortList.push(new ColumnSortList.ColumnSortInfo(longitudeColumn, true));
-		
 			
 		// add style
 		table.addStyleName("table");
@@ -150,21 +167,62 @@ public class Table extends Visualisation implements Exportable{
 		table.addColumnStyleName(5, "tableHeader");
 		table.addColumnStyleName(6, "tableHeader");
 		
-		// set size of table
-		table.setRowCount(data.size(), true);
 		
 		/*
 		 * TEST DATA!!
 		 */
 		
-		addData(data, table);
+		// create a dataProvider which handles updating the data 
+		ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
 		
+		// set table as display of dataProvider
+		dataProvider.addDataDisplay(table);
+		addData(data, table, dataProvider);
+		
+		// set size of page 1 equal to the number of data objects
+		pager.setPageSize(data.size());
 		
 		/*
 		 * END TEST DATA
 		 */
-	
 		
+		// create SortHandler
+	    ListHandler<Data> columnSortHandler = new ListHandler<Data>(dataList);
+	    
+	    // create Comparator for cityColumn
+	    columnSortHandler.setComparator(cityColumn, new Comparator<Data>() {
+			
+			@Override
+			public int compare(Data o1, Data o2) {
+				if (o1 == o2) {
+					return 0;
+				}
+				if (o1 != null){
+					return (o2 != null) ? o1.getCity().compareTo(o2.getCity()) : 1;
+				}
+				return -1;
+			}
+		});
+	    
+	    // create Comparator for countryColumn
+	    columnSortHandler.setComparator(countryColumn, new Comparator<Data>() {
+			
+			@Override
+			public int compare(Data o1, Data o2) {
+				if (o1 == o2) {
+					return 0;
+				}
+				if (o1 != null){
+					return (o2 != null) ? o1.getCity().compareTo(o2.getCity()) : 1;
+				}
+				return -1;
+			}
+		});
+		table.addColumnSortHandler(columnSortHandler);
+	    
+		// add table to panel
+		panel.add(table);
+	
 		return table;
 	}
 	
@@ -194,9 +252,15 @@ public class Table extends Visualisation implements Exportable{
 	 * @post
 	 * @param data
 	 * @param table
+	 * @param dataProvider
 	 */
-	public void addData(ArrayList<Data> data, DataGrid<Data> table){
-		table.setRowData(0, data);
+	public void addData(ArrayList<Data> data, DataGrid<Data> table, ListDataProvider<Data> dataProvider){
+		
+		// sets dataProvider as holder of the data 
+		dataList = dataProvider.getList();
+		for(Data d : data){
+			dataList.add(d);
+		}	
 	}
 	
 	

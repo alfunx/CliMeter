@@ -27,9 +27,9 @@ public class UserInterface {
 	private final String dataSource = "Berkeley Earth";
 	private final String sourceURL = "http://www.berkeleyearth.org/";
 	
-	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);;
+	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);
 	private Visualisation map = new Map(Data.getRandomData(100));
-	private Visualisation table = new Table(Data.getRandomData(100));
+	private Visualisation table = new Table(Data.getRandomData(1000));
 	// private FilterMenu filterMenu;
 
 	
