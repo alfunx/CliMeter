@@ -157,7 +157,7 @@ public class Table extends Visualisation implements Exportable{
 		};
 		table.addColumn(longitudeColumn, "Longitude");
 			
-		// add style
+		// add styles
 		table.addStyleName("table");
 		table.addColumnStyleName(0, "tableHeader");
 		table.addColumnStyleName(1, "tableHeader");
@@ -213,7 +213,7 @@ public class Table extends Visualisation implements Exportable{
 					return 0;
 				}
 				if (o1 != null){
-					return (o2 != null) ? o1.getCity().compareTo(o2.getCity()) : 1;
+					return (o2 != null) ? o1.getCountry().compareTo(o2.getCountry()) : 1;
 				}
 				return -1;
 			}
