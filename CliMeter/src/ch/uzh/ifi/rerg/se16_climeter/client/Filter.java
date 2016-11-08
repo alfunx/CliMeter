@@ -8,12 +8,12 @@ import java.util.List;
  * in the class UserInterface. It has to be extended in order to be visualised.
  * TODO: implement Observer
  * 
- * @author Alphonse Mariyagnanaseelan
- * @history 2016-11-02 AM Initial Commit
- * @version 2016-11-02 AM 1.0
- * 
- * @responsibilities This class makes sure visualisations offer a method 
- *                   getPanel().
+ * @author 		Alphonse Mariyagnanaseelan
+ * @history 	2016-11-02 AM Initial Commit
+ * @version 	2016-11-02 AM 1.0
+ * @responsibilities 
+ * 				This class makes sure visualisations offer a method 
+ * 				getPanel().
  */
 public class Filter {
 	

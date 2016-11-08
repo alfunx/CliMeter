@@ -7,13 +7,13 @@ import java.util.Random;
 /**
  * The class Data represents one data point of the measurements.
  * 
- * @author Alphonse Mariyagnanaseelan
- * @history 2016-11-01 AM Initial Commit
- *          2016-11-07 AM Added method getRandomData()
- * @version 2016-11-07 AM 1.0
- * 
- * @responsibilities This class represents one data point. Offers method
- *                   getRandomData() for testing purposes.
+ * @author 		Alphonse Mariyagnanaseelan
+ * @history 	2016-11-01 AM Initial Commit
+ * 				2016-11-07 AM Added method getRandomData()
+ * @version 	2016-11-07 AM 1.0
+ * @responsibilities 
+ * 				This class represents one data point. Offers method
+ * 				getRandomData() for testing purposes.
  */
 public class Data {
 	

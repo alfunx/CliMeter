@@ -27,15 +27,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The class MapComposite is a concrete Map, which shows data on 
  * corresponding coordinates.
  * 
- * @author Alphonse Mariyagnanaseelan
- * @history 2016-11-03 AM Initial Commit
- *          2016-11-04 AM Displays simple map
- *          2016-11-06 AM Displays data points on the map
- *          2016-11-07 AM Displays multiple data points
- *          2016-11-08 AM Gray-map glitch fixed
- * @version 2016-11-08 AM 1.0
- * 
- * @responsibilities This class contains the map and all layers ontop of it.
+ * @author 		Alphonse Mariyagnanaseelan
+ * @history 	2016-11-03 AM Initial Commit
+ * 				2016-11-04 AM Displays simple map
+ * 				2016-11-06 AM Displays data points on the map
+ * 				2016-11-07 AM Displays multiple data points
+ * 				2016-11-08 AM Gray-map glitch fixed
+ * @version 	2016-11-08 AM 1.0
+ * @responsibilities 
+ * 				This class contains the map and all layers ontop of it.
  */
 public class MapComposite extends Composite {
 	
