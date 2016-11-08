@@ -9,14 +9,15 @@ import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.Point;
-import com.google.gwt.maps.client.events.MapEventType;
-import com.google.gwt.maps.client.events.MapHandlerRegistration;
+import com.google.gwt.maps.client.events.mouseover.MouseOverMapEvent;
+import com.google.gwt.maps.client.events.mouseover.MouseOverMapHandler;
 import com.google.gwt.maps.client.overlays.MapCanvasProjection;
 import com.google.gwt.maps.client.overlays.OverlayView;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewMethods;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnAddHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnRemoveHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -57,6 +58,13 @@ public class MapComposite extends Composite {
 		for(OverlayView overlayView : this.temperatureOverlays) {
 			overlayView.setMap(this.mapWidget);
 		}
+		
+		mapWidget.addMouseOverHandler(new MouseOverMapHandler() {
+			@Override
+			public void onEvent(MouseOverMapEvent event) {
+				mapWidget.triggerResize();
+			}
+		});
 	}
 	
 	/**
@@ -136,7 +144,21 @@ public class MapComposite extends Composite {
 		super.onAttach();
 		
 		// workaround to fix a glitch, where the map occasionally stays gray
-		MapHandlerRegistration.trigger(mapWidget, MapEventType.RESIZE);
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				//mapWidget.triggerResize();
+				//MapHandlerRegistration.trigger(mapWidget, MapEventType.RESIZE);
+			}
+		};
+		timer.schedule(1);
+	}
+	
+	/**
+	 * @return the mapWidget
+	 */
+	public MapWidget getMapWidget() {
+		return mapWidget;
 	}
 	
 }
