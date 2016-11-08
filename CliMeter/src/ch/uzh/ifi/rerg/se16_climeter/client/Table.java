@@ -43,7 +43,7 @@ import com.google.gwt.view.client.ListDataProvider;
 public class Table extends Visualisation implements Exportable{
 	
 	private DataGrid<Data> table;
-	private List<Data> dataList; // needed for ListDataProvider
+	private List<Data> dataList;  // needed for ListDataProvider
 
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
