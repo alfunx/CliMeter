@@ -1,6 +1,8 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -41,10 +43,12 @@ public class UserInterface {
 	 */
 	public void createGUI() {
 		
-
-		tabs.add(table.getPanel(), "Table");
 		tabs.add(map.getPanel(), "Map");
+		tabs.add(table.getPanel(), "Table");
 		tabs.add(new Label("Filter"), "Filter");
+		
+		tabs.setAnimationDuration(450);
+		tabs.setAnimationVertical(false);
 
 		RootPanel.get("tabContainer").add(tabs);
 
@@ -63,6 +67,7 @@ public class UserInterface {
 		sourceContainer.add(sourceLink);
 
 		RootPanel.get("sourceContainer").add(sourceContainer);
+		
 
 	}
 }
