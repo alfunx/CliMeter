@@ -1,6 +1,8 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -20,14 +22,20 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  *                   class Visualisation.
  */
 public class UserInterface {
+<<<<<<< HEAD
 	
+=======
+
+
+>>>>>>> refs/heads/master
 	private final String dataSource = "Berkeley Earth";
 	private final String sourceURL = "http://www.berkeleyearth.org/";
 	
 	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);;
 	private Visualisation map = new Map(Data.getRandomData(100));
-	// private Visualisation table;
+	private Visualisation table = new Table(Data.getRandomData(100));
 	// private FilterMenu filterMenu;
+
 	
 	/**
 	 * Creates the tab structured GUI and displays the data source information.
@@ -40,9 +48,15 @@ public class UserInterface {
 	public void createGUI() {
 		
 		tabs.add(map.getPanel(), "Map");
-		tabs.add(new Label("Table"), "Table");
+		tabs.add(table.getPanel(), "Table");
 		tabs.add(new Label("Filter"), "Filter");
 		
+<<<<<<< HEAD
+=======
+		tabs.setAnimationDuration(450);
+		tabs.setAnimationVertical(false);
+
+>>>>>>> refs/heads/master
 		RootPanel.get("tabContainer").add(tabs);
 		
 		tabs.setHeight("400px");
@@ -61,6 +75,10 @@ public class UserInterface {
 		
 		RootPanel.get("sourceContainer").add(sourceContainer);
 		
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/heads/master
 	}
 	
 }
