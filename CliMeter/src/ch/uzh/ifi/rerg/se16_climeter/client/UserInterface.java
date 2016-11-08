@@ -22,12 +22,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  *                   class Visualisation.
  */
 public class UserInterface {
-<<<<<<< HEAD
 	
-=======
-
-
->>>>>>> refs/heads/master
 	private final String dataSource = "Berkeley Earth";
 	private final String sourceURL = "http://www.berkeleyearth.org/";
 	
@@ -35,7 +30,6 @@ public class UserInterface {
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(100));
 	// private FilterMenu filterMenu;
-
 	
 	/**
 	 * Creates the tab structured GUI and displays the data source information.
@@ -51,12 +45,9 @@ public class UserInterface {
 		tabs.add(table.getPanel(), "Table");
 		tabs.add(new Label("Filter"), "Filter");
 		
-<<<<<<< HEAD
-=======
 		tabs.setAnimationDuration(450);
 		tabs.setAnimationVertical(false);
-
->>>>>>> refs/heads/master
+		
 		RootPanel.get("tabContainer").add(tabs);
 		
 		tabs.setHeight("400px");
@@ -75,10 +66,6 @@ public class UserInterface {
 		
 		RootPanel.get("sourceContainer").add(sourceContainer);
 		
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/heads/master
 	}
 	
 }

@@ -49,7 +49,7 @@ public class Data {
 			d.setAverageTemperature((int) ((r.nextDouble() * 2 - 1) * 30));
 			d.setCity("City");
 			d.setCountry("Country");
-			d.setDate(new Date(r.nextLong()));
+			d.setDate(new Date(r.nextInt(Integer.MAX_VALUE)));
 			d.setLatitude((r.nextDouble() * 2 - 1) * 80);
 			d.setLongitude((r.nextDouble() * 2 - 1) * 150);
 			d.setUncertainty(r.nextDouble() * 10);
