@@ -1,8 +1,6 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -22,8 +20,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  *                   class Visualisation.
  */
 public class UserInterface {
-
-
+	
 	private final String dataSource = "Berkeley Earth";
 	private final String sourceURL = "http://www.berkeleyearth.org/";
 	
@@ -31,7 +28,6 @@ public class UserInterface {
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(100));
 	// private FilterMenu filterMenu;
-
 	
 	/**
 	 * Creates the tab structured GUI and displays the data source information.
@@ -49,25 +45,25 @@ public class UserInterface {
 		
 		tabs.setAnimationDuration(450);
 		tabs.setAnimationVertical(false);
-
+		
 		RootPanel.get("tabContainer").add(tabs);
-
+		
 		tabs.setHeight("400px");
-
+		tabs.setAnimationDuration(1000);
+		
 		HorizontalPanel sourceContainer = new HorizontalPanel();
 		sourceContainer.addStyleName("sourceContainer");
-
+		
 		Label sourceInfo = new Label("Source of raw data:");
 		Anchor sourceLink = new Anchor(dataSource, sourceURL);
 		sourceLink.setTarget("_blank");
-
 		sourceInfo.addStyleName("sourceInfo");
-
+		
 		sourceContainer.add(sourceInfo);
 		sourceContainer.add(sourceLink);
-
+		
 		RootPanel.get("sourceContainer").add(sourceContainer);
 		
-
 	}
+	
 }

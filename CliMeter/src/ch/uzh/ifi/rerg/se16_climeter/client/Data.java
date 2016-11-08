@@ -7,13 +7,13 @@ import java.util.Random;
 /**
  * The class Data represents one data point of the measurements.
  * 
- * @author Alphonse Mariyagnanaseelan
- * @history 2016-11-01 AM Initial Commit
- *          2016-11-07 AM Added method getRandomData()
- * @version 2016-11-07 AM 1.0
- * 
- * @responsibilities This class represents one data point. Offers method
- *                   getRandomData() for testing purposes.
+ * @author 		Alphonse Mariyagnanaseelan
+ * @history 	2016-11-01 AM Initial Commit
+ * 				2016-11-07 AM Added method getRandomData()
+ * @version 	2016-11-07 AM 1.0
+ * @responsibilities 
+ * 				This class represents one data point. Offers method
+ * 				getRandomData() for testing purposes.
  */
 public class Data {
 	
@@ -49,9 +49,9 @@ public class Data {
 			d.setAverageTemperature((int) ((r.nextDouble() * 2 - 1) * 30));
 			d.setCity("City");
 			d.setCountry("Country");
-			d.setDate(new Date(r.nextLong()));
-			d.setLatitude((r.nextDouble() * 2 - 1) * 100);
-			d.setLongitude((r.nextDouble() * 2 - 1) * 100);
+			d.setDate(new Date(r.nextInt(Integer.MAX_VALUE)));
+			d.setLatitude((r.nextDouble() * 2 - 1) * 80);
+			d.setLongitude((r.nextDouble() * 2 - 1) * 150);
 			d.setUncertainty(r.nextDouble() * 10);
 			dataSet.add(d);
 		}
