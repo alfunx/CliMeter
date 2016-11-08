@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
@@ -12,17 +11,12 @@ import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.Point;
 import com.google.gwt.maps.client.events.MapEventType;
 import com.google.gwt.maps.client.events.MapHandlerRegistration;
-import com.google.gwt.maps.client.events.idle.IdleMapEvent;
-import com.google.gwt.maps.client.events.idle.IdleMapHandler;
-import com.google.gwt.maps.client.events.mousemove.MouseMoveMapEvent;
-import com.google.gwt.maps.client.events.mousemove.MouseMoveMapHandler;
 import com.google.gwt.maps.client.overlays.MapCanvasProjection;
 import com.google.gwt.maps.client.overlays.OverlayView;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewMethods;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnAddHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnRemoveHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -37,7 +31,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *          2016-11-04 AM Displays simple map
  *          2016-11-06 AM Displays data points on the map
  *          2016-11-07 AM Displays multiple data points
- * @version 2016-11-07 AM 1.0
+ *          2016-11-08 AM Gray-map glitch fixed
+ * @version 2016-11-08 AM 1.0
  * 
  * @responsibilities This class contains the map and all layers ontop of it.
  */
@@ -46,7 +41,6 @@ public class MapComposite extends Composite {
 	private LayoutPanel panel;
 	private MapWidget mapWidget;
 	private List<OverlayView> temperatureOverlays;
-	//private HandlerRegistration idleHandlerReg;
 	
 	/**
 	 * @param dataSet Data objects which will be visualised on the map
@@ -56,15 +50,6 @@ public class MapComposite extends Composite {
 		initWidget(this.panel);
 		draw();
 		
-//		this.idleHandlerReg = mapWidget.addMouseMoveHandler(new MouseMoveMapHandler() {
-//			@Override
-//			public void onEvent(MouseMoveMapEvent event) {
-//				mapWidget.triggerResize();
-//				if (idleHandlerReg != null)
-//					idleHandlerReg.removeHandler();
-//			}
-//		});
-		
 		this.temperatureOverlays = new ArrayList<OverlayView>();
 		for(Data data : dataSet) {
 			addTemperatureOverlay(data);
@@ -72,24 +57,6 @@ public class MapComposite extends Composite {
 		for(OverlayView overlayView : this.temperatureOverlays) {
 			overlayView.setMap(this.mapWidget);
 		}
-		
-//		this.idleHandlerReg = mapWidget.addIdleHandler(new IdleMapHandler() {
-//		    @Override
-//		    public void onEvent(IdleMapEvent event) {
-//		        mapWidget.triggerResize();
-//		        if (idleHandlerReg != null)
-//		            idleHandlerReg.removeHandler();
-//		    }
-//		});
-//		
-//		this.idleHandlerReg = mapWidget.addHandler(new LoadMapHandler() {
-//		    @Override
-//		    public void onEvent(LoadMapEvent event) {
-//		        mapWidget.triggerResize();
-//		        if (idleHandlerReg != null)
-//		            idleHandlerReg.removeHandler();
-//		    }
-//		}, LoadMapEvent.TYPE);
 	}
 	
 	/**
@@ -164,23 +131,12 @@ public class MapComposite extends Composite {
 		return LatLng.newInstance(data.getLatitude(), data.getLongitude());
 	}
 	
-//	/**
-//	 * @return the mapWidget
-//	 */
-//	public MapWidget getMapWidget() {
-//		return mapWidget;
-//	}
-	
-//	@Override
-//	protected void onAttach() {
-//		super.onAttach();
-//		Timer timer = new Timer() {
-//			@Override
-//			public void run() {
-//				MapHandlerRegistration.trigger(mapWidget, MapEventType.RESIZE);
-//			}
-//		};
-//		//timer.schedule(5);
-//	}
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		
+		// workaround to fix a glitch, where the map occasionally stays gray
+		MapHandlerRegistration.trigger(mapWidget, MapEventType.RESIZE);
+	}
 	
 }
