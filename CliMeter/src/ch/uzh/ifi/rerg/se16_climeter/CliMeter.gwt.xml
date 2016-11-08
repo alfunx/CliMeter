@@ -21,7 +21,7 @@
 	
 	<!-- Inherit the Google Maps API -->
 	<inherits name='com.google.gwt.maps.Maps' />
-	<!-- <inherits name='com.google.gwt.ajaxloader.AjaxLoader' /> -->
+	<inherits name='com.google.gwt.ajaxloader.AjaxLoader' />
 	<!-- <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE' /> -->
 	
 	<!-- Specify the app entry point class -->

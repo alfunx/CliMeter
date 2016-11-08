@@ -46,6 +46,7 @@ public class Map extends Visualisation {
 		loadLibraries.add(LoadLibrary.VISUALIZATION);
 		
 		// thread with running map
+		this.panel.clear();
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
@@ -54,6 +55,7 @@ public class Map extends Visualisation {
 			}
 		};
 		
+		this.panel.onResize();
 		LoadApi.go(onLoad, loadLibraries, sensor);
 	}
 	

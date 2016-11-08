@@ -68,9 +68,12 @@ public class MapComposite extends Composite {
 		options.setMapTypeId(MapTypeId.TERRAIN);
 		
 		// add mapWidget to panel
-		mapWidget = new MapWidget(options);
-		panel.add(mapWidget);
-		mapWidget.setSize("100%", "100%");
+		this.mapWidget = new MapWidget(options);
+		this.panel.clear();
+		this.panel.add(this.mapWidget);
+		
+		this.mapWidget.triggerResize();
+		this.mapWidget.setSize("100%", "100%");
 	}
 	
 	/**
@@ -113,7 +116,7 @@ public class MapComposite extends Composite {
 			}
 		};
 		
-		temperatureOverlays.add(OverlayView.newInstance(mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
+		this.temperatureOverlays.add(OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
 	}
 	
 	/**
