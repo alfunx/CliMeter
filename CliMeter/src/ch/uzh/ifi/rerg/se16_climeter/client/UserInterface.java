@@ -24,11 +24,12 @@ public class UserInterface {
 
 	private final String DATA_SOURCE = "Berkeley Earth";
 	private final String SOURCE_URL = "http://www.berkeleyearth.org/";
-	
+
 	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);;
 	private Visualisation map = new Map(Data.getRandomData(100));
-	// private Visualisation table;
+	private Visualisation table = new Table(Data.getRandomData(100));
 	// private FilterMenu filterMenu;
+
 	
 	/**
 	 * Creates the tab structured GUI and displays the data source information.
@@ -36,13 +37,17 @@ public class UserInterface {
 	 * @pre	-
 	 * @post - 
 	 */
+
+		// Handles tab structure
+
 	public void createGUI() {
 		
-		// Handles tab structure
-		
 		tabs.add(map.getPanel(), "Map");
-		tabs.add(new Label("Table"), "Table");
+		tabs.add(table.getPanel(), "Table");
 		tabs.add(new Label("Filter"), "Filter");
+		
+		tabs.setAnimationDuration(450);
+		tabs.setAnimationVertical(false);
 
 		RootPanel.get("tabContainer").add(tabs);
 
@@ -63,6 +68,7 @@ public class UserInterface {
 		sourceContainer.add(sourceLink);
 
 		RootPanel.get("sourceContainer").add(sourceContainer);
+		
 
 	}
 }
