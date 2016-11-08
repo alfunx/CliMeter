@@ -6,6 +6,8 @@ import java.util.Date;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent;
+import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Label;
@@ -49,12 +51,17 @@ public class Table extends Visualisation implements Exportable{
 		table  = new DataGrid<Data>();
 		
 		
-		//Do not refresh the headers every time the data is updated.
+		// Do not refresh the headers every time the data is updated.
 		table.setAutoHeaderRefreshDisabled(true);
 		
 		// Set the message to display when the table is empty.
 	    table.setEmptyTableWidget(new Label("Table does not contain any data"));
-		
+	    
+	    // create SortHandler
+	    ColumnSortEvent.AsyncHandler sortHandler = new ColumnSortEvent.AsyncHandler(table);
+	    table.addColumnSortHandler(sortHandler);
+		ColumnSortList columnSortList = table.getColumnSortList();
+	    
 		// create columns with header cells
 		// add dates
 		DateCell dateCell = new DateCell();
@@ -66,6 +73,7 @@ public class Table extends Visualisation implements Exportable{
 		    }
 		};
 		table.addColumn(dateColumn, "Date");
+		columnSortList.push(new ColumnSortList.ColumnSortInfo(dateColumn, true));
 		 
 		// add aveTemps
 		Column<Data, Number> avgTempColumn = new Column<Data, Number>(new NumberCell()) {
@@ -76,6 +84,7 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(avgTempColumn, "AvgTemperature");
+		columnSortList.push(new ColumnSortList.ColumnSortInfo(avgTempColumn, true));
 		
 		//add uncertainty
 		Column<Data, Number> uncertainityColumn = new Column<Data, Number>(new NumberCell()) {
@@ -86,6 +95,7 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(uncertainityColumn, "Uncertainity");
+		columnSortList.push(new ColumnSortList.ColumnSortInfo(uncertainityColumn, true));
 		
 		// add city 	
 		TextColumn<Data> cityColumn = new TextColumn<Data>() {
@@ -95,6 +105,7 @@ public class Table extends Visualisation implements Exportable{
 				}
 		};
 		table.addColumn(cityColumn, "City");
+		columnSortList.push(new ColumnSortList.ColumnSortInfo(cityColumn, true));
 		
 		// add country
 		TextColumn<Data> countryColumn = new TextColumn<Data>() {
@@ -104,6 +115,7 @@ public class Table extends Visualisation implements Exportable{
 				}
 		};
 		table.addColumn(countryColumn, "Country");
+		columnSortList.push(new ColumnSortList.ColumnSortInfo(countryColumn, true));
 		
 		// add latitude
 		Column<Data, Number> latitudeColumn = new Column<Data, Number>(new NumberCell()) {
@@ -114,6 +126,7 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(latitudeColumn, "Latitude");
+		columnSortList.push(new ColumnSortList.ColumnSortInfo(latitudeColumn, true));
 		
 		// add longitude
 		Column<Data, Number> longitudeColumn = new Column<Data, Number>(new NumberCell()) {
@@ -124,6 +137,7 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(longitudeColumn, "Longitude");
+		columnSortList.push(new ColumnSortList.ColumnSortInfo(longitudeColumn, true));
 		
 			
 		// add style
