@@ -55,7 +55,7 @@ public class Map extends Visualisation {
 			}
 		};
 		
-		this.panel.onResize();
+		//this.panel.onResize();
 		LoadApi.go(onLoad, loadLibraries, sensor);
 	}
 	

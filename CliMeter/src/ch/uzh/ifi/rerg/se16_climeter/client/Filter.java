@@ -2,19 +2,20 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Observable;
 
 /**
- * The class Filter contains all filtering criteria.
+ * The abstract class Visualisation represents a widget, that can be visualised 
+ * in the class UserInterface. It has to be extended in order to be visualised.
+ * TODO: implement Observer
  * 
  * @author Alphonse Mariyagnanaseelan
  * @history 2016-11-02 AM Initial Commit
  * @version 2016-11-02 AM 1.0
  * 
- * @responsibilities This class contains filtering criteria. Is subject and 
- *                   updates observers if changes occur. 
+ * @responsibilities This class makes sure visualisations offer a method 
+ *                   getPanel().
  */
-public class Filter extends Observable {
+public class Filter {
 	
 	private Date beginDate;
 	private Date endDate;

@@ -4,17 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.Point;
+import com.google.gwt.maps.client.events.MapEventType;
+import com.google.gwt.maps.client.events.MapHandlerRegistration;
+import com.google.gwt.maps.client.events.idle.IdleMapEvent;
+import com.google.gwt.maps.client.events.idle.IdleMapHandler;
+import com.google.gwt.maps.client.events.mousemove.MouseMoveMapEvent;
+import com.google.gwt.maps.client.events.mousemove.MouseMoveMapHandler;
 import com.google.gwt.maps.client.overlays.MapCanvasProjection;
 import com.google.gwt.maps.client.overlays.OverlayView;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewMethods;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnAddHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnRemoveHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -38,6 +46,7 @@ public class MapComposite extends Composite {
 	private LayoutPanel panel;
 	private MapWidget mapWidget;
 	private List<OverlayView> temperatureOverlays;
+	//private HandlerRegistration idleHandlerReg;
 	
 	/**
 	 * @param dataSet Data objects which will be visualised on the map
@@ -47,6 +56,15 @@ public class MapComposite extends Composite {
 		initWidget(this.panel);
 		draw();
 		
+//		this.idleHandlerReg = mapWidget.addMouseMoveHandler(new MouseMoveMapHandler() {
+//			@Override
+//			public void onEvent(MouseMoveMapEvent event) {
+//				mapWidget.triggerResize();
+//				if (idleHandlerReg != null)
+//					idleHandlerReg.removeHandler();
+//			}
+//		});
+		
 		this.temperatureOverlays = new ArrayList<OverlayView>();
 		for(Data data : dataSet) {
 			addTemperatureOverlay(data);
@@ -54,6 +72,24 @@ public class MapComposite extends Composite {
 		for(OverlayView overlayView : this.temperatureOverlays) {
 			overlayView.setMap(this.mapWidget);
 		}
+		
+//		this.idleHandlerReg = mapWidget.addIdleHandler(new IdleMapHandler() {
+//		    @Override
+//		    public void onEvent(IdleMapEvent event) {
+//		        mapWidget.triggerResize();
+//		        if (idleHandlerReg != null)
+//		            idleHandlerReg.removeHandler();
+//		    }
+//		});
+//		
+//		this.idleHandlerReg = mapWidget.addHandler(new LoadMapHandler() {
+//		    @Override
+//		    public void onEvent(LoadMapEvent event) {
+//		        mapWidget.triggerResize();
+//		        if (idleHandlerReg != null)
+//		            idleHandlerReg.removeHandler();
+//		    }
+//		}, LoadMapEvent.TYPE);
 	}
 	
 	/**
@@ -71,8 +107,6 @@ public class MapComposite extends Composite {
 		this.mapWidget = new MapWidget(options);
 		this.panel.clear();
 		this.panel.add(this.mapWidget);
-		
-		this.mapWidget.triggerResize();
 		this.mapWidget.setSize("100%", "100%");
 	}
 	
@@ -87,6 +121,7 @@ public class MapComposite extends Composite {
 		OverlayViewOnDrawHandler onDrawHandler = new OverlayViewOnDrawHandler() {
 			@Override
 			public void onDraw(OverlayViewMethods methods) {
+				// positioning of a data point
 				MapCanvasProjection projection = methods.getProjection();
 				LatLng coordinate = getLatLng(data);
 				Point point = projection.fromLatLngToDivPixel(coordinate);
@@ -94,6 +129,7 @@ public class MapComposite extends Composite {
 				temperatureOverlayPanel.getElement().getStyle().setLeft(point.getX() - temperatureOverlayPanel.getElement().getClientWidth()/2, Unit.PX);
 				temperatureOverlayPanel.getElement().getStyle().setTop(point.getY() - temperatureOverlayPanel.getElement().getClientHeight()/2, Unit.PX);
 				
+				// setting text and style
 				HTML text = new HTML(data.getAverageTemperature() + "");
 				text.addStyleName("temperatureText");
 				temperatureOverlayPanel.clear();
@@ -127,5 +163,24 @@ public class MapComposite extends Composite {
 	private LatLng getLatLng(Data data) {
 		return LatLng.newInstance(data.getLatitude(), data.getLongitude());
 	}
+	
+//	/**
+//	 * @return the mapWidget
+//	 */
+//	public MapWidget getMapWidget() {
+//		return mapWidget;
+//	}
+	
+//	@Override
+//	protected void onAttach() {
+//		super.onAttach();
+//		Timer timer = new Timer() {
+//			@Override
+//			public void run() {
+//				MapHandlerRegistration.trigger(mapWidget, MapEventType.RESIZE);
+//			}
+//		};
+//		//timer.schedule(5);
+//	}
 	
 }

@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  *                   class Visualisation.
  */
 public class UserInterface {
-
+	
 	private final String dataSource = "Berkeley Earth";
 	private final String sourceURL = "http://www.berkeleyearth.org/";
 	
@@ -42,24 +42,25 @@ public class UserInterface {
 		tabs.add(map.getPanel(), "Map");
 		tabs.add(new Label("Table"), "Table");
 		tabs.add(new Label("Filter"), "Filter");
-
+		
 		RootPanel.get("tabContainer").add(tabs);
-
+		
 		tabs.setHeight("400px");
-
+		tabs.setAnimationDuration(1000);
+		
 		HorizontalPanel sourceContainer = new HorizontalPanel();
 		sourceContainer.addStyleName("sourceContainer");
-
+		
 		Label sourceInfo = new Label("Source of raw data:");
 		Anchor sourceLink = new Anchor(dataSource, sourceURL);
 		sourceLink.setTarget("_blank");
-
 		sourceInfo.addStyleName("sourceInfo");
-
+		
 		sourceContainer.add(sourceInfo);
 		sourceContainer.add(sourceLink);
-
+		
 		RootPanel.get("sourceContainer").add(sourceContainer);
-
+		
 	}
+	
 }
