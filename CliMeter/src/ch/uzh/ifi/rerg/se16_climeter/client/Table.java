@@ -7,21 +7,12 @@ import java.util.List;
 
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
-import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 /**
@@ -383,12 +374,30 @@ public class Table extends Visualisation implements Exportable{
 			}
 		});
 	    
+	    // add SortHandler to table
 		table.addColumnSortHandler(columnSortHandler);
 	    
 		// add table to panel
 		panel.add(table);
 	
 		return table;
+	}
+	
+	/**
+	 * adds an arrayList with Data objects to a DataGrid
+	 * @pre
+	 * @post
+	 * @param data
+	 * @param table
+	 * @param dataProvider
+	 */
+	public void addData(ArrayList<Data> data, DataGrid<Data> table, ListDataProvider<Data> dataProvider){
+		
+		// sets dataProvider as holder of the data 
+		dataList = dataProvider.getList();
+		for(Data d : data){
+			dataList.add(d);
+		}	
 	}
 	
 	/**NOT IMPLEMENTED YET
@@ -410,25 +419,6 @@ public class Table extends Visualisation implements Exportable{
 		// to be continued...
 			
 	}
-	
-	/**
-	 * adds an arrayList with Data objects to a DataGrid
-	 * @pre
-	 * @post
-	 * @param data
-	 * @param table
-	 * @param dataProvider
-	 */
-	public void addData(ArrayList<Data> data, DataGrid<Data> table, ListDataProvider<Data> dataProvider){
-		
-		// sets dataProvider as holder of the data 
-		dataList = dataProvider.getList();
-		for(Data d : data){
-			dataList.add(d);
-		}	
-	}
-	
-	
 
 	@Override
 	public void export() throws Exception {
