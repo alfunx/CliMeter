@@ -32,12 +32,13 @@ import com.google.gwt.view.client.ListDataProvider;
  * 				2016-11-03 JS Implemented table with FlexTable
  * 				2016-11-04 JS Changed table to a CellTable
  * 				2016-11-05 JS Changed table to a DataGrid
+ * 				2016-11-09 JS Implemented sorting
  *          
  * @version 	2016-11-08 JS 1.0
  * @responsibilities 
  * 				This class inherits from the class Visualisation. It initializes 
  * 				a table in form of a DataGrid. Then adds 
- * 				data in form of an ArrayList and wraps it in a panel.
+ * 				data from an ArrayList and wraps it in a panel.
  * 					  
  */
 public class Table extends Visualisation implements Exportable{
@@ -77,7 +78,9 @@ public class Table extends Visualisation implements Exportable{
 	    pager.setDisplay(table);
 	  
 	    
-		// create columns with header cells
+		/*
+		 * create columns with header cells
+		 */
 		
 		// add dates
 		DateCell dateCell = new DateCell();
@@ -113,6 +116,7 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(uncertainityColumn, "Uncertainity");
+		uncertainityColumn.setSortable(true);
 		
 		
 		// add city 	
@@ -145,6 +149,7 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(latitudeColumn, "Latitude");
+		latitudeColumn.setSortable(true);
 		
 		
 		// add longitude
@@ -156,6 +161,7 @@ public class Table extends Visualisation implements Exportable{
 			
 		};
 		table.addColumn(longitudeColumn, "Longitude");
+		longitudeColumn.setSortable(true);
 			
 		// add styles
 		table.addStyleName("table");
@@ -172,14 +178,18 @@ public class Table extends Visualisation implements Exportable{
 		 * TEST DATA!!
 		 */
 		
-		// create a dataProvider which handles updating the data 
+		// create a dataProvider which handles updating the data in table 
 		ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
 		
 		// set table as display of dataProvider
 		dataProvider.addDataDisplay(table);
 		addData(data, table, dataProvider);
 		
-		// set size of page 1 equal to the number of data objects
+		/*set size of page 1 equal to the number of data objects
+		 * CHANGE, LATER ON! 
+		 * TODO Implement multiple pages for better 
+		 * performance with large data 
+		 */
 		pager.setPageSize(data.size());
 		
 		/*
@@ -189,11 +199,98 @@ public class Table extends Visualisation implements Exportable{
 		// create SortHandler
 	    ListHandler<Data> columnSortHandler = new ListHandler<Data>(dataList);
 	    
+	    // create Comparator for dateColumn
+	    columnSortHandler.setComparator(dateColumn, new Comparator<Data>() {
+			
+	    	@Override
+			public int compare(Data o1, Data o2) {
+	    		/*
+				 * return 0 => o1 and o2 are equal
+				 * return 1 => o1 is greater than o2
+				 * return -1 => o1 is less than o2
+				 */
+				if (o1 == o2) {
+					return 0;
+				}
+				if (o1 != null){
+					return (o2 != null) ? o1.getDate().compareTo(o2.getDate()) : 1;
+				}
+				return -1;
+			}
+		});
+	    
+	    // create Comparator for avgTempColumn
+	    columnSortHandler.setComparator(avgTempColumn, new Comparator<Data>() {
+			
+			@Override
+			public int compare(Data o1, Data o2) {
+				/*
+				 * return 0 => o1 and o2 are equal
+				 * return 1 => o1 is greater than o2
+				 * return -1 => o1 is less than o2
+				 */
+				if (o1 == o2) {
+					return 0;
+				}
+				if (o1 != null){
+					if (o2 != null) {
+						if(o1.getAverageTemperature() == o2.getAverageTemperature()){
+							return 0;
+						}
+						if(o1.getAverageTemperature() > o2.getAverageTemperature() ){
+							return 1;
+						}
+						return -1;
+					}
+					else{
+						return 1;
+					}
+				}
+				return -1;
+			}
+		});
+	    
+	    // create Comparator for uncertainityColumn
+	    columnSortHandler.setComparator(uncertainityColumn, new Comparator<Data>() {
+			
+			@Override
+			public int compare(Data o1, Data o2) {
+				/*
+				 * return 0 => o1 and o2 are equal
+				 * return 1 => o1 is greater than o2
+				 * return -1 => o1 is less than o2
+				 */
+				if (o1 == o2) {
+					return 0;
+				}
+				if (o1 != null){
+					if (o2 != null) {
+						if(o1.getUncertainty() == o2.getUncertainty()) {
+							return 0;
+						}
+						if(o1.getUncertainty() > o2.getUncertainty()) {
+							return 1;
+						}
+						return -1;
+					}
+					else {
+						return 1;
+					}
+				}
+				return -1;
+			}
+		});
+	    
 	    // create Comparator for cityColumn
 	    columnSortHandler.setComparator(cityColumn, new Comparator<Data>() {
 			
 			@Override
 			public int compare(Data o1, Data o2) {
+				/*
+				 * return 0 => o1 and o2 are equal
+				 * return 1 => o1 is greater than o2
+				 * return -1 => o1 is less than o2
+				 */
 				if (o1 == o2) {
 					return 0;
 				}
@@ -209,6 +306,11 @@ public class Table extends Visualisation implements Exportable{
 			
 			@Override
 			public int compare(Data o1, Data o2) {
+				/*
+				 * return 0 => o1 and o2 are equal
+				 * return 1 => o1 is greater than o2
+				 * return -1 => o1 is less than o2
+				 */
 				if (o1 == o2) {
 					return 0;
 				}
@@ -218,6 +320,69 @@ public class Table extends Visualisation implements Exportable{
 				return -1;
 			}
 		});
+	    
+	    // create Comparator for latitudeColumn
+	    columnSortHandler.setComparator(latitudeColumn, new Comparator<Data>() {
+			
+			@Override
+			public int compare(Data o1, Data o2) {
+				/*
+				 * return 0 => o1 and o2 are equal
+				 * return 1 => o1 is greater than o2
+				 * return -1 => o1 is less than o2
+				 */
+				if (o1 == o2) {
+					return 0;
+				}
+				if (o1 != null){
+					if (o2 != null) {
+						if(o1.getLatitude() == o2.getLatitude()){
+							return 0;
+						}
+						if(o1.getLatitude() > o2.getLatitude() ){
+							return 1;
+						}
+						return -1;
+					}
+					else{
+						return 1;
+					}
+				}
+				return -1;
+			}
+		});
+	    
+	    // create Comparator for longitudeColumn
+	    columnSortHandler.setComparator(longitudeColumn, new Comparator<Data>() {
+			
+			@Override
+			public int compare(Data o1, Data o2) {
+				/*
+				 * return 0 => o1 and o2 are equal
+				 * return 1 => o1 is greater than o2
+				 * return -1 => o1 is less than o2
+				 */
+				if (o1 == o2) {
+					return 0;
+				}
+				if (o1 != null){
+					if (o2 != null) {
+						if(o1.getLongitude() == o2.getLongitude()){
+							return 0;
+						}
+						if(o1.getLongitude() > o2.getLongitude()){
+							return 1;
+						}
+						return -1;
+					}
+					else{
+						return 1;
+					}
+				}
+				return -1;
+			}
+		});
+	    
 		table.addColumnSortHandler(columnSortHandler);
 	    
 		// add table to panel
