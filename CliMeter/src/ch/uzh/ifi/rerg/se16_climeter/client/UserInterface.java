@@ -21,27 +21,13 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  *                   class Visualisation.
  */
 public class UserInterface {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/timolex/experimental
 
 	private final String DATA_SOURCE = "Berkeley Earth";
 	private final String SOURCE_URL = "http://www.berkeleyearth.org/";
 
-<<<<<<< HEAD
-=======
-	
-	private final String dataSource = "Berkeley Earth";
-	private final String sourceURL = "http://www.berkeleyearth.org/";
-	
->>>>>>> refs/remotes/origin/master
-	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);;
-=======
 
 	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);
->>>>>>> origin/timolex/experimental
+
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(100));
 	// private FilterMenu filterMenu;
@@ -69,22 +55,13 @@ public class UserInterface {
 		RootPanel.get("tabContainer").add(tabs);
 		
 		tabs.setHeight("400px");
-<<<<<<< HEAD
-<<<<<<< HEAD
-		
-		// Adds data source info & link below tab structure
-=======
-		tabs.setAnimationDuration(1000);
->>>>>>> refs/remotes/origin/master
-=======
 
-		
-		// Adds data source info & link below tab structure
 
 		tabs.setAnimationDuration(1000);
 
->>>>>>> origin/timolex/experimental
-		
+
+		// Adds data source info & link below tab structure
+
 		HorizontalPanel sourceContainer = new HorizontalPanel();
 		sourceContainer.addStyleName("sourceContainer");
 		
