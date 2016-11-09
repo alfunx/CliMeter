@@ -21,15 +21,21 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  *                   class Visualisation.
  */
 public class UserInterface {
+<<<<<<< HEAD
 
 	private final String DATA_SOURCE = "Berkeley Earth";
 	private final String SOURCE_URL = "http://www.berkeleyearth.org/";
 
+=======
+	
+	private final String dataSource = "Berkeley Earth";
+	private final String sourceURL = "http://www.berkeleyearth.org/";
+	
+>>>>>>> refs/remotes/origin/master
 	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);;
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(100));
 	// private FilterMenu filterMenu;
-
 	
 	/**
 	 * Creates the tab structured GUI and displays the data source information.
@@ -48,27 +54,30 @@ public class UserInterface {
 		
 		tabs.setAnimationDuration(450);
 		tabs.setAnimationVertical(false);
-
+		
 		RootPanel.get("tabContainer").add(tabs);
-
+		
 		tabs.setHeight("400px");
+<<<<<<< HEAD
 		
 		// Adds data source info & link below tab structure
+=======
+		tabs.setAnimationDuration(1000);
+>>>>>>> refs/remotes/origin/master
 		
 		HorizontalPanel sourceContainer = new HorizontalPanel();
 		sourceContainer.addStyleName("sourceContainer");
-
+		
 		Label sourceInfo = new Label("Source of raw data:");
 		Anchor sourceLink = new Anchor(DATA_SOURCE, SOURCE_URL);
 		sourceLink.setTarget("_blank");
-
 		sourceInfo.addStyleName("sourceInfo");
-
+		
 		sourceContainer.add(sourceInfo);
 		sourceContainer.add(sourceLink);
-
+		
 		RootPanel.get("sourceContainer").add(sourceContainer);
 		
-
 	}
+	
 }

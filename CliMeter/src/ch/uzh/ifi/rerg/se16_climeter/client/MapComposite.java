@@ -9,12 +9,15 @@ import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.Point;
+import com.google.gwt.maps.client.events.mouseover.MouseOverMapEvent;
+import com.google.gwt.maps.client.events.mouseover.MouseOverMapHandler;
 import com.google.gwt.maps.client.overlays.MapCanvasProjection;
 import com.google.gwt.maps.client.overlays.OverlayView;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewMethods;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnAddHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnRemoveHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -24,14 +27,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The class MapComposite is a concrete Map, which shows data on 
  * corresponding coordinates.
  * 
- * @author Alphonse Mariyagnanaseelan
- * @history 2016-11-03 AM Initial Commit
- *          2016-11-04 AM Displays simple map
- *          2016-11-06 AM Displays data points on the map
- *          2016-11-07 AM Displays multiple data points
- * @version 2016-11-07 AM 1.0
- * 
- * @responsibilities This class contains the map and all layers ontop of it.
+ * @author 		Alphonse Mariyagnanaseelan
+ * @history 	2016-11-03 AM Initial Commit
+ * 				2016-11-04 AM Displays simple map
+ * 				2016-11-06 AM Displays data points on the map
+ * 				2016-11-07 AM Displays multiple data points
+ * 				2016-11-08 AM Gray-map glitch fixed
+ * @version 	2016-11-08 AM 1.0
+ * @responsibilities 
+ * 				This class contains the map and all layers ontop of it.
  */
 public class MapComposite extends Composite {
 	
@@ -54,6 +58,13 @@ public class MapComposite extends Composite {
 		for(OverlayView overlayView : this.temperatureOverlays) {
 			overlayView.setMap(this.mapWidget);
 		}
+		
+		mapWidget.addMouseOverHandler(new MouseOverMapHandler() {
+			@Override
+			public void onEvent(MouseOverMapEvent event) {
+				mapWidget.triggerResize();
+			}
+		});
 	}
 	
 	/**
@@ -68,9 +79,10 @@ public class MapComposite extends Composite {
 		options.setMapTypeId(MapTypeId.TERRAIN);
 		
 		// add mapWidget to panel
-		mapWidget = new MapWidget(options);
-		panel.add(mapWidget);
-		mapWidget.setSize("100%", "100%");
+		this.mapWidget = new MapWidget(options);
+		this.panel.clear();
+		this.panel.add(this.mapWidget);
+		this.mapWidget.setSize("100%", "100%");
 	}
 	
 	/**
@@ -84,6 +96,7 @@ public class MapComposite extends Composite {
 		OverlayViewOnDrawHandler onDrawHandler = new OverlayViewOnDrawHandler() {
 			@Override
 			public void onDraw(OverlayViewMethods methods) {
+				// positioning of a data point
 				MapCanvasProjection projection = methods.getProjection();
 				LatLng coordinate = getLatLng(data);
 				Point point = projection.fromLatLngToDivPixel(coordinate);
@@ -91,6 +104,7 @@ public class MapComposite extends Composite {
 				temperatureOverlayPanel.getElement().getStyle().setLeft(point.getX() - temperatureOverlayPanel.getElement().getClientWidth()/2, Unit.PX);
 				temperatureOverlayPanel.getElement().getStyle().setTop(point.getY() - temperatureOverlayPanel.getElement().getClientHeight()/2, Unit.PX);
 				
+				// setting text and style
 				HTML text = new HTML(data.getAverageTemperature() + "");
 				text.addStyleName("temperatureText");
 				temperatureOverlayPanel.clear();
@@ -113,7 +127,7 @@ public class MapComposite extends Composite {
 			}
 		};
 		
-		temperatureOverlays.add(OverlayView.newInstance(mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
+		this.temperatureOverlays.add(OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
 	}
 	
 	/**
@@ -123,6 +137,28 @@ public class MapComposite extends Composite {
 	 */
 	private LatLng getLatLng(Data data) {
 		return LatLng.newInstance(data.getLatitude(), data.getLongitude());
+	}
+	
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		
+		// workaround to fix a glitch, where the map occasionally stays gray
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				//mapWidget.triggerResize();
+				//MapHandlerRegistration.trigger(mapWidget, MapEventType.RESIZE);
+			}
+		};
+		timer.schedule(1);
+	}
+	
+	/**
+	 * @return the mapWidget
+	 */
+	public MapWidget getMapWidget() {
+		return mapWidget;
 	}
 	
 }
