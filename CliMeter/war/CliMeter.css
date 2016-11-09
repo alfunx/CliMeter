@@ -14,6 +14,14 @@ h1 {
 	
 }
 
+.filterPanel {
+	margin: auto;
+	margin-top: 50px;
+	color: red;
+	font-size: medium;
+	
+}
+
 .sourceInfo {
 	margin-right: 5px;	
 } 
