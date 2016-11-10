@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  * 			2016-11-03 TS Several layout improvements
  *  		2016-11-07 TS Added data source information
  *  		2016-11-10 TS Layout reorganization, now using DockLayoutPanel
- * @version	2016-11-07 TS 1.0
+ * @version	2016-11-10 TS 1.1
  * 
  * @responsibilities This class holds several children-objects of the abstract
  *                   class Visualisation.
@@ -27,7 +27,6 @@ public class UserInterface {
 	private final String DATA_SOURCE = "Berkeley Earth";
 	private final String SOURCE_URL = "http://www.berkeleyearth.org/";
 
-
 	private TabLayoutPanel tabs;
 	
 	private Visualisation map = new Map(Data.getRandomData(100));
@@ -35,14 +34,14 @@ public class UserInterface {
 	// private FilterMenu filterMenu;
 	
 	/**
-	 * Creates the tab structured GUI and displays the data source information.
+	 * Creates the GUI and displays the data source information.
 	 * @pre	-
 	 * @post - 
 	 */
 	public void createGUI() {
 			
+		// Creates tab structure
 		
-		// Handles tab structure
 		tabs = new TabLayoutPanel(20, Unit.PT);
 		
 		tabs.add(map.getPanel(), "Map");
@@ -52,12 +51,13 @@ public class UserInterface {
 		
 		tabs.setAnimationDuration(450);
 		tabs.setAnimationVertical(false);
-		tabs.setAnimationDuration(1000);
 		
-		// Adds title, data source info & link below tab structure
+		// Adds title label
 
 		Label title = new Label("CliMeter");
 		title.addStyleName("title");
+		
+		// Adds data source info & link below tab structure
 		
 		HorizontalPanel sourceContainer = new HorizontalPanel();
 		sourceContainer.addStyleName("sourceContainer");
@@ -74,13 +74,15 @@ public class UserInterface {
 		southContainer.setSize("100%", "100%");
 		southContainer.add(sourceContainer);
 		
-		// Create a DockPanel called mainPanel
+		// Creates a DockPanel called mainPanel and adds all GUI components
 		
 		DockLayoutPanel mainPanel = new DockLayoutPanel(Unit.EM);
 		
 		mainPanel.addNorth(title, 10);
 		mainPanel.addSouth(southContainer, 5);
 		mainPanel.add(tabs);
+		
+		// Adds mainPanel to the RootLayoutPanel
 		
 		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
 		rootLayoutPanel.add(mainPanel);
