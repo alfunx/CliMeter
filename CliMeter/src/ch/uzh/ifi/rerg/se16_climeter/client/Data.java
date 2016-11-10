@@ -47,7 +47,7 @@ public class Data {
 		for(int i = 0; i < quantity; i++) {
 			d = new Data();
 			d.setAverageTemperature((int) ((r.nextDouble() * 2 - 1) * 30));
-			d.setCity("City");
+			d.setCity("City" + i);
 			d.setCountry("Country");
 			d.setDate(new Date(r.nextInt(Integer.MAX_VALUE)));
 			d.setLatitude((r.nextDouble() * 2 - 1) * 80);
