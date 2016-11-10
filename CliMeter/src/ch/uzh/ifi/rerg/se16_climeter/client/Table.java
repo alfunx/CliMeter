@@ -13,6 +13,7 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 /**
@@ -67,7 +68,21 @@ public class Table extends Visualisation implements Exportable{
 	    // create pager for page handling and set table as the display
 	    SimplePager pager = new SimplePager(SimplePager.TextLocation.CENTER);
 	    pager.setDisplay(table);
-	  
+	    
+	    /*set size of page 1 equal to the number of data objects
+		 * CHANGE, LATER ON! 
+		 * TODO Implement multiple pages for better 
+		 * performance with large data 
+		 */
+		pager.setPageSize(data.size());
+		
+		// create a dataProvider which handles updating the data in table 
+		ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
+		
+		// set table as display of dataProvider
+		dataProvider.addDataDisplay(table);
+		
+		
 	    
 		/*
 		 * create columns with header cells
@@ -169,27 +184,18 @@ public class Table extends Visualisation implements Exportable{
 		 * TEST DATA!!
 		 */
 		
-		// create a dataProvider which handles updating the data in table 
-		ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
-		
-		// set table as display of dataProvider
-		dataProvider.addDataDisplay(table);
+
 		addData(data, table, dataProvider);
 		
-		/*set size of page 1 equal to the number of data objects
-		 * CHANGE, LATER ON! 
-		 * TODO Implement multiple pages for better 
-		 * performance with large data 
-		 */
-		pager.setPageSize(data.size());
 		
 		/*
 		 * END TEST DATA
 		 */
+
 		
 		// create SortHandler
 	    ListHandler<Data> columnSortHandler = new ListHandler<Data>(dataList);
-	    
+
 	    // create Comparator for dateColumn
 	    columnSortHandler.setComparator(dateColumn, new Comparator<Data>() {
 			
@@ -374,11 +380,19 @@ public class Table extends Visualisation implements Exportable{
 			}
 		});
 	    
+	    
 	    // add SortHandler to table
 		table.addColumnSortHandler(columnSortHandler);
+		
+		VerticalPanel vPanel = new VerticalPanel();
+		
+		vPanel.add(table);
+		vPanel.add(pager);
+		
+		
 	    
 		// add table to panel
-		panel.add(table);
+		panel.add(vPanel);
 	
 		return table;
 	}
