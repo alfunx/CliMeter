@@ -28,6 +28,7 @@ import com.google.gwt.view.client.ListDataProvider;
  * 				2016-11-04 JS Changed table to a CellTable
  * 				2016-11-05 JS Changed table to a DataGrid
  * 				2016-11-09 JS Implemented sorting
+ * 				2016-11-10 JS Implemented pager
  *          
  * @version 	2016-11-08 JS 1.0
  * @responsibilities 
@@ -39,6 +40,9 @@ import com.google.gwt.view.client.ListDataProvider;
 public class Table extends Visualisation implements Exportable{
 	
 	private DataGrid<Data> table;
+	
+	// create a dataProvider which handles updating the data in table 
+	private ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
 	private List<Data> dataList;  // needed for ListDataProvider
 
 	/**
@@ -74,14 +78,10 @@ public class Table extends Visualisation implements Exportable{
 	    pager.setDisplay(table);
 	    
 	    // set how many rows per page
-		pager.setPageSize(100);
-		
-		// create a dataProvider which handles updating the data in table 
-		ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
+		pager.setPageSize(200);
 		
 		// set table as display of dataProvider
 		dataProvider.addDataDisplay(table);
-		
 		
 	    
 		/*
