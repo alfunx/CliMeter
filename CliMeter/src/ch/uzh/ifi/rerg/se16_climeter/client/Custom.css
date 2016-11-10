@@ -1,0 +1,41 @@
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
+	background: #368c36;
+	padding-top: 6px;
+	padding-left: 5px;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContentContainer {
+	border-color: #368c36;
+	border-style: solid;
+	border-width: 0px 1px 1px;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
+	border-color: #19b519;
+	border-style: solid;
+	border-width: 3px 2px 2px;
+	overflow: hidden;
+	padding: 6px;
+	background: #FFFFFF;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
+	margin-left: 8px;
+	padding: 5px 15px 5px 15px;
+	cursor: pointer;
+	cursor: hand;
+	color: black;
+	font-size: 1.2em;
+	color: #8bc53d;
+	text-align: center;
+	background: #095909;
+	-moz-border-radius: 8px 8px 0px 0px;
+	border-radius: 8px 8px 0px 0px;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
+	cursor: default;
+	background: #19b519;
+	font-size: 1.2em;
+	color: #FFFFFF;
+}
