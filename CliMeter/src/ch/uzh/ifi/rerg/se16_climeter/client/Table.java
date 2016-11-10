@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.ListDataProvider;
 
 /**
- * The class Table initializes a table and returns it in a pane.
+ * The class Table initializes a table and returns it in a panel.
  * 
  * @author 		Jonathan Stahl
  * @history 	2016-11-01 JS Initial Commit
