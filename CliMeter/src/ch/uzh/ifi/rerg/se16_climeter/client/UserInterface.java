@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  * @history 2016-11-01 TS First Version 
  * 			2016-11-03 TS Several layout improvements
  *  		2016-11-07 TS Added data source information
+ * 			2016-11-09 JB added FilterMenu
  * @version	2016-11-07 TS 1.0
  * 
  * @responsibilities This class holds several children-objects of the abstract
@@ -27,19 +28,17 @@ public class UserInterface {
 
 
 	private TabLayoutPanel tabs = new TabLayoutPanel(20, Unit.PT);
-	
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(1000));
-	// private FilterMenu filterMenu;
-	
+	private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
+
 	/**
 	 * Creates the tab structured GUI and displays the data source information.
 	 * Requires an already existing TabLayoutPanel object called tabs.
 	 * @pre	-
 	 * @post - 
 	 */
-
-		
+	
 
 	public void createGUI() {
 		
@@ -47,34 +46,33 @@ public class UserInterface {
 		
 		tabs.add(map.getPanel(), "Map");
 		tabs.add(table.getPanel(), "Table");
-		tabs.add(new Label("Filter"), "Filter");
-		
+		tabs.add(filterMenu.getPanel(), "Filter");
+
 		tabs.setAnimationDuration(450);
 		tabs.setAnimationVertical(false);
-		
+
 		RootPanel.get("tabContainer").add(tabs);
-		
+
 		tabs.setHeight("400px");
 
 
 		tabs.setAnimationDuration(1000);
 
-
 		// Adds data source info & link below tab structure
 
 		HorizontalPanel sourceContainer = new HorizontalPanel();
 		sourceContainer.addStyleName("sourceContainer");
-		
+
 		Label sourceInfo = new Label("Source of raw data:");
 		Anchor sourceLink = new Anchor(DATA_SOURCE, SOURCE_URL);
 		sourceLink.setTarget("_blank");
 		sourceInfo.addStyleName("sourceInfo");
-		
+
 		sourceContainer.add(sourceInfo);
 		sourceContainer.add(sourceLink);
-		
+
 		RootPanel.get("sourceContainer").add(sourceContainer);
-		
+
 	}
-	
+
 }
