@@ -73,11 +73,7 @@ public class Table extends Visualisation implements Exportable{
 	    pager.addStyleName("pager");
 	    pager.setDisplay(table);
 	    
-	    /*set size of page 1 equal to the number of data objects
-		 * CHANGE, LATER ON! 
-		 * TODO Implement multiple pages for better 
-		 * performance with large data 
-		 */
+	    // set how many rows per page
 		pager.setPageSize(100);
 		
 		// create a dataProvider which handles updating the data in table 
