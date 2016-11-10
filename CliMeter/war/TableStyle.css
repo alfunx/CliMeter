@@ -2,6 +2,12 @@
 
 .table {
 	width: 100%;
+	border-bottom: 5px solid #53c561;
+}
+
+.pager {
+	margin: auto;
+	width: 30%;
 }
 
 .tableHeader {

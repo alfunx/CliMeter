@@ -7,12 +7,15 @@ import java.util.List;
 
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
@@ -66,7 +69,8 @@ public class Table extends Visualisation implements Exportable{
 	    table.setEmptyTableWidget(new Label("Table does not contain any data"));
 	    
 	    // create pager for page handling and set table as the display
-	    SimplePager pager = new SimplePager(SimplePager.TextLocation.CENTER);
+	    SimplePager pager = new SimplePager();
+	    pager.addStyleName("pager");
 	    pager.setDisplay(table);
 	    
 	    /*set size of page 1 equal to the number of data objects
@@ -74,7 +78,7 @@ public class Table extends Visualisation implements Exportable{
 		 * TODO Implement multiple pages for better 
 		 * performance with large data 
 		 */
-		pager.setPageSize(data.size());
+		pager.setPageSize(100);
 		
 		// create a dataProvider which handles updating the data in table 
 		ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
@@ -384,15 +388,13 @@ public class Table extends Visualisation implements Exportable{
 	    // add SortHandler to table
 		table.addColumnSortHandler(columnSortHandler);
 		
-		VerticalPanel vPanel = new VerticalPanel();
+		// create docklayoutPanel to organize the view of table and pager
+		DockLayoutPanel docklayoutPanel = new DockLayoutPanel(Unit.EM);
+		docklayoutPanel.addSouth(pager, 3);
+		docklayoutPanel.add(table);
 		
-		vPanel.add(table);
-		vPanel.add(pager);
-		
-		
-	    
-		// add table to panel
-		panel.add(vPanel);
+		// add docklayoutPanel to panel
+		panel.add(docklayoutPanel);
 	
 		return table;
 	}
