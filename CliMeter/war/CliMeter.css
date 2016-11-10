@@ -1,4 +1,4 @@
-h1 {
+.title {
   font-family: Meta;
   font-size: 3em;
   font-weight: bold;
@@ -9,9 +9,11 @@ h1 {
 
 .sourceContainer {
 	margin: auto;
-	margin-top: 50px;
+	margin-top: 30px;
+	margin-bottom: 20px;
 	color: black;
 	font-size: medium;
+	align: center;
 	
 }
 
@@ -30,4 +32,10 @@ h1 {
 
 .serverResponseLabelError {
   color: red;
+}
+
+.tabContainer {
+	margin-left: 10px;
+	margin-right: 10px;
+	
 }
