@@ -2,10 +2,16 @@
 
 .table {
 	width: 100%;
+	border-bottom: 5px solid #1ec91e;
+}
+
+.pager {
+	margin: auto;
+	width: 20%;
 }
 
 .tableHeader {
-	background-color: #53c561;
+	background-color: #1ec91e;
 }
 
 .tableNummericColumn {
