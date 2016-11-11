@@ -189,7 +189,7 @@ public class Table extends Visualisation implements Exportable{
 		/*
 		 * END TEST DATA
 		 */
-
+		
 		
 		// create SortHandler
 	    ListHandler<Data> columnSortHandler = new ListHandler<Data>(dataList);

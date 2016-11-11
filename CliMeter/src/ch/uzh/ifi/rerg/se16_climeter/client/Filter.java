@@ -4,16 +4,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * The abstract class Visualisation represents a widget, that can be visualised 
- * in the class UserInterface. It has to be extended in order to be visualised.
- * TODO: implement Observer
+ * The class Filter contains all filtering criteria.
+ * TODO: implement Observable
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-02 AM Initial Commit
  * @version 	2016-11-02 AM 1.0
  * @responsibilities 
- * 				This class makes sure visualisations offer a method 
- * 				getPanel().
+ * 				This class contains filtering criteria. Is subject and 
+ * 				updates observers if changes occur.
  */
 public class Filter {
 	
