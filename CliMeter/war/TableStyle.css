@@ -2,7 +2,7 @@
 
 .table {
 	width: 100%;
-	border-bottom: 5px solid #53c561;
+	border-bottom: 5px solid #1ec91e;
 }
 
 .pager {
@@ -11,7 +11,7 @@
 }
 
 .tableHeader {
-	background-color: #53c561;
+	background-color: #1ec91e;
 }
 
 .tableNummericColumn {
