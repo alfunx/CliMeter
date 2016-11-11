@@ -35,15 +35,6 @@
 	margin-right: 5px;	
 }
 
-.sendButton {
-	display: block;
-	font-size: 16pt;
-}
-
-.dialogVPanel {
-	margin: 5px;
-}
-
 .serverResponseLabelError {
 	color: red;
 }
