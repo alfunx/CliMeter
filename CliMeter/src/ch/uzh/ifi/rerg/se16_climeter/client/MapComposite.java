@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 				2016-11-08 AM Gray-map glitch fixed
  * @version 	2016-11-08 AM 1.0
  * @responsibilities 
- * 				This class contains the map and all layers ontop of it.
+ * 				This class contains the map and all layers on top of it.
  */
 public class MapComposite extends Composite {
 	
@@ -93,6 +93,8 @@ public class MapComposite extends Composite {
 	private void addTemperatureOverlay(final Data data) {
 		final VerticalPanel temperatureOverlayPanel = new VerticalPanel();
 		temperatureOverlayPanel.addStyleName("temperatureOverlay");
+		String color = ColorTransition.getPercentageColor(normalize(data.getAverageTemperature(), -30.0, 30.0));
+		temperatureOverlayPanel.getElement().getStyle().setBackgroundColor(color);
 		
 		OverlayViewOnDrawHandler onDrawHandler = new OverlayViewOnDrawHandler() {
 			@Override
@@ -158,8 +160,24 @@ public class MapComposite extends Composite {
 	/**
 	 * @return the mapWidget
 	 */
-	public MapWidget getMapWidget() {
+	protected MapWidget getMapWidget() {
 		return mapWidget;
+	}
+	
+	/**
+	 * Calculates the normalized value of a temperature.
+	 * @param value current value
+	 * @param min minimum value of dataset
+	 * @param max maximum value of dataset
+	 * @return the normalized value
+	 */
+	private double normalize(double value, double min, double max) {
+		if (min < 0) {
+			value += min;
+			max += min;
+			min += min;
+		}
+		return (value - min) / (max - min);
 	}
 	
 }
