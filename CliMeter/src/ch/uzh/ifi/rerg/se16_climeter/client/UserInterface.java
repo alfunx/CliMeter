@@ -1,10 +1,12 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.layout.client.Layout.Alignment;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
@@ -30,7 +32,7 @@ public class UserInterface {
 
 	private TabLayoutPanel tabs;
 	private Visualisation map = new Map(Data.getRandomData(100));
-	private Visualisation table = new Table(Data.getRandomData(1000));
+	private Visualisation table = new Table(Data.getRandomData(299999));
 	private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
 	private Visualisation timeline = new Timeline();
 
@@ -44,7 +46,7 @@ public class UserInterface {
 			
 		// Creates tab structure
 		
-		tabs = new TabLayoutPanel(20, Unit.PT);
+		tabs = new TabLayoutPanel(30, Unit.PX);
 		
 		tabs.add(map.getPanel(), "Map");
 		tabs.add(table.getPanel(), "Table");
@@ -56,17 +58,21 @@ public class UserInterface {
 		tabs.setAnimationVertical(false);
 
 		// Adds title label
-
+		
+		LayoutPanel titleContainer = new LayoutPanel();
 		Label title = new Label("CliMeter");
 		title.addStyleName("title");
+
 		
 	
 //		timeline.setStyleName("timelinePanel");
 
 		
 
-		
-		
+		titleContainer.add(title);
+		titleContainer.addStyleName("titleContainer");
+		titleContainer.setWidgetHorizontalPosition(title, Alignment.END);
+
 		
 		// Adds data source info & link below tab structure
 
@@ -89,9 +95,11 @@ public class UserInterface {
 		
 		DockLayoutPanel mainPanel = new DockLayoutPanel(Unit.EM);
 		
-		mainPanel.addNorth(title, 10);
-		mainPanel.addSouth(southContainer, 5);
+
+		mainPanel.addNorth(titleContainer, 6);
+		mainPanel.addSouth(southContainer, 4);
 		mainPanel.addSouth((timeline.getPanel()), 5);
+
 		mainPanel.add(tabs);
 
 		
