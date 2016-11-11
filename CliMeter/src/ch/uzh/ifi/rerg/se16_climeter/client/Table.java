@@ -7,16 +7,18 @@ import java.util.List;
 
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.ListDataProvider;
 
 /**
- * The class Table initializes a table and returns it in a pane.
+ * The class Table initializes a table and returns it in a panel.
  * 
  * @author 		Jonathan Stahl
  * @history 	2016-11-01 JS Initial Commit
@@ -24,6 +26,7 @@ import com.google.gwt.view.client.ListDataProvider;
  * 				2016-11-04 JS Changed table to a CellTable
  * 				2016-11-05 JS Changed table to a DataGrid
  * 				2016-11-09 JS Implemented sorting
+ * 				2016-11-10 JS Implemented pager
  *          
  * @version 	2016-11-08 JS 1.0
  * @responsibilities 
@@ -35,6 +38,9 @@ import com.google.gwt.view.client.ListDataProvider;
 public class Table extends Visualisation implements Exportable{
 	
 	private DataGrid<Data> table;
+	
+	// create a dataProvider which handles updating the data in table 
+	private ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
 	private List<Data> dataList;  // needed for ListDataProvider
 
 	/**
@@ -65,9 +71,16 @@ public class Table extends Visualisation implements Exportable{
 	    table.setEmptyTableWidget(new Label("Table does not contain any data"));
 	    
 	    // create pager for page handling and set table as the display
-	    SimplePager pager = new SimplePager(SimplePager.TextLocation.CENTER);
+	    SimplePager pager = new SimplePager();
+	    pager.addStyleName("pager");
 	    pager.setDisplay(table);
-	  
+	    
+	    // set how many rows per page
+		pager.setPageSize(200);
+		
+		// set table as display of dataProvider
+		dataProvider.addDataDisplay(table);
+		
 	    
 		/*
 		 * create columns with header cells
@@ -169,27 +182,18 @@ public class Table extends Visualisation implements Exportable{
 		 * TEST DATA!!
 		 */
 		
-		// create a dataProvider which handles updating the data in table 
-		ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
-		
-		// set table as display of dataProvider
-		dataProvider.addDataDisplay(table);
+
 		addData(data, table, dataProvider);
 		
-		/*set size of page 1 equal to the number of data objects
-		 * CHANGE, LATER ON! 
-		 * TODO Implement multiple pages for better 
-		 * performance with large data 
-		 */
-		pager.setPageSize(data.size());
 		
 		/*
 		 * END TEST DATA
 		 */
+
 		
 		// create SortHandler
 	    ListHandler<Data> columnSortHandler = new ListHandler<Data>(dataList);
-	    
+
 	    // create Comparator for dateColumn
 	    columnSortHandler.setComparator(dateColumn, new Comparator<Data>() {
 			
@@ -374,11 +378,17 @@ public class Table extends Visualisation implements Exportable{
 			}
 		});
 	    
+	    
 	    // add SortHandler to table
 		table.addColumnSortHandler(columnSortHandler);
-	    
-		// add table to panel
-		panel.add(table);
+		
+		// create docklayoutPanel to organize the view of table and pager
+		DockLayoutPanel docklayoutPanel = new DockLayoutPanel(Unit.EM);
+		docklayoutPanel.addSouth(pager, 3);
+		docklayoutPanel.add(table);
+		
+		// add docklayoutPanel to panel
+		panel.add(docklayoutPanel);
 	
 		return table;
 	}
