@@ -1,0 +1,10 @@
+/* Stylesheet for Filter*/
+
+.sendButton {
+	display: block;
+	font-size: 16pt;
+}
+
+.dialogVPanel {
+	margin: 5px;
+}
