@@ -44,7 +44,7 @@ public class UserInterface {
 			
 		// Creates tab structure
 		
-		tabs = new TabLayoutPanel(25, Unit.PT);
+		tabs = new TabLayoutPanel(30, Unit.PX);
 		
 		tabs.add(map.getPanel(), "Map");
 		tabs.add(table.getPanel(), "Table");
