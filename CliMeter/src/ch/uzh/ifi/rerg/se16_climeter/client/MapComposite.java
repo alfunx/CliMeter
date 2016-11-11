@@ -59,6 +59,7 @@ public class MapComposite extends Composite {
 			overlayView.setMap(this.mapWidget);
 		}
 		
+		// workaround to fix a glitch, where the map occasionally stays gray
 		mapWidget.addMouseOverHandler(new MouseOverMapHandler() {
 			@Override
 			public void onEvent(MouseOverMapEvent event) {
