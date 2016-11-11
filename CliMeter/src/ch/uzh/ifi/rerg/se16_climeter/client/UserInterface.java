@@ -32,6 +32,8 @@ public class UserInterface {
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(1000));
 	private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
+	private Visualisation timeline = new Timeline();
+
 
 	/**
 	 * Creates the GUI and displays the data source information.
@@ -58,6 +60,14 @@ public class UserInterface {
 		Label title = new Label("CliMeter");
 		title.addStyleName("title");
 		
+	
+//		timeline.setStyleName("timelinePanel");
+
+		
+
+		
+		
+		
 		// Adds data source info & link below tab structure
 
 		HorizontalPanel sourceContainer = new HorizontalPanel();
@@ -81,7 +91,9 @@ public class UserInterface {
 		
 		mainPanel.addNorth(title, 10);
 		mainPanel.addSouth(southContainer, 5);
+		mainPanel.addSouth((timeline.getPanel()), 5);
 		mainPanel.add(tabs);
+
 		
 		// Adds mainPanel to the RootLayoutPanel
 		
