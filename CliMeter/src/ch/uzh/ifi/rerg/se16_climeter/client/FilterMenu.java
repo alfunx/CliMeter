@@ -14,8 +14,8 @@ import com.google.gwt.user.client.ui.Widget;
  * The class FilterMenu includes the different widgets with which the date can be filtered.
  * 
  * @author 		Joachim Baumann
- * @history 	2016-11-09 AM Initial Commit
- * @version 	2016-11-09 AM 1.0
+ * @history 	2016-11-09 JB Initial Commit
+ * @version 	2016-11-09 JB 1.0
  * @responsibilities 
  * 				This class inherits from the class Visualisation.
  */
@@ -83,7 +83,7 @@ public class FilterMenu extends Visualisation {
 
 	public Widget addFilterButton() {
 
-		Button filterButton = new Button("Filtern");
+		Button filterButton = new Button("filter");
 		filterButton.setStyleName("filterButton");
 //		filterButton.setWidth("200px");
 		return filterButton;
