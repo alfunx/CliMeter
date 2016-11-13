@@ -24,9 +24,12 @@ public class CliMeter implements EntryPoint {
 	 * @post - 
 	 */
 	public void onModuleLoad() {
-
+		
+		// override theme with custom css
+		Resources.INSTANCE.css().ensureInjected(); 
+		
 		ui.createGUI();
-
+		
 	}
 	
 }
