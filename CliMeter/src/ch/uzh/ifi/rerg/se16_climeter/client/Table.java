@@ -39,12 +39,14 @@ public class Table extends Visualisation implements Exportable{
 	
 	private DataGrid<Data> table;
 	
-	// create a dataProvider which handles updating the data in table 
-	private ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
+	// dataProvider which handles updating the data in table 
+	private ListDataProvider<Data> dataProvider;
 	private List<Data> dataList;  // needed for ListDataProvider
 
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
+	 * @pre -
+	 * @post table initialized
 	 * @param data
 	 */
 	protected Table(ArrayList<Data> data){
@@ -53,13 +55,14 @@ public class Table extends Visualisation implements Exportable{
 	
 	/**
 	 * init a new table
-	 * @pre
-	 * @post
+	 * @pre table == null && dataProvider == null && dataList == null
+	 * @post table != null 
 	 * @param data An ArraList which contains all data added to the table
 	 * @returns the initialized table
 	 */
 	private DataGrid<Data> initTable(ArrayList<Data> data) {
 		table  = new DataGrid<Data>();
+		dataProvider = new ListDataProvider<Data>();
 		
 		// set size of table
 		table.setRowCount(data.size(), true);
@@ -395,8 +398,8 @@ public class Table extends Visualisation implements Exportable{
 	
 	/**
 	 * adds an arrayList with Data objects to a DataGrid
-	 * @pre
-	 * @post
+	 * @pre table != null && dataProvider != null
+	 * @post table filled with Data objects if data != null
 	 * @param data
 	 * @param table
 	 * @param dataProvider
@@ -411,8 +414,8 @@ public class Table extends Visualisation implements Exportable{
 	}
 	
 	/**NOT IMPLEMENTED YET
-	 * @pre
-	 * @post
+	 * @pre -
+	 * @post -
 	 * @param data
 	 */
 	public void addData(Data data){
@@ -432,7 +435,7 @@ public class Table extends Visualisation implements Exportable{
 
 	@Override
 	public void export() throws Exception {
-		// TODO Auto-generated method stub
+		// TODO 
 		
 	}
 
