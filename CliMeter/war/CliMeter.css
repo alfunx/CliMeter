@@ -38,3 +38,7 @@
 .serverResponseLabelError {
 	color: red;
 }
+
+.timelinePanel {
+	margin: auto;
+}

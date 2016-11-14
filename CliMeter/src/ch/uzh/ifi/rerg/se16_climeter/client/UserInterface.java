@@ -34,6 +34,8 @@ public class UserInterface {
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(299999));
 	private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
+	private Visualisation timeline = new Timeline();
+
 
 	/**
 	 * Creates the GUI and displays the data source information.
@@ -81,13 +83,20 @@ public class UserInterface {
 		southContainer.setSize("100%", "100%");
 		southContainer.add(sourceContainer);
 		
+		
 		// Creates a DockPanel called mainPanel and adds all GUI components
 		
 		DockLayoutPanel mainPanel = new DockLayoutPanel(Unit.EM);
 		
 		mainPanel.addNorth(titleContainer, 6);
 		mainPanel.addSouth(southContainer, 4);
+		
+//		timeline.setStyleName("timelinePanel");
+		mainPanel.addSouth((timeline.getPanel()), 8);
+
+		
 		mainPanel.add(tabs);
+		
 		
 		// Adds mainPanel to the RootLayoutPanel
 		

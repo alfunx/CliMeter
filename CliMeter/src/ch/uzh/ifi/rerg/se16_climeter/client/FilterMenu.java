@@ -28,7 +28,7 @@ public class FilterMenu extends Visualisation {
 	public FilterMenu(ArrayList<Data> data){
 
 		VerticalPanel dock = new VerticalPanel();
-		dock.setStyleName("cw-DockPanel");
+		dock.setStyleName("filterPanel");
 		dock.setSpacing(30);
 
 		dock.add(countryBox(data));
@@ -53,7 +53,7 @@ public class FilterMenu extends Visualisation {
 
 		// Create the suggest box
 		final SuggestBox suggestBox = new SuggestBox(oracle);
-		suggestBox.ensureDebugId("cwSuggestBox");
+		suggestBox.setStyleName("countryBox");
 		VerticalPanel suggestPanel = new VerticalPanel();
 		suggestPanel.add(new Label("Country:"));
 		suggestPanel.add(suggestBox);
@@ -73,7 +73,7 @@ public class FilterMenu extends Visualisation {
 
 		// Create the suggest box
 		final SuggestBox suggestBox = new SuggestBox(cityOracle);
-		suggestBox.ensureDebugId("cwSuggestBox");
+		suggestBox.setStyleName("cityBox");
 		VerticalPanel suggestPanel = new VerticalPanel();
 		suggestPanel.add(new Label("City:"));
 		suggestPanel.add(suggestBox);

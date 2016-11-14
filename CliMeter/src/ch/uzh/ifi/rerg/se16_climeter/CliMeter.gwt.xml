@@ -24,6 +24,14 @@
 	<inherits name='com.google.gwt.ajaxloader.AjaxLoader' />
 	<!-- <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE' /> -->
 	
+	<!-- Inherit bootstrap3 for Timeline Sliders -->
+	<!-- <inherits name='org.gwtbootstrap3.GwtBootstrap3' /> -->
+	<!-- <inherits name='org.gwtbootstrap3.GwtBootstrap3Theme' /> -->
+	
+	<inherits name='org.gwtbootstrap3.GwtBootstrap3' />
+	<inherits name='org.gwtbootstrap3.GwtBootstrap3Theme' />
+	<inherits name="org.gwtbootstrap3.extras.slider.Slider"/>	
+	
 	<!-- Specify the app entry point class -->
 	<entry-point class='ch.uzh.ifi.rerg.se16_climeter.client.CliMeter' />
 	

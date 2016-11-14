@@ -1,10 +1,30 @@
 /* Stylesheet for Filter*/
 
-.sendButton {
+.filterButton {
+	background-color: #4CAF50;
 	display: block;
-	font-size: 16pt;
+	font-size: 10pt;
+	color: white;
+	text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
 }
 
-.dialogVPanel {
-	margin: 5px;
+.resetButton {
+	background-color: #4CAF50;
+	display: block;
+	font-size: 10pt;
+	color: white;
+	text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
 }
+
+.countryBox {
+	border: 1px solid green;
+}
+
+.cityBox {
+	border: 1px solid green;
+}
+
