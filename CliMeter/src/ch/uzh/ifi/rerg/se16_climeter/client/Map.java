@@ -67,7 +67,8 @@ public class Map extends Visualisation {
 		};
 		
 		//this.panel.onResize();
-		LoadApi.go(onLoad, loadLibraries, sensor);
+		String keyParameter = "key=AIzaSyB4zRgy_BdYcjhDiMNv-kZboiLBCpmyYWs";
+		LoadApi.go(onLoad, loadLibraries, sensor, keyParameter);
 	}
 	
 }
