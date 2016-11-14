@@ -26,6 +26,8 @@ public class Map extends Visualisation {
 	
 	/**
 	 * Initializes the map and adds it to the visualisation-panel.
+	 * @pre -
+	 * @post panel != null
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public Map(List<Data> dataSet) {
@@ -36,7 +38,7 @@ public class Map extends Visualisation {
 	/**
 	 * Initializes the map inside a thread.
 	 * @pre -
-	 * @post -
+	 * @post panel != null
 	 */
 	private void initMap() {
 		// load all the libraries for use in the maps

@@ -45,13 +45,13 @@ public class Data {
 		d.setUncertainty(1.5);
 		dataSet.add(d);
 		
-		if(quantity <= 1) {
+		if (quantity <= 1) {
 			return dataSet;
 		}
 		
 		// random data-points for testing
 		Random r = new Random();
-		for(int i = 2; i <= quantity; i++) {
+		for (int i = 2; i <= quantity; i++) {
 			d = new Data();
 			d.setAverageTemperature((int) ((r.nextDouble() * 2 - 1) * 30));
 			d.setCity("City" + i);

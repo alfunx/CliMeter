@@ -44,7 +44,7 @@ public class MapComposite extends Composite {
 	/**
 	 * Initialize as Composite and add google map on it.
 	 * @pre -
-	 * @post -
+	 * @post panel != null, mapWidget != null
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	protected MapComposite(List<Data> dataSet) {
@@ -53,26 +53,26 @@ public class MapComposite extends Composite {
 		draw();
 		
 		this.temperatureOverlays = new ArrayList<OverlayView>();
-		if(dataSet != null) {
-			for(Data data : dataSet) {
-			addTemperatureOverlay(data);
+		if (dataSet != null) {
+			for (Data data : dataSet) {
+				addTemperatureOverlay(data);
 			}
 		}
-		for(OverlayView overlayView : this.temperatureOverlays) {
+		for (OverlayView overlayView : this.temperatureOverlays) {
 			overlayView.setMap(this.mapWidget);
 		}
 	}
 	
 	/**
 	 * Draws the basic map.
-	 * @pre -
-	 * @post -
+	 * @pre panel != null
+	 * @post mapWidget.getParent == panel
 	 */
 	private void draw() {
 		// set up basic map
 		LatLng center = LatLng.newInstance(47.37174, 8.54226);
 		MapOptions options = MapOptions.newInstance();
-		options.setZoom(11);
+		options.setZoom(5);
 		options.setCenter(center);
 		options.setMapTypeId(MapTypeId.TERRAIN);
 		
@@ -85,8 +85,8 @@ public class MapComposite extends Composite {
 	
 	/**
 	 * Visualises one Data object on the map.
-	 * @pre -
-	 * @post -
+	 * @pre data != null
+	 * @post temperatureOverlays.size() = temperatureOverlays.size()@pre + 1
 	 * @param data Data object to visualise on the map
 	 */
 	private void addTemperatureOverlay(final Data data) {
@@ -130,22 +130,6 @@ public class MapComposite extends Composite {
 		this.temperatureOverlays.add(OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
 	}
 	
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		
-		// workaround to fix a glitch, where the map occasionally stays gray
-		// needed for Internet Explorer
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				//mapWidget.triggerResize();
-				//MapHandlerRegistration.trigger(mapWidget, MapEventType.RESIZE);
-			}
-		};
-		timer.schedule(1);
-	}
-	
 	/**
 	 * Converts the coordinates of a Data object into a LatLng Object.
 	 * @pre -
@@ -154,6 +138,10 @@ public class MapComposite extends Composite {
 	 * @return LatLng object containing the coordinates
 	 */
 	private LatLng getLatLng(Data data) {
+		if (data == null) {
+			return null;
+		}
+		
 		return LatLng.newInstance(data.getLatitude(), data.getLongitude());
 	}
 	
@@ -164,6 +152,19 @@ public class MapComposite extends Composite {
 	 */
 	public MapWidget getMapWidget() {
 		return mapWidget;
+	}
+	
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		
+		// workaround to fix a glitch, where the map occasionally stays gray
+		// needed for Internet Explorer
+		Timer timer = new Timer() {
+			@Override
+			public void run() {}
+		};
+		timer.schedule(1);
 	}
 	
 }
