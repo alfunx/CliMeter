@@ -13,8 +13,8 @@ import com.google.gwt.user.client.Timer;
  * @history 	2016-11-02 AM Initial Commit
  * 				2016-11-03 AM Map runs in a thread
  * 				2016-11-07 AM Added parameter dataSet to constructor
- * 				2016-11-08 AM Gray-map glitch fixed
- * @version 	2016-11-08 AM 1.0
+ * 				2016-11-14 AM Gray-map glitch fixed
+ * @version 	2016-11-14 AM 1.0
  * @responsibilities 
  * 				This class starts the map in a thread and passes the data 
  * 				to it [and has to pass filter details in future].
@@ -22,8 +22,12 @@ import com.google.gwt.user.client.Timer;
 public class Map extends Visualisation {
 	
 	private List<Data> dataSet;
+	private boolean sensor = true;
 	
 	/**
+	 * Initializes the map and adds it to the visualisation-panel.
+	 * @pre -
+	 * @post panel != null
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public Map(List<Data> dataSet) {
@@ -33,10 +37,10 @@ public class Map extends Visualisation {
 	
 	/**
 	 * Initializes the map inside a thread.
+	 * @pre -
+	 * @post panel != null
 	 */
 	private void initMap() {
-		boolean sensor = true;
-		
 		// load all the libraries for use in the maps
 		ArrayList<LoadLibrary> loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
 		loadLibraries.add(LoadLibrary.ADSENSE);
@@ -52,21 +56,20 @@ public class Map extends Visualisation {
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
-				final MapComposite map = new MapComposite(dataSet);
-				panel.add(map);
+				final MapComposite mapComposite = new MapComposite(dataSet);
+				panel.add(mapComposite);
 				
 				// workaround to fix a glitch, where the map occasionally stays gray
 				Timer timer = new Timer() {
 					@Override
 					public void run() {
-						map.getMapWidget().triggerResize();
+						mapComposite.getMapWidget().triggerResize();
 					}
 				};
 				timer.schedule(1);
 			}
 		};
 		
-		//this.panel.onResize();
 		String keyParameter = "key=AIzaSyB4zRgy_BdYcjhDiMNv-kZboiLBCpmyYWs";
 		LoadApi.go(onLoad, loadLibraries, sensor, keyParameter);
 	}
