@@ -24,8 +24,8 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * The class MapComposite is a concrete Map, which shows data on 
- * corresponding coordinates.
+ * The class MapComposite is a concrete Map, load into a Composite object, 
+ * which shows data on corresponding coordinates.
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-03 AM Initial Commit
@@ -44,6 +44,9 @@ public class MapComposite extends Composite {
 	private List<OverlayView> temperatureOverlays;
 	
 	/**
+	 * Initialize as Composite and add google map on it.
+	 * @pre -
+	 * @post -
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	protected MapComposite(List<Data> dataSet) {
@@ -52,24 +55,20 @@ public class MapComposite extends Composite {
 		draw();
 		
 		this.temperatureOverlays = new ArrayList<OverlayView>();
-		for(Data data : dataSet) {
+		if(dataSet != null) {
+			for(Data data : dataSet) {
 			addTemperatureOverlay(data);
+			}
 		}
 		for(OverlayView overlayView : this.temperatureOverlays) {
 			overlayView.setMap(this.mapWidget);
 		}
-		
-		// workaround to fix a glitch, where the map occasionally stays gray
-		mapWidget.addMouseOverHandler(new MouseOverMapHandler() {
-			@Override
-			public void onEvent(MouseOverMapEvent event) {
-				mapWidget.triggerResize();
-			}
-		});
 	}
 	
 	/**
 	 * Draws the basic map.
+	 * @pre -
+	 * @post -
 	 */
 	private void draw() {
 		// set up basic map
@@ -88,6 +87,8 @@ public class MapComposite extends Composite {
 	
 	/**
 	 * Visualises one Data object on the map.
+	 * @pre -
+	 * @post -
 	 * @param data Data object to visualise on the map
 	 */
 	private void addTemperatureOverlay(final Data data) {
@@ -133,6 +134,8 @@ public class MapComposite extends Composite {
 	
 	/**
 	 * Converts the coordinates of a Data object into a LatLng Object.
+	 * @pre -
+	 * @post -
 	 * @param data Data object whose coordinates are needed
 	 * @return LatLng object containing the coordinates
 	 */
@@ -140,22 +143,9 @@ public class MapComposite extends Composite {
 		return LatLng.newInstance(data.getLatitude(), data.getLongitude());
 	}
 	
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		
-		// workaround to fix a glitch, where the map occasionally stays gray
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				//mapWidget.triggerResize();
-				//MapHandlerRegistration.trigger(mapWidget, MapEventType.RESIZE);
-			}
-		};
-		timer.schedule(1);
-	}
-	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the mapWidget
 	 */
 	public MapWidget getMapWidget() {

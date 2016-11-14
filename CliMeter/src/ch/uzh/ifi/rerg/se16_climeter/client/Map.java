@@ -24,6 +24,7 @@ public class Map extends Visualisation {
 	private List<Data> dataSet;
 	
 	/**
+	 * Initializes the map and adds it to the visualisation-panel.
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public Map(List<Data> dataSet) {
@@ -33,6 +34,8 @@ public class Map extends Visualisation {
 	
 	/**
 	 * Initializes the map inside a thread.
+	 * @pre -
+	 * @post -
 	 */
 	private void initMap() {
 		boolean sensor = true;
