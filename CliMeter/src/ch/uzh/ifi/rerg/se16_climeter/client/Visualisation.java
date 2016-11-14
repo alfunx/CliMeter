@@ -19,6 +19,9 @@ public abstract class Visualisation {
 	protected LayoutPanel panel = new LayoutPanel();
 	
 	/**
+	 * Returns a panel with visual content.
+	 * @pre -
+	 * @post -
 	 * @return the panel, which contains the visualisations.
 	 */
 	public LayoutPanel getPanel() {

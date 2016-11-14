@@ -5,14 +5,12 @@ import java.util.List;
 
 /**
  * The class Filter contains all filtering criteria.
- * TODO: implement Observable
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-02 AM Initial Commit
  * @version 	2016-11-02 AM 1.0
  * @responsibilities 
- * 				This class contains filtering criteria. Is subject and 
- * 				updates observers if changes occur.
+ * 				This class contains filtering criteria.
  */
 public class Filter {
 	
@@ -22,11 +20,9 @@ public class Filter {
 	private List<String> countries;
 	private List<String> cities;
 	
-	/*
-	 *  TODO: implement observer - pattern
-	 */
-	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the beginDate
 	 */
 	public Date getBeginDate() {
@@ -34,6 +30,8 @@ public class Filter {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param beginDate the beginDate to set
 	 */
 	public void setBeginDate(Date beginDate) {
@@ -41,6 +39,8 @@ public class Filter {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the endDate
 	 */
 	public Date getEndDate() {
@@ -48,6 +48,8 @@ public class Filter {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param endDate the endDate to set
 	 */
 	public void setEndDate(Date endDate) {
@@ -55,6 +57,8 @@ public class Filter {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the maxCertainty
 	 */
 	public double getMaxCertainty() {
@@ -62,6 +66,8 @@ public class Filter {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param maxCertainty the maxCertainty to set
 	 */
 	public void setMaxCertainty(double maxCertainty) {
@@ -69,6 +75,8 @@ public class Filter {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the countries
 	 */
 	public List<String> getCountries() {
@@ -76,6 +84,8 @@ public class Filter {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param countries the countries to set
 	 */
 	public void setCountries(List<String> countries) {
@@ -83,6 +93,8 @@ public class Filter {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the cities
 	 */
 	public List<String> getCities() {
@@ -90,6 +102,8 @@ public class Filter {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param cities the cities to set
 	 */
 	public void setCities(List<String> cities) {
