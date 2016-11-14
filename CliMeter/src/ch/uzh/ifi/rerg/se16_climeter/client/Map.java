@@ -13,8 +13,8 @@ import com.google.gwt.user.client.Timer;
  * @history 	2016-11-02 AM Initial Commit
  * 				2016-11-03 AM Map runs in a thread
  * 				2016-11-07 AM Added parameter dataSet to constructor
- * 				2016-11-08 AM Gray-map glitch fixed
- * @version 	2016-11-08 AM 1.0
+ * 				2016-11-14 AM Gray-map glitch fixed
+ * @version 	2016-11-14 AM 1.0
  * @responsibilities 
  * 				This class starts the map in a thread and passes the data 
  * 				to it [and has to pass filter details in future].

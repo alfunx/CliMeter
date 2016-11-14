@@ -30,8 +30,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 				2016-11-04 AM Displays simple map
  * 				2016-11-06 AM Displays data points on the map
  * 				2016-11-07 AM Displays multiple data points
- * 				2016-11-08 AM Gray-map glitch fixed
- * @version 	2016-11-08 AM 1.0
+ * 				2016-11-14 AM Gray-map glitch fixed
+ * @version 	2016-11-14 AM 1.0
  * @responsibilities 
  * 				This class contains the map and all layers ontop of it.
  */
