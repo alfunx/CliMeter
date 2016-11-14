@@ -68,7 +68,8 @@ public class Map extends Visualisation {
 			}
 		};
 		
-		LoadApi.go(onLoad, loadLibraries, this.sensor);
+		String keyParameter = "key=AIzaSyB4zRgy_BdYcjhDiMNv-kZboiLBCpmyYWs";
+		LoadApi.go(onLoad, loadLibraries, sensor, keyParameter);
 	}
 	
 }

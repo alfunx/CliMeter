@@ -4,8 +4,9 @@ import com.google.gwt.core.client.EntryPoint;
 
 /**
  * @author 	Timo Surbeck
- * @history 2016-11-01 TS First Version 
- * @version	2016-11-01 TS 1.0
+ * @history 2016-11-01 TS First Version
+ * 			2016-11-14 TS restructured version 
+ * @version	2016-11-14 TS 1.1
  * 
  * @responsibilities This class implements the entry-point method
  * 						called onModuleLoad.
@@ -14,20 +15,21 @@ import com.google.gwt.core.client.EntryPoint;
 public class CliMeter implements EntryPoint {
 
 	
-	UserInterface ui = new UserInterface();
+	private UserInterface ui;
 	
 	@Override
 
 	/**
 	 * Calls the createGUI method in ui (class UserInterface)
-	 * @pre	There exists an UserInterface object called ui.
-	 * @post - 
+	 * @pre	-
+	 * @post -
 	 */
 	public void onModuleLoad() {
 		
 		// override theme with custom css
 		Resources.INSTANCE.css().ensureInjected(); 
 		
+		ui = new UserInterface();
 		ui.createGUI();
 		
 	}
