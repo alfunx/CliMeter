@@ -22,6 +22,7 @@ import com.google.gwt.user.client.Timer;
 public class Map extends Visualisation {
 	
 	private List<Data> dataSet;
+	private boolean sensor = true;
 	
 	/**
 	 * Initializes the map and adds it to the visualisation-panel.
@@ -38,8 +39,6 @@ public class Map extends Visualisation {
 	 * @post -
 	 */
 	private void initMap() {
-		boolean sensor = true;
-		
 		// load all the libraries for use in the maps
 		ArrayList<LoadLibrary> loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
 		loadLibraries.add(LoadLibrary.ADSENSE);
@@ -55,22 +54,21 @@ public class Map extends Visualisation {
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
-				final MapComposite map = new MapComposite(dataSet);
-				panel.add(map);
+				final MapComposite mapComposite = new MapComposite(dataSet);
+				panel.add(mapComposite);
 				
 				// workaround to fix a glitch, where the map occasionally stays gray
 				Timer timer = new Timer() {
 					@Override
 					public void run() {
-						map.getMapWidget().triggerResize();
+						mapComposite.getMapWidget().triggerResize();
 					}
 				};
 				timer.schedule(1);
 			}
 		};
 		
-		//this.panel.onResize();
-		LoadApi.go(onLoad, loadLibraries, sensor);
+		LoadApi.go(onLoad, loadLibraries, this.sensor);
 	}
 	
 }

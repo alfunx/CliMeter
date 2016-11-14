@@ -61,8 +61,6 @@ public class MapComposite extends Composite {
 		for(OverlayView overlayView : this.temperatureOverlays) {
 			overlayView.setMap(this.mapWidget);
 		}
-		
-		
 	}
 	
 	/**
