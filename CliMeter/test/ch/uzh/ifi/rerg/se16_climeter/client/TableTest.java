@@ -23,15 +23,17 @@ public class TableTest extends GWTTestCase {
 
 	@Test
 	public void testTable() {
-		Table table = null;
+		Table table = new Table(Data.getRandomData(100));
+		Table table1 = null;
 		
 		assertNotNull(table);
+		assertNull(table1);
 	}
 
 	
 	@Test
 	public void testAddData() {
-		assertTrue(true);
+		
 	}
 
 	
