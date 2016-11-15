@@ -26,6 +26,9 @@ public class Data {
 	private double longitude;
 	
 	/**
+	 * Generate ArrayList with random data (just for testing purposes).
+	 * @pre quantity > 0
+	 * @post dataSet.size() = quantity
 	 * @return an ArrayList<Data> with random data
 	 */
 	public static ArrayList<Data> getRandomData(int quantity) {
@@ -42,9 +45,13 @@ public class Data {
 		d.setUncertainty(1.5);
 		dataSet.add(d);
 		
-		// 100 random data-points for testing
+		if (quantity <= 1) {
+			return dataSet;
+		}
+		
+		// random data-points for testing
 		Random r = new Random();
-		for(int i = 0; i < quantity; i++) {
+		for (int i = 2; i <= quantity; i++) {
 			d = new Data();
 			d.setAverageTemperature((int) ((r.nextDouble() * 2 - 1) * 30));
 			d.setCity("City" + i);
@@ -60,6 +67,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the date
 	 */
 	public Date getDate() {
@@ -67,6 +76,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param date the date to set
 	 */
 	public void setDate(Date date) {
@@ -74,6 +85,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the averageTemperature
 	 */
 	public double getAverageTemperature() {
@@ -81,6 +94,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param averageTemperature the averageTemperature to set
 	 */
 	public void setAverageTemperature(double averageTemperature) {
@@ -88,6 +103,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the uncertainty
 	 */
 	public double getUncertainty() {
@@ -95,6 +112,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param uncertainty the uncertainty to set
 	 */
 	public void setUncertainty(double uncertainty) {
@@ -102,6 +121,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the city
 	 */
 	public String getCity() {
@@ -109,6 +130,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param city the city to set
 	 */
 	public void setCity(String city) {
@@ -116,6 +139,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the country
 	 */
 	public String getCountry() {
@@ -123,6 +148,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param country the country to set
 	 */
 	public void setCountry(String country) {
@@ -130,6 +157,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the latitude
 	 */
 	public double getLatitude() {
@@ -137,6 +166,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param latitude the latitude to set
 	 */
 	public void setLatitude(double latitude) {
@@ -144,6 +175,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @return the longitude
 	 */
 	public double getLongitude() {
@@ -151,6 +184,8 @@ public class Data {
 	}
 	
 	/**
+	 * @pre -
+	 * @post -
 	 * @param longitude the longitude to set
 	 */
 	public void setLongitude(double longitude) {

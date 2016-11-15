@@ -15,6 +15,8 @@ public interface Exportable {
 	
 	/**
 	 * Export (filtered) dataset or visualisations to filesystem.
+	 * @pre -
+	 * @post -
 	 * @throws Exception if export didn't work
 	 */
 	public void export() throws Exception;

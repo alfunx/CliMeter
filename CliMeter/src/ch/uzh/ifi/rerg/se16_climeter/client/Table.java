@@ -21,7 +21,7 @@ import com.google.gwt.view.client.ListDataProvider;
  * The class Table initializes a table and returns it in a panel.
  * 
  * @author 		Jonathan Stahl
- * @history 	2016-11-01 JS Initial Commit
+ * @history 	2016-11-01 JS Initial commit
  * 				2016-11-03 JS Implemented table with FlexTable
  * 				2016-11-04 JS Changed table to a CellTable
  * 				2016-11-05 JS Changed table to a DataGrid
@@ -37,14 +37,16 @@ import com.google.gwt.view.client.ListDataProvider;
  */
 public class Table extends Visualisation implements Exportable{
 	
-	private DataGrid<Data> table;
+	protected DataGrid<Data> table; // modifier changed to protected for JUnit tests
 	
-	// create a dataProvider which handles updating the data in table 
-	private ListDataProvider<Data> dataProvider = new ListDataProvider<Data>();
+	// dataProvider which handles updating the data in table 
+	private ListDataProvider<Data> dataProvider;
 	private List<Data> dataList;  // needed for ListDataProvider
 
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
+	 * @pre -
+	 * @post table initialized
 	 * @param data
 	 */
 	protected Table(ArrayList<Data> data){
@@ -53,13 +55,14 @@ public class Table extends Visualisation implements Exportable{
 	
 	/**
 	 * init a new table
-	 * @pre
-	 * @post
-	 * @param data An ArraList which contains all data added to the table
+	 * @pre table == null && dataProvider == null && dataList == null
+	 * @post table != null 
+	 * @param data, An ArraList which contains all data added to the table
 	 * @returns the initialized table
 	 */
 	private DataGrid<Data> initTable(ArrayList<Data> data) {
 		table  = new DataGrid<Data>();
+		dataProvider = new ListDataProvider<Data>();
 		
 		// set size of table
 		table.setRowCount(data.size(), true);
@@ -179,19 +182,14 @@ public class Table extends Visualisation implements Exportable{
 		
 		
 		/*
-		 * TEST DATA!!
+		 * add TEST DATA!
 		 */
-		
-
-		addData(data, table, dataProvider);
+		addData(data);
 		
 		
 		/*
-		 * END TEST DATA
+		 * Create sortHandler
 		 */
-
-		
-		// create SortHandler
 	    ListHandler<Data> columnSortHandler = new ListHandler<Data>(dataList);
 
 	    // create Comparator for dateColumn
@@ -395,36 +393,30 @@ public class Table extends Visualisation implements Exportable{
 	
 	/**
 	 * adds an arrayList with Data objects to a DataGrid
-	 * @pre
-	 * @post
+	 * @pre table != null && dataProvider != null
+	 * @post table filled with Data objects if data != null
 	 * @param data
 	 * @param table
 	 * @param dataProvider
 	 */
-	public void addData(ArrayList<Data> data, DataGrid<Data> table, ListDataProvider<Data> dataProvider){
+	public void addData(ArrayList<Data> data){
 		
 		// sets dataProvider as holder of the data 
 		dataList = dataProvider.getList();
 		for(Data d : data){
 			dataList.add(d);
-		}	
+		}
+		
+		table.setRowCount(data.size(), true);
 	}
 	
-	/**NOT IMPLEMENTED YET
-	 * @pre
-	 * @post
+	/**
+	 * NOT IMPLEMENTED YET
+	 * @pre -
+	 * @post -
 	 * @param data
 	 */
 	public void addData(Data data){
-		
-		// get all the information out of the object 
-		Date date = data.getDate();
-		double avgTemperature = data.getAverageTemperature();
-		double uncertainty = data.getUncertainty();
-		String city = data.getCity();
-		String country = data.getCountry();
-		double latitude = data.getLatitude();
-		double longitude = data.getLongitude();
 		
 		// to be continued...
 			
@@ -432,7 +424,7 @@ public class Table extends Visualisation implements Exportable{
 
 	@Override
 	public void export() throws Exception {
-		// TODO Auto-generated method stub
+		// TODO 
 		
 	}
 
