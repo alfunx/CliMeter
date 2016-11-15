@@ -33,7 +33,7 @@ public class UserInterface {
 
 	private TabLayoutPanel tabs;
 	private Visualisation map = new Map(Data.getRandomData(100));
-	private Visualisation table = new Table(Data.getRandomData(299999));
+	private Visualisation table = new Table(Data.getRandomData(300000));
 	private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
 
 	/**
