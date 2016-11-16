@@ -1,14 +1,14 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 /**
- * The class Color represents one RGB color.
+ * The class ColorTransition calculates a color in a color transition 
+ * between two colors for a given value in a set.
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-16 AM Initial Commit
  * @version 	2016-11-16 AM 1.0
  * @responsibilities 
- * 				This class represents a color. Can convert an RGB color to 
- * 				a hex-color string.
+ * 				This class calculates a color for a given value.
  */
 public class ColorTransition {
 	
