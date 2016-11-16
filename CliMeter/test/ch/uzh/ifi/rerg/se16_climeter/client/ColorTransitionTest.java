@@ -70,14 +70,14 @@ public class ColorTransitionTest extends GWTTestCase {
 	@Test
 	public void testNormalize_5() {
 		ColorTransition colorTransition = new ColorTransition();
-		Throwable e = null;
+		Throwable exception = null;
 		
 		try {
 			colorTransition.normalize(20, 20, 20);
-		} catch (Throwable exception) {
-			e = exception;
+		} catch (Throwable e) {
+			exception = e;
 		}
-		assertTrue(e instanceof IllegalArgumentException);
+		assertTrue(exception instanceof IllegalArgumentException);
 	}
 	
 }
