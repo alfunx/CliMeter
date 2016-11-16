@@ -32,7 +32,7 @@ public class Map extends Visualisation {
 	 */
 	public Map(List<Data> dataSet) {
 		this.dataSet = dataSet;
-		initMap();
+		this.initMap();
 	}
 	
 	/**

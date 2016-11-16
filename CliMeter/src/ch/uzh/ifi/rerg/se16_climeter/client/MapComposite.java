@@ -31,7 +31,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 				2016-11-06 AM Displays data points on the map
  * 				2016-11-07 AM Displays multiple data points
  * 				2016-11-14 AM Gray-map glitch fixed
- * @version 	2016-11-14 AM 1.0
+ * 				2016-11-16 AM Added dynamic colored data points
+ * @version 	2016-11-16 AM 1.1
  * @responsibilities 
  * 				This class contains the map and all layers on top of it.
  */
@@ -39,6 +40,8 @@ public class MapComposite extends Composite {
 	
 	private LayoutPanel panel;
 	private MapWidget mapWidget;
+	private List<Data> dataSet;
+	private ColorTransition colorTransition;
 	private List<OverlayView> temperatureOverlays;
 	
 	/**
@@ -49,15 +52,28 @@ public class MapComposite extends Composite {
 	 */
 	protected MapComposite(List<Data> dataSet) {
 		this.panel = new LayoutPanel();
-		initWidget(this.panel);
-		draw();
-		
 		this.temperatureOverlays = new ArrayList<OverlayView>();
-		if (dataSet != null) {
-			for (Data data : dataSet) {
-				addTemperatureOverlay(data);
+		this.dataSet = dataSet;
+		
+		this.initWidget(this.panel);
+		this.draw();
+		this.addData();
+	}
+	
+	/**
+	 * Add Data to the map.
+	 * @pre -
+	 * @post -
+	 */
+	private void addData() {
+		colorTransition = new ColorTransition();
+		
+		if (this.dataSet != null) {
+			for (Data data : this.dataSet) {
+				this.addTemperatureOverlay(data);
 			}
 		}
+		
 		for (OverlayView overlayView : this.temperatureOverlays) {
 			overlayView.setMap(this.mapWidget);
 		}
@@ -92,26 +108,28 @@ public class MapComposite extends Composite {
 	private void addTemperatureOverlay(final Data data) {
 		final VerticalPanel temperatureOverlayPanel = new VerticalPanel();
 		temperatureOverlayPanel.addStyleName("temperatureOverlay");
-		String color = ColorTransition.getPercentageColor(normalize(data.getAverageTemperature(), -30.0, 30.0));
-		temperatureOverlayPanel.getElement().getStyle().setBackgroundColor(color);
+		
+		// calculate corresponding color for a data object
+		Color color = colorTransition.getPercentageColor(data.getAverageTemperature(), -30.0, 30.0);
+		temperatureOverlayPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
 		
 		OverlayViewOnDrawHandler onDrawHandler = new OverlayViewOnDrawHandler() {
 			@Override
 			public void onDraw(OverlayViewMethods methods) {
 				// positioning of a data point
 				MapCanvasProjection projection = methods.getProjection();
-				LatLng coordinate = getLatLng(data);
-				Point point = projection.fromLatLngToDivPixel(coordinate);
+				Point point = projection.fromLatLngToDivPixel(data.getLatLng());
 				temperatureOverlayPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
-				temperatureOverlayPanel.getElement().getStyle().setLeft(point.getX() - temperatureOverlayPanel.getElement().getClientWidth()/2, Unit.PX);
-				temperatureOverlayPanel.getElement().getStyle().setTop(point.getY() - temperatureOverlayPanel.getElement().getClientHeight()/2, Unit.PX);
+				temperatureOverlayPanel.getElement().getStyle().setLeft(point.getX()
+						- temperatureOverlayPanel.getElement().getClientWidth()/2, Unit.PX);
+				temperatureOverlayPanel.getElement().getStyle().setTop(point.getY()
+						- temperatureOverlayPanel.getElement().getClientHeight()/2, Unit.PX);
 				
 				// setting text and style
 				HTML text = new HTML(data.getAverageTemperature() + "");
 				text.addStyleName("temperatureText");
 				temperatureOverlayPanel.clear();
 				temperatureOverlayPanel.add(text);
-				System.out.println(text.getText());
 			}
 		};
 		
@@ -132,30 +150,6 @@ public class MapComposite extends Composite {
 		this.temperatureOverlays.add(OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
 	}
 	
-	/**
-	 * Converts the coordinates of a Data object into a LatLng Object.
-	 * @pre -
-	 * @post -
-	 * @param data Data object whose coordinates are needed
-	 * @return LatLng object containing the coordinates
-	 */
-	private LatLng getLatLng(Data data) {
-		if (data == null) {
-			return null;
-		}
-		
-		return LatLng.newInstance(data.getLatitude(), data.getLongitude());
-	}
-	
-	/**
-	 * @pre -
-	 * @post -
-	 * @return the mapWidget
-	 */
-	public MapWidget getMapWidget() {
-		return mapWidget;
-	}
-	
 	@Override
 	protected void onAttach() {
 		super.onAttach();
@@ -170,19 +164,12 @@ public class MapComposite extends Composite {
 	}
 	
 	/**
-	 * Calculates the normalized value of a temperature.
-	 * @param value current value
-	 * @param min minimum value of dataset
-	 * @param max maximum value of dataset
-	 * @return the normalized value
+	 * @pre -
+	 * @post -
+	 * @return the mapWidget
 	 */
-	private double normalize(double value, double min, double max) {
-		if (min < 0) {
-			value += min;
-			max += min;
-			min += min;
-		}
-		return (value - min) / (max - min);
+	public MapWidget getMapWidget() {
+		return this.mapWidget;
 	}
 	
 }
