@@ -50,7 +50,7 @@ public class MapComposite extends Composite {
 	 * @post panel != null, mapWidget != null
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
-	protected MapComposite(List<Data> dataSet) {
+	public MapComposite(List<Data> dataSet) {
 		this.panel = new LayoutPanel();
 		this.temperatureOverlays = new ArrayList<OverlayView>();
 		this.dataSet = dataSet;
