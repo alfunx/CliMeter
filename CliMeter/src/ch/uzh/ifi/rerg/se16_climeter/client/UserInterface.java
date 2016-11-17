@@ -1,6 +1,5 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
-
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.layout.client.Layout.Alignment;
 import com.google.gwt.user.client.ui.Anchor;
@@ -10,6 +9,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+
+import ch.uzh.ifi.rerg.se16_climeter.client.map.Map;
 
 /**
  * The class UserInterface creates the tab structured GUI and adds data source

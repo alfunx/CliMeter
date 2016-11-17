@@ -1,4 +1,4 @@
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
 /**
  * The class MapComposite is a concrete Map, load into a Composite object, 

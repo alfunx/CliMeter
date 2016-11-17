@@ -1,10 +1,13 @@
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gwt.maps.client.LoadApi;
 import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 import com.google.gwt.user.client.Timer;
+
+import ch.uzh.ifi.rerg.se16_climeter.client.Data;
+import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 
 /**
  * The class Map initializes a running map and returns it in a pane.

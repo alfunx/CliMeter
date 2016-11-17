@@ -1,4 +1,4 @@
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 /**
  * The class ColorTransition calculates a color in a color transition 
