@@ -1,4 +1,4 @@
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.table;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -16,6 +16,10 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.ListDataProvider;
+
+import ch.uzh.ifi.rerg.se16_climeter.client.Data;
+import ch.uzh.ifi.rerg.se16_climeter.client.Exportable;
+import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 
 /**
  * The class Table initializes a table and returns it in a panel.
@@ -49,7 +53,7 @@ public class Table extends Visualisation implements Exportable{
 	 * @post table initialized
 	 * @param data
 	 */
-	protected Table(ArrayList<Data> data){
+	public Table(ArrayList<Data> data){
 		initTable(data);
 	}
 	
