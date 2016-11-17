@@ -3,6 +3,7 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
+import com.google.gwt.maps.client.base.LatLng;
 
 /**
  * The class Data represents one data point of the measurements.
@@ -26,7 +27,7 @@ public class Data {
 	private double longitude;
 	
 	/**
-	 * Generate ArrayList with random data (just for testing purposes).
+	 * Generate ArrayList with random data (only for testing purposes).
 	 * @pre quantity > 0
 	 * @post dataSet.size() = quantity
 	 * @return an ArrayList<Data> with random data
@@ -64,6 +65,17 @@ public class Data {
 		}
 		
 		return dataSet;
+	}
+	
+	/**
+	 * Converts the coordinates of a Data object into a LatLng Object.
+	 * @pre -
+	 * @post -
+	 * @param data Data object whose coordinates are needed
+	 * @return LatLng object containing the coordinates
+	 */
+	public LatLng getLatLng() {
+		return LatLng.newInstance(this.getLatitude(), this.getLongitude());
 	}
 	
 	/**

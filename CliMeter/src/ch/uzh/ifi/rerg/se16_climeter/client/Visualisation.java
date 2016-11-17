@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 /**
  * The abstract class Visualisation represents a widget, that can be visualised 
  * in the class UserInterface. It has to be extended in order to be visualised.
- * TODO: implement Observer
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-02 AM Initial Commit

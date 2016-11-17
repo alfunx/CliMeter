@@ -2,6 +2,7 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import org.junit.Before;
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.maps.client.LoadApi;
@@ -18,9 +19,7 @@ public class MapCompositeTest extends GWTTestCase {
 	}
 	
 	@Test
-	public void testMapComposite0() {
-		init();
-		
+	public void testMapComposite_null() {
 		// thread with running map
 		Runnable onLoad = new Runnable() {
 			@Override
@@ -30,13 +29,11 @@ public class MapCompositeTest extends GWTTestCase {
 			}
 		};
 		
-		LoadApi.go(onLoad, loadLibraries, sensor);
+		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
 	}
 	
 	@Test
-	public void testMapComposite1() {
-		init();
-		
+	public void testMapComposite_1() {
 		// thread with running map
 		Runnable onLoad = new Runnable() {
 			@Override
@@ -46,13 +43,11 @@ public class MapCompositeTest extends GWTTestCase {
 			}
 		};
 		
-		LoadApi.go(onLoad, loadLibraries, sensor);
+		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
 	}
 	
 	@Test
-	public void testGetMapWidget0() {
-		init();
-		
+	public void testGetMapWidget_null() {
 		// thread with running map
 		Runnable onLoad = new Runnable() {
 			@Override
@@ -62,13 +57,11 @@ public class MapCompositeTest extends GWTTestCase {
 			}
 		};
 		
-		LoadApi.go(onLoad, loadLibraries, sensor);
+		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
 	}
 	
 	@Test
-	public void testGetMapWidget1() {
-		init();
-		
+	public void testGetMapWidget_1() {
 		// thread with running map
 		Runnable onLoad = new Runnable() {
 			@Override
@@ -78,9 +71,10 @@ public class MapCompositeTest extends GWTTestCase {
 			}
 		};
 		
-		LoadApi.go(onLoad, loadLibraries, sensor);
+		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
 	}
 	
+	@Before
 	public void init() {
 		sensor = true;
 		
