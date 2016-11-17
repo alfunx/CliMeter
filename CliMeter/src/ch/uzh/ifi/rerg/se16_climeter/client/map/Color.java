@@ -51,7 +51,7 @@ public class Color {
 	 * @param i a number
 	 * @return int with size of 2 bytes
 	 */
-	public int intTo2Bytes(int i) {
+	protected int intTo2Bytes(int i) {
 		return (i < 0) ? 0 : (i > 255) ? 255 : i;
 	}
 	
@@ -62,7 +62,7 @@ public class Color {
 	 * @param i a number
 	 * @return hex representation of i with length 2
 	 */
-	public String intTo2BytesStr(int i) {
+	protected String intTo2BytesStr(int i) {
 		return this.padding(Integer.toHexString(intTo2Bytes(i)));
 	}
 	
@@ -73,7 +73,7 @@ public class Color {
 	 * @param str a string
 	 * @return str with length 2
 	 */
-	public String padding(String str) {
+	protected String padding(String str) {
 		//assertTrue(str.length() <= 2 & str.length() >= 1);
 		if (str.length() < 2) {
 			str = "0" + str;

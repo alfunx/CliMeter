@@ -170,7 +170,7 @@ public class MapComposite extends Composite {
 	 * @post -
 	 * @return the mapWidget
 	 */
-	public MapWidget getMapWidget() {
+	protected MapWidget getMapWidget() {
 		return this.mapWidget;
 	}
 	
