@@ -25,6 +25,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 public class Map extends Visualisation {
 	
 	private List<Data> dataSet;
+	private MapComposite mapComposite;
 	private boolean sensor = true;
 	
 	/**
@@ -55,11 +56,10 @@ public class Map extends Visualisation {
 		loadLibraries.add(LoadLibrary.VISUALIZATION);
 		
 		// thread with running map
-		this.panel.clear();
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
-				final MapComposite mapComposite = new MapComposite(dataSet);
+				mapComposite = new MapComposite(dataSet);
 				panel.add(mapComposite);
 				
 				// workaround to fix a glitch, where the map occasionally stays gray

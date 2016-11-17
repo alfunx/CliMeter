@@ -150,6 +150,9 @@ public class MapComposite extends Composite {
 		};
 		
 		this.temperatureOverlays.add(OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
+		
+//		TemperatureOverlay temperatureOverlay = new TemperatureOverlay(data);
+//		this.temperatureOverlays.add(temperatureOverlay.newInstance(mapWidget));
 	}
 	
 	@Override
