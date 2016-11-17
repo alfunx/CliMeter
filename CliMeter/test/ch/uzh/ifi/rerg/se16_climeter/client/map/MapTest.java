@@ -1,8 +1,10 @@
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
+
+import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
 public class MapTest extends GWTTestCase {
 	

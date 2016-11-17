@@ -1,4 +1,4 @@
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 /**
  * The class ColorTransition calculates a color in a color transition 
@@ -70,7 +70,7 @@ public class ColorTransition {
 	 * @param max maximum value of dataset
 	 * @return the normalized value
 	 */
-	public double normalize(double value, double min, double max) {
+	protected double normalize(double value, double min, double max) {
 		if (max == min) {
 			throw new IllegalArgumentException("Divide by 0.");
 		}

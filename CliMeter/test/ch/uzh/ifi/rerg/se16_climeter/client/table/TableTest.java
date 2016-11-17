@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.table;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
+
+import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
 
 /** JUnit test for class Table
