@@ -15,25 +15,27 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
-public class TemperatureOverlay extends OverlayView {
+public class TemperatureOverlay {
 	
+	private MapWidget mapWidget;
 	private Data data;
 	private VerticalPanel temperatureOverlayPanel;
 	private ColorTransition colorTransition;
 	
+	private OverlayView temperatureOverlay;
 	private OverlayViewOnDrawHandler onDrawHandler;
 	private OverlayViewOnAddHandler onAddHandler;
 	private OverlayViewOnRemoveHandler onRemoveHandler;
 	
-	public TemperatureOverlay(Data data) {
-		super();
-		colorTransition = new ColorTransition();
-		this.update(data);
+	public TemperatureOverlay(MapWidget mapWidget, ColorTransition colorTransition) {
+		this.colorTransition = colorTransition;
+		this.mapWidget = mapWidget;
 	}
 	
-	public void update(Data data) {
+	public final OverlayView update(Data data) {
 		this.data = data;
 		initTemperatureOverlay();
+		return getOverlay();
 	}
 	
 	/**
@@ -83,10 +85,12 @@ public class TemperatureOverlay extends OverlayView {
 				temperatureOverlayPanel.getElement().removeFromParent();
 			}
 		};
+		
+		temperatureOverlay = OverlayView.newInstance(this.mapWidget, this.onDrawHandler, this.onAddHandler, this.onRemoveHandler);
 	}
 	
-	public final OverlayView newInstance(MapWidget mapWidget) {
-		return OverlayView.newInstance(mapWidget, onDrawHandler, onAddHandler, onRemoveHandler);
+	public final OverlayView getOverlay() {
+		return temperatureOverlay;
 	}
 	
 }

@@ -108,51 +108,51 @@ public class MapComposite extends Composite {
 	 * @param data Data object to visualise on the map
 	 */
 	private void addTemperatureOverlay(final Data data) {
-		final VerticalPanel temperatureOverlayPanel = new VerticalPanel();
-		temperatureOverlayPanel.addStyleName("temperatureOverlay");
+//		final VerticalPanel temperatureOverlayPanel = new VerticalPanel();
+//		temperatureOverlayPanel.addStyleName("temperatureOverlay");
+//		
+//		// calculate corresponding color for a data object
+//		Color color = colorTransition.getPercentageColor(data.getAverageTemperature(), -30.0, 30.0);
+//		temperatureOverlayPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
+//		
+//		OverlayViewOnDrawHandler onDrawHandler = new OverlayViewOnDrawHandler() {
+//			@Override
+//			public void onDraw(OverlayViewMethods methods) {
+//				// positioning of a data point
+//				MapCanvasProjection projection = methods.getProjection();
+//				Point point = projection.fromLatLngToDivPixel(data.getLatLng());
+//				temperatureOverlayPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
+//				temperatureOverlayPanel.getElement().getStyle().setLeft(point.getX()
+//						- temperatureOverlayPanel.getElement().getClientWidth()/2, Unit.PX);
+//				temperatureOverlayPanel.getElement().getStyle().setTop(point.getY()
+//						- temperatureOverlayPanel.getElement().getClientHeight()/2, Unit.PX);
+//				
+//				// setting text and style
+//				HTML text = new HTML(data.getAverageTemperature() + "");
+//				text.addStyleName("temperatureText");
+//				temperatureOverlayPanel.clear();
+//				temperatureOverlayPanel.add(text);
+//			}
+//		};
+//		
+//		OverlayViewOnAddHandler onAddHandler = new OverlayViewOnAddHandler() {
+//			@Override
+//			public void onAdd(OverlayViewMethods methods) {
+//				methods.getPanes().getFloatPane().appendChild(temperatureOverlayPanel.getElement());
+//			}
+//		};
+//		
+//		OverlayViewOnRemoveHandler onRemoveHandler = new OverlayViewOnRemoveHandler() {
+//			@Override
+//			public void onRemove(OverlayViewMethods methods) {
+//				temperatureOverlayPanel.getElement().removeFromParent();
+//			}
+//		};
+//		
+//		this.temperatureOverlays.add(OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
 		
-		// calculate corresponding color for a data object
-		Color color = colorTransition.getPercentageColor(data.getAverageTemperature(), -30.0, 30.0);
-		temperatureOverlayPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
-		
-		OverlayViewOnDrawHandler onDrawHandler = new OverlayViewOnDrawHandler() {
-			@Override
-			public void onDraw(OverlayViewMethods methods) {
-				// positioning of a data point
-				MapCanvasProjection projection = methods.getProjection();
-				Point point = projection.fromLatLngToDivPixel(data.getLatLng());
-				temperatureOverlayPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
-				temperatureOverlayPanel.getElement().getStyle().setLeft(point.getX()
-						- temperatureOverlayPanel.getElement().getClientWidth()/2, Unit.PX);
-				temperatureOverlayPanel.getElement().getStyle().setTop(point.getY()
-						- temperatureOverlayPanel.getElement().getClientHeight()/2, Unit.PX);
-				
-				// setting text and style
-				HTML text = new HTML(data.getAverageTemperature() + "");
-				text.addStyleName("temperatureText");
-				temperatureOverlayPanel.clear();
-				temperatureOverlayPanel.add(text);
-			}
-		};
-		
-		OverlayViewOnAddHandler onAddHandler = new OverlayViewOnAddHandler() {
-			@Override
-			public void onAdd(OverlayViewMethods methods) {
-				methods.getPanes().getFloatPane().appendChild(temperatureOverlayPanel.getElement());
-			}
-		};
-		
-		OverlayViewOnRemoveHandler onRemoveHandler = new OverlayViewOnRemoveHandler() {
-			@Override
-			public void onRemove(OverlayViewMethods methods) {
-				temperatureOverlayPanel.getElement().removeFromParent();
-			}
-		};
-		
-		this.temperatureOverlays.add(OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
-		
-//		TemperatureOverlay temperatureOverlay = new TemperatureOverlay(data);
-//		this.temperatureOverlays.add(temperatureOverlay.newInstance(mapWidget));
+		TemperatureOverlay temperatureOverlay = new TemperatureOverlay(mapWidget, colorTransition);
+		this.temperatureOverlays.add(temperatureOverlay.update(data));
 	}
 	
 	@Override
