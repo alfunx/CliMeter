@@ -26,6 +26,7 @@ public class Map extends Visualisation {
 	
 	private List<Data> dataSet;
 	private MapComposite mapComposite;
+	private Runnable mapThread;
 	private boolean sensor = true;
 	
 	/**
@@ -37,6 +38,7 @@ public class Map extends Visualisation {
 	public Map(List<Data> dataSet) {
 		this.dataSet = dataSet;
 		this.initMap();
+		//this.mapComposite.addData(this.dataSet);
 	}
 	
 	/**
@@ -56,10 +58,10 @@ public class Map extends Visualisation {
 		loadLibraries.add(LoadLibrary.VISUALIZATION);
 		
 		// thread with running map
-		Runnable onLoad = new Runnable() {
+		this.mapThread = new  Runnable() {
 			@Override
 			public void run() {
-				mapComposite = new MapComposite(dataSet);
+				mapComposite = new MapComposite(new ColorTransition());
 				panel.add(mapComposite);
 				
 				// workaround to fix a glitch, where the map occasionally stays gray
@@ -74,7 +76,7 @@ public class Map extends Visualisation {
 		};
 		
 		String keyParameter = "key=AIzaSyB4zRgy_BdYcjhDiMNv-kZboiLBCpmyYWs";
-		LoadApi.go(onLoad, loadLibraries, sensor, keyParameter);
+		LoadApi.go(this.mapThread, loadLibraries, sensor, keyParameter);
 	}
 	
 }

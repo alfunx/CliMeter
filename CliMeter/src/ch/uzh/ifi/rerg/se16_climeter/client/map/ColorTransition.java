@@ -40,7 +40,7 @@ public class ColorTransition {
 	 * @post -
 	 */
 	public ColorTransition() {
-		this(new Color(140, 255, 255), new Color(255, 70, 70));
+		this(new Color(70, 70, 255), new Color(255, 70, 70));
 	}
 	
 	/**
