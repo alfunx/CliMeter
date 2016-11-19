@@ -23,7 +23,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
  * 			2016-11-03 TS Several layout improvements
  *  		2016-11-07 TS Added data source information
  *  		2016-11-10 TS Layout reorganization, now using DockLayoutPanel
- * @version	2016-11-10 TS 1.1
+ *  		2016-11-19 TS Restructured version, extracted methods
+ * @version	2016-11-19 TS 1.2
  * 
  * @responsibilities This class holds several children-objects of the abstract
  *                   class Visualisation.
@@ -33,22 +34,49 @@ public class UserInterface {
 	private final String DATA_SOURCE = "Berkeley Earth";
 	private final String SOURCE_URL = "http://www.berkeleyearth.org/";
 
-
-	private TabLayoutPanel tabs;
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(300000));
 	private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
+	
+	private TabLayoutPanel tabs;
+	private HorizontalPanel southContainer;
+	private DockLayoutPanel mainPanel;
+	private LayoutPanel titleContainer;
 
 	/**
-	 * Creates the GUI and displays the data source information.
+	 * Creates the GUI.
 	 * @pre	-
 	 * @post - 
 	 */
 	public void createGUI() {
-			
-		// Creates tab structure
+					
+		tabs = createTabs();
+		titleContainer = createTitle();
+		southContainer = createSouthContainer();
 		
-		tabs = new TabLayoutPanel(30, Unit.PX);
+		// Creates a DockPanel called mainPanel and adds all GUI components
+		
+		mainPanel = new DockLayoutPanel(Unit.EM);
+		
+		mainPanel.addNorth(titleContainer, 6);
+		mainPanel.addSouth(southContainer, 4);
+		mainPanel.add(tabs);
+		
+		// Adds mainPanel to the RootLayoutPanel
+		
+		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
+		rootLayoutPanel.add(mainPanel);
+
+	}
+
+	/**
+	 * Creates the tab structure.
+	 * @pre	-
+	 * @post tabs != null 
+	 * @return Returns a customized TabLayoutPanel object
+	 */
+	private TabLayoutPanel createTabs() {
+		TabLayoutPanel tabs = new TabLayoutPanel(30, Unit.PX);
 		
 		tabs.add(map.getPanel(), "Map");
 		tabs.add(table.getPanel(), "Table");
@@ -58,18 +86,18 @@ public class UserInterface {
 
 		tabs.setAnimationDuration(450);
 		tabs.setAnimationVertical(false);
-
-		// Adds title label
 		
-		LayoutPanel titleContainer = new LayoutPanel();
-		Label title = new Label("CliMeter");
-		title.addStyleName("title");
-		titleContainer.add(title);
-		titleContainer.addStyleName("titleContainer");
-		titleContainer.setWidgetHorizontalPosition(title, Alignment.END);
-		
-		// Adds data source info & link below tab structure
+		return tabs;
+	}
 
+	/**
+	 * Creates the source info containing object.
+	 * @pre	-
+	 * @post southContainer != null 
+	 * @return Returns a HorizontalPanel object containing 
+	 * 		   source info and a hyperlink.
+	 */
+	private HorizontalPanel createSouthContainer() {
 		HorizontalPanel sourceContainer = new HorizontalPanel();
 		sourceContainer.addStyleName("sourceContainer");
 
@@ -85,20 +113,24 @@ public class UserInterface {
 		southContainer.setSize("100%", "100%");
 		southContainer.add(sourceContainer);
 		
-		// Creates a DockPanel called mainPanel and adds all GUI components
-		
-		DockLayoutPanel mainPanel = new DockLayoutPanel(Unit.EM);
-		
-		mainPanel.addNorth(titleContainer, 6);
-		mainPanel.addSouth(southContainer, 4);
-		mainPanel.add(tabs);
-		
-		// Adds mainPanel to the RootLayoutPanel
-		
-		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
-		rootLayoutPanel.add(mainPanel);
-		
-
+		return southContainer;
 	}
 
+	/**
+	 * Creates the web application title.
+	 * @pre	-
+	 * @post titleContainer != null 
+	 * @return Returns a LayoutPanel object containing the title
+	 */
+	private LayoutPanel createTitle() {
+		LayoutPanel titleContainer = new LayoutPanel();
+		Label title = new Label("CliMeter");
+		
+		title.addStyleName("title");
+		titleContainer.add(title);
+		titleContainer.addStyleName("titleContainer");
+		titleContainer.setWidgetHorizontalPosition(title, Alignment.END);
+		return titleContainer;
+	}
+	
 }
