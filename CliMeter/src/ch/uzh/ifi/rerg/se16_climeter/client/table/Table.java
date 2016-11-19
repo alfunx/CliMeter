@@ -1,4 +1,4 @@
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.table;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,11 +17,15 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.ListDataProvider;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.Data;
+import ch.uzh.ifi.rerg.se16_climeter.client.Exportable;
+import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
+
 /**
  * The class Table initializes a table and returns it in a panel.
  * 
  * @author 		Jonathan Stahl
- * @history 	2016-11-01 JS Initial Commit
+ * @history 	2016-11-01 JS Initial commit
  * 				2016-11-03 JS Implemented table with FlexTable
  * 				2016-11-04 JS Changed table to a CellTable
  * 				2016-11-05 JS Changed table to a DataGrid
@@ -37,7 +41,7 @@ import com.google.gwt.view.client.ListDataProvider;
  */
 public class Table extends Visualisation implements Exportable{
 	
-	private DataGrid<Data> table;
+	protected DataGrid<Data> table; // modifier changed to protected for JUnit tests
 	
 	// dataProvider which handles updating the data in table 
 	private ListDataProvider<Data> dataProvider;
@@ -49,7 +53,7 @@ public class Table extends Visualisation implements Exportable{
 	 * @post table initialized
 	 * @param data
 	 */
-	protected Table(ArrayList<Data> data){
+	public Table(ArrayList<Data> data){
 		initTable(data);
 	}
 	
@@ -57,7 +61,7 @@ public class Table extends Visualisation implements Exportable{
 	 * init a new table
 	 * @pre table == null && dataProvider == null && dataList == null
 	 * @post table != null 
-	 * @param data An ArraList which contains all data added to the table
+	 * @param data, An ArraList which contains all data added to the table
 	 * @returns the initialized table
 	 */
 	private DataGrid<Data> initTable(ArrayList<Data> data) {
@@ -182,19 +186,14 @@ public class Table extends Visualisation implements Exportable{
 		
 		
 		/*
-		 * TEST DATA!!
+		 * add TEST DATA!
 		 */
-		
-
-		addData(data, table, dataProvider);
+		addData(data);
 		
 		
 		/*
-		 * END TEST DATA
+		 * Create sortHandler
 		 */
-		
-		
-		// create SortHandler
 	    ListHandler<Data> columnSortHandler = new ListHandler<Data>(dataList);
 
 	    // create Comparator for dateColumn
@@ -404,30 +403,24 @@ public class Table extends Visualisation implements Exportable{
 	 * @param table
 	 * @param dataProvider
 	 */
-	public void addData(ArrayList<Data> data, DataGrid<Data> table, ListDataProvider<Data> dataProvider){
+	public void addData(ArrayList<Data> data){
 		
 		// sets dataProvider as holder of the data 
 		dataList = dataProvider.getList();
 		for(Data d : data){
 			dataList.add(d);
-		}	
+		}
+		
+		table.setRowCount(data.size(), true);
 	}
 	
-	/**NOT IMPLEMENTED YET
+	/**
+	 * NOT IMPLEMENTED YET
 	 * @pre -
 	 * @post -
 	 * @param data
 	 */
 	public void addData(Data data){
-		
-		// get all the information out of the object 
-		Date date = data.getDate();
-		double avgTemperature = data.getAverageTemperature();
-		double uncertainty = data.getUncertainty();
-		String city = data.getCity();
-		String country = data.getCountry();
-		double latitude = data.getLatitude();
-		double longitude = data.getLongitude();
 		
 		// to be continued...
 			
