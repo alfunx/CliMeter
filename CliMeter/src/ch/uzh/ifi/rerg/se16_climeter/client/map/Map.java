@@ -25,9 +25,11 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 public class Map extends Visualisation {
 	
 	private List<Data> dataSet;
-	private MapComposite mapComposite;
-	private Runnable mapThread;
+	private MapRunnable mapRunnable;
 	private boolean sensor = true;
+	
+	private TemperatureOverlay activeTemperatureOverlay;
+	private List<TemperatureOverlay> temperatureOverlays;
 	
 	/**
 	 * Initializes the map and adds it to the visualisation-panel.
@@ -37,8 +39,30 @@ public class Map extends Visualisation {
 	 */
 	public Map(List<Data> dataSet) {
 		this.dataSet = dataSet;
-		this.initMap();
-		//this.mapComposite.addData(this.dataSet);
+		this.temperatureOverlays = new ArrayList<TemperatureOverlay>();
+		
+		initMap();
+		
+		for (int i = 1; i < 10; i++) {
+			addTemperatureOverlay(Data.getRandomData(140), i * 5000);
+		}
+	}
+	
+	public void addTemperatureOverlay(final List<Data> dataSet, int i) {
+		Timer t = new Timer() {
+			@Override
+			public void run() {
+				TemperatureOverlay newTemperatureOverlay = mapRunnable.addTemperatureOverlay(dataSet);
+				temperatureOverlays.add(newTemperatureOverlay);
+				
+				if (activeTemperatureOverlay != null) {
+					activeTemperatureOverlay.setVisibility(false);
+				}
+				
+				activeTemperatureOverlay = newTemperatureOverlay;
+			}
+		};
+		t.schedule(i);
 	}
 	
 	/**
@@ -46,7 +70,7 @@ public class Map extends Visualisation {
 	 * @pre -
 	 * @post panel != null
 	 */
-	private void initMap() {
+	protected void initMap() {
 		// load all the libraries for use in the maps
 		ArrayList<LoadLibrary> loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
 		loadLibraries.add(LoadLibrary.ADSENSE);
@@ -58,25 +82,19 @@ public class Map extends Visualisation {
 		loadLibraries.add(LoadLibrary.VISUALIZATION);
 		
 		// thread with running map
-		this.mapThread = new  Runnable() {
-			@Override
-			public void run() {
-				mapComposite = new MapComposite(new ColorTransition());
-				panel.add(mapComposite);
-				
-				// workaround to fix a glitch, where the map occasionally stays gray
-				Timer timer = new Timer() {
-					@Override
-					public void run() {
-						mapComposite.getMapWidget().triggerResize();
-					}
-				};
-				timer.schedule(1);
-			}
-		};
+		this.mapRunnable = new MapRunnable(this);
 		
+		// set key for google maps
 		String keyParameter = "key=AIzaSyB4zRgy_BdYcjhDiMNv-kZboiLBCpmyYWs";
-		LoadApi.go(this.mapThread, loadLibraries, sensor, keyParameter);
+		LoadApi.go(this.mapRunnable, loadLibraries, sensor, keyParameter);
+	}
+	
+	protected void addToPanel(MapComposite mapComposite) {
+		this.panel.add(mapComposite);
+	}
+	
+	protected List<Data> getDataSet() {
+		return this.dataSet;
 	}
 	
 }

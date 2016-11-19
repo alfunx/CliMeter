@@ -1,12 +1,10 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
-import com.google.gwt.maps.client.overlays.OverlayView;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -30,11 +28,9 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  */
 public class MapComposite extends Composite {
 	
+	private ColorTransition colorTransition;
 	private LayoutPanel panel;
 	private MapWidget mapWidget;
-	//private List<Data> dataSet;
-	private ColorTransition colorTransition;
-	private List<OverlayView> temperatureOverlays;
 	
 	/**
 	 * Initialize as Composite and add google map on it.
@@ -42,12 +38,15 @@ public class MapComposite extends Composite {
 	 * @post panel != null, mapWidget != null
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
-	public MapComposite(ColorTransition colorTransition) {
-		this.colorTransition = colorTransition;
+	public MapComposite(Map map) {
+		this.colorTransition = new ColorTransition();
 		this.panel = new LayoutPanel();
-		this.initWidget(this.panel);
-		this.draw();
-		this.addData(Data.getRandomData(200));
+		
+		initWidget(this.panel);
+		draw();
+		
+//		TemperatureOverlay initialTemperatureOverlay = addTemperatureOverlay(map.getDataSet());
+//		initialTemperatureOverlay.setVisibility(true);
 	}
 	
 	/**
@@ -55,20 +54,9 @@ public class MapComposite extends Composite {
 	 * @pre -
 	 * @post -
 	 */
-	public void addData(List<Data> dataSet) {
-		this.temperatureOverlays = new ArrayList<OverlayView>();
-		
-		if (dataSet != null) {
-			for (Data data : dataSet) {
-				//this.addTemperatureOverlay(data);
-				TemperatureOverlay temperatureOverlay = new TemperatureOverlay(mapWidget, this.colorTransition);
-				this.temperatureOverlays.add(temperatureOverlay.update(data));
-			}
-		}
-		
-		for (OverlayView overlayView : this.temperatureOverlays) {
-			overlayView.setMap(this.mapWidget);
-		}
+	protected TemperatureOverlay addTemperatureOverlay(List<Data> dataSet) {
+		TemperatureOverlay temperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+		return temperatureOverlay;
 	}
 	
 	/**
