@@ -24,7 +24,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
  *  		2016-11-07 TS Added data source information
  *  		2016-11-10 TS Layout reorganization, now using DockLayoutPanel
  *  		2016-11-19 TS Restructured version, extracted methods
- * @version	2016-11-10 TS 1.2
+ * @version	2016-11-19 TS 1.2
  * 
  * @responsibilities This class holds several children-objects of the abstract
  *                   class Visualisation.
