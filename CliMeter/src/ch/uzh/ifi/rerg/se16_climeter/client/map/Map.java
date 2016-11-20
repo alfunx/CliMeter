@@ -43,8 +43,12 @@ public class Map extends Visualisation {
 		initMap();
 		
 		// testing temperatureOverlays
-		for (int i = 1; i < 100; i++) {
-			addTemperatureOverlay(Data.getRandomData(120), i * 1000);
+		for (int i = 1; i < 10; i++) {
+			addTemperatureOverlay(Data.getRandomData(120), i * 5000);
+		}
+		
+		for (int i = 100; i < 200; i++) {
+			showTemperatureOverlay((i - 100) % 9, i * 500);
 		}
 	}
 	
@@ -91,6 +95,21 @@ public class Map extends Visualisation {
 				}
 				
 				activeTemperatureOverlay = newTemperatureOverlay;
+			}
+		};
+		t.schedule(delay);
+	}
+	
+	public void showTemperatureOverlay(final int index, int delay) {
+		Timer t = new Timer() {
+			@Override
+			public void run() {
+				if (activeTemperatureOverlay != null) {
+					activeTemperatureOverlay.setVisibility(false);
+				}
+				
+				activeTemperatureOverlay = temperatureOverlays.get(index);
+				activeTemperatureOverlay.setVisibility(true);
 			}
 		};
 		t.schedule(delay);

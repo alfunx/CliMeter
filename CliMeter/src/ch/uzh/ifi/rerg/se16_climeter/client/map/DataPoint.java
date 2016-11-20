@@ -64,10 +64,6 @@ public class DataPoint {
 		onDrawHandler = new OverlayViewOnDrawHandler() {
 			@Override
 			public void onDraw(OverlayViewMethods methods) {
-				// calculate corresponding color for a data object
-				Color color = colorTransition.getPercentageColor(data.getAverageTemperature());
-				dataPointPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
-				
 				// positioning of a data point
 				MapCanvasProjection projection = methods.getProjection();
 				Point point = projection.fromLatLngToDivPixel(data.getLatLng());
@@ -76,6 +72,10 @@ public class DataPoint {
 						- dataPointPanel.getElement().getClientWidth() / 2, Unit.PX);
 				dataPointPanel.getElement().getStyle().setTop(point.getY()
 						- dataPointPanel.getElement().getClientHeight() / 2, Unit.PX);
+				
+				// calculate corresponding color for a data object
+				Color color = colorTransition.getPercentageColor(data.getAverageTemperature());
+				dataPointPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
 				
 				// setting text and style
 				HTML text = new HTML(data.getAverageTemperature() + "");
