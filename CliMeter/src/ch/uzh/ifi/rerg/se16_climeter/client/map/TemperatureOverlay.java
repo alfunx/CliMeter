@@ -26,9 +26,11 @@ public class TemperatureOverlay {
 	
 	/**
 	 * Generate DataPoint objects for a list of Data.
-	 * @param mapWidget the MapWidget, on which the overlay should be displayed
-	 * @param colorTransition the ColorTransition to choose a color for a Data object
-	 * @param dataSet 
+	 * @pre -
+	 * @post -
+	 * @param mapWidget the MapWidget, on which the DataPoints should be displayed
+	 * @param colorTransition the ColorTransition to choose a color for a DataPoint object
+	 * @param dataSet list of all Data objects that should be displayed
 	 */
 	public TemperatureOverlay(MapWidget mapWidget, ColorTransition colorTransition, List<Data> dataSet) {
 		this.mapWidget = mapWidget;
@@ -39,6 +41,11 @@ public class TemperatureOverlay {
 		initTemperatureOverlay();
 	}
 	
+	/**
+	 * Initialize DataPoints for all Data in dataSet.
+	 * @pre -
+	 * @post -
+	 */
 	protected void initTemperatureOverlay() {
 		if (this.dataSet != null) {
 			for (Data data : this.dataSet) {
@@ -50,6 +57,12 @@ public class TemperatureOverlay {
 		setVisibility(true);
 	}
 	
+	/**
+	 * Set visibility of all DataPoints.
+	 * @pre -
+	 * @post -
+	 * @param isVisible the visibility to set
+	 */
 	public void setVisibility(boolean isVisible) {
 		if (isVisible) {
 			for (DataPoint dataPoint : this.dataPoints) {

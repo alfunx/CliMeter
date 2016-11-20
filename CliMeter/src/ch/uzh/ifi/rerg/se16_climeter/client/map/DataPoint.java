@@ -35,6 +35,14 @@ public class DataPoint {
 	private OverlayViewOnRemoveHandler onRemoveHandler;
 	private OverlayView dataPoint;
 	
+	/**
+	 * Generate DataPoint object for a Data object.
+	 * @pre -
+	 * @post -
+	 * @param mapWidget the MapWidget, on which the DataPoint should be displayed
+	 * @param colorTransition the ColorTransition to choose a color for a DataPoint object
+	 * @param data Data object that should be displayed
+	 */
 	protected DataPoint(MapWidget mapWidget, ColorTransition colorTransition, Data data) {
 		this.mapWidget = mapWidget;
 		this.colorTransition = colorTransition;
@@ -94,6 +102,11 @@ public class DataPoint {
 		this.dataPoint = OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler);
 	}
 	
+	/**
+	 * @pre -
+	 * @post -
+	 * @return the DataPoint as OverlayView
+	 */
 	protected OverlayView getDataPointOverlayView() {
 		return this.dataPoint;
 	}
