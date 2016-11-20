@@ -1,5 +1,6 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.table;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.List;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
@@ -88,13 +90,14 @@ public class Table extends Visualisation implements Exportable{
 		// set table as display of dataProvider
 		dataProvider.addDataDisplay(table);
 		
+		
 	    
 		/*
 		 * create columns with header cells
 		 */
 		
 		// add dates
-		DateCell dateCell = new DateCell();
+		DateCell dateCell = new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy"));
 		Column<Data, Date> dateColumn = new Column<Data, Date>(dateCell) {
 			 
 			@Override
