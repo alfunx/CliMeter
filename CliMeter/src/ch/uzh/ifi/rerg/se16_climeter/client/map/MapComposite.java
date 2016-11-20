@@ -12,8 +12,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
 /**
- * The class MapComposite is a concrete Map, load into a Composite object, 
- * which shows data on corresponding coordinates.
+ * The class MapComposite is a concrete Map, load into a Composite object.
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-03 AM Initial Commit
@@ -22,7 +21,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 				2016-11-07 AM Displays multiple data points
  * 				2016-11-14 AM Gray-map glitch fixed
  * 				2016-11-16 AM Added dynamic colored data points
- * @version 	2016-11-16 AM 1.1
+ * 				2016-11-20 AM Moved overlay creation to TemperatureOverlay
+ * @version 	2016-11-20 AM 1.2
  * @responsibilities 
  * 				This class contains the map and all layers on top of it.
  */
@@ -39,24 +39,11 @@ public class MapComposite extends Composite {
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public MapComposite(Map map) {
-		this.colorTransition = new ColorTransition();
+		this.colorTransition = new ColorTransition(-30.0, 30.0);
 		this.panel = new LayoutPanel();
 		
 		initWidget(this.panel);
 		draw();
-		
-//		TemperatureOverlay initialTemperatureOverlay = addTemperatureOverlay(map.getDataSet());
-//		initialTemperatureOverlay.setVisibility(true);
-	}
-	
-	/**
-	 * Add Data to the map.
-	 * @pre -
-	 * @post -
-	 */
-	protected TemperatureOverlay addTemperatureOverlay(List<Data> dataSet) {
-		TemperatureOverlay temperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-		return temperatureOverlay;
 	}
 	
 	/**
@@ -90,6 +77,18 @@ public class MapComposite extends Composite {
 			public void run() {}
 		};
 		timer.schedule(1);
+	}
+	
+	/**
+	 * Add a set of data on the map.
+	 * @pre -
+	 * @post -
+	 * @param dataSet a list of Data to add on the map
+	 * @return the temperatureOverlay
+	 */
+	protected TemperatureOverlay addTemperatureOverlay(List<Data> dataSet) {
+		TemperatureOverlay temperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+		return temperatureOverlay;
 	}
 	
 	/**

@@ -15,12 +15,24 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
+/**
+ * The class DataPoint is one Data object displayed on the map.
+ * 
+ * @author 		Alphonse Mariyagnanaseelan
+ * @history 	2016-11-20 AM Initial Commit
+ * @version 	2016-11-20 AM 1.0
+ * @responsibilities 
+ * 				This class displays one data object on the map.
+ */
 public class DataPoint {
 	
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
 	private Data data;
 	
+	private OverlayViewOnDrawHandler onDrawHandler;
+	private OverlayViewOnAddHandler onAddHandler;
+	private OverlayViewOnRemoveHandler onRemoveHandler;
 	private OverlayView dataPoint;
 	
 	protected DataPoint(MapWidget mapWidget, ColorTransition colorTransition, Data data) {
@@ -41,11 +53,11 @@ public class DataPoint {
 		final VerticalPanel dataPointPanel = new VerticalPanel();
 		dataPointPanel.addStyleName("temperatureOverlay");
 		
-		OverlayViewOnDrawHandler onDrawHandler = new OverlayViewOnDrawHandler() {
+		onDrawHandler = new OverlayViewOnDrawHandler() {
 			@Override
 			public void onDraw(OverlayViewMethods methods) {
 				// calculate corresponding color for a data object
-				Color color = colorTransition.getPercentageColor(data.getAverageTemperature(), -30.0, 30.0);
+				Color color = colorTransition.getPercentageColor(data.getAverageTemperature());
 				dataPointPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
 				
 				// positioning of a data point
@@ -65,14 +77,14 @@ public class DataPoint {
 			}
 		};
 		
-		OverlayViewOnAddHandler onAddHandler = new OverlayViewOnAddHandler() {
+		onAddHandler = new OverlayViewOnAddHandler() {
 			@Override
 			public void onAdd(OverlayViewMethods methods) {
 				methods.getPanes().getFloatPane().appendChild(dataPointPanel.getElement());
 			}
 		};
 		
-		OverlayViewOnRemoveHandler onRemoveHandler = new OverlayViewOnRemoveHandler() {
+		onRemoveHandler = new OverlayViewOnRemoveHandler() {
 			@Override
 			public void onRemove(OverlayViewMethods methods) {
 				dataPointPanel.getElement().removeFromParent();

@@ -17,14 +17,14 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
  * 				2016-11-03 AM Map runs in a thread
  * 				2016-11-07 AM Added parameter dataSet to constructor
  * 				2016-11-14 AM Gray-map glitch fixed
- * @version 	2016-11-14 AM 1.0
+ * 				2016-11-20 AM New class MapRunnable instead of anonym class
+ * @version 	2016-11-20 AM 1.2
  * @responsibilities 
  * 				This class starts the map in a thread and passes the data 
  * 				to it [and has to pass filter details in future].
  */
 public class Map extends Visualisation {
 	
-	private List<Data> dataSet;
 	private MapRunnable mapRunnable;
 	private boolean sensor = true;
 	
@@ -38,31 +38,14 @@ public class Map extends Visualisation {
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public Map(List<Data> dataSet) {
-		this.dataSet = dataSet;
 		this.temperatureOverlays = new ArrayList<TemperatureOverlay>();
 		
 		initMap();
 		
-		for (int i = 1; i < 10; i++) {
-			addTemperatureOverlay(Data.getRandomData(140), i * 5000);
+		// testing temperatureOverlays
+		for (int i = 1; i < 100; i++) {
+			addTemperatureOverlay(Data.getRandomData(120), i * 1000);
 		}
-	}
-	
-	public void addTemperatureOverlay(final List<Data> dataSet, int i) {
-		Timer t = new Timer() {
-			@Override
-			public void run() {
-				TemperatureOverlay newTemperatureOverlay = mapRunnable.addTemperatureOverlay(dataSet);
-				temperatureOverlays.add(newTemperatureOverlay);
-				
-				if (activeTemperatureOverlay != null) {
-					activeTemperatureOverlay.setVisibility(false);
-				}
-				
-				activeTemperatureOverlay = newTemperatureOverlay;
-			}
-		};
-		t.schedule(i);
 	}
 	
 	/**
@@ -89,12 +72,38 @@ public class Map extends Visualisation {
 		LoadApi.go(this.mapRunnable, loadLibraries, sensor, keyParameter);
 	}
 	
-	protected void addToPanel(MapComposite mapComposite) {
-		this.panel.add(mapComposite);
+	/**
+	 * Add one temperature layer to the map.
+	 * @pre -
+	 * @post -
+	 * @param dataSet a list of Data to display on the map
+	 * @param delay the delay to wait before starting process
+	 */
+	public void addTemperatureOverlay(final List<Data> dataSet, int delay) {
+		Timer t = new Timer() {
+			@Override
+			public void run() {
+				TemperatureOverlay newTemperatureOverlay = mapRunnable.addTemperatureOverlay(dataSet);
+				temperatureOverlays.add(newTemperatureOverlay);
+				
+				if (activeTemperatureOverlay != null) {
+					activeTemperatureOverlay.setVisibility(false);
+				}
+				
+				activeTemperatureOverlay = newTemperatureOverlay;
+			}
+		};
+		t.schedule(delay);
 	}
 	
-	protected List<Data> getDataSet() {
-		return this.dataSet;
+	/**
+	 * Add a MapComposite object to the panel of Map.
+	 * @pre -
+	 * @post -
+	 * @param mapComposite the mapComposite
+	 */
+	protected void addToPanel(MapComposite mapComposite) {
+		this.panel.add(mapComposite);
 	}
 	
 }
