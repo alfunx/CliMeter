@@ -3,6 +3,8 @@
 
 ### GWT ###
 *.class
+*.cache.js
+*.symbolMap
 
 # Package Files #
 *.jar
