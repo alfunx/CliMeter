@@ -1,5 +1,6 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.table;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.List;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
@@ -46,6 +48,22 @@ public class Table extends Visualisation implements Exportable{
 	// dataProvider which handles updating the data in table 
 	private ListDataProvider<Data> dataProvider;
 	private List<Data> dataList;  // needed for ListDataProvider
+	
+	private SimplePager pager;
+	
+	private DateCell dateCell;
+	private Column<Data, Date> dateColumn;
+	private Column<Data, Number> avgTempColumn;
+	private Column<Data, Number> uncertainityColumn;
+	private TextColumn<Data> cityColumn;
+	private TextColumn<Data> countryColumn;
+	private Column<Data, Number> latitudeColumn;
+	private Column<Data, Number> longitudeColumn;
+	
+	private ListHandler<Data> columnSortHandler;
+	
+	private DockLayoutPanel docklayoutPanel;
+	
 
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
@@ -78,7 +96,7 @@ public class Table extends Visualisation implements Exportable{
 	    table.setEmptyTableWidget(new Label("Table does not contain any data"));
 	    
 	    // create pager for page handling and set table as the display
-	    SimplePager pager = new SimplePager();
+	    pager = new SimplePager();
 	    pager.addStyleName("pager");
 	    pager.setDisplay(table);
 	    
@@ -88,14 +106,15 @@ public class Table extends Visualisation implements Exportable{
 		// set table as display of dataProvider
 		dataProvider.addDataDisplay(table);
 		
+		
 	    
 		/*
 		 * create columns with header cells
 		 */
 		
 		// add dates
-		DateCell dateCell = new DateCell();
-		Column<Data, Date> dateColumn = new Column<Data, Date>(dateCell) {
+		dateCell = new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy"));
+		dateColumn = new Column<Data, Date>(dateCell) {
 			 
 			@Override
 			public Date getValue(Data object) {
@@ -107,7 +126,7 @@ public class Table extends Visualisation implements Exportable{
 		
 		 
 		// add aveTemps
-		Column<Data, Number> avgTempColumn = new Column<Data, Number>(new NumberCell()) {
+		avgTempColumn = new Column<Data, Number>(new NumberCell()) {
 			@Override
 			public Double getValue(Data object) {
 				return object.getAverageTemperature();
@@ -119,7 +138,7 @@ public class Table extends Visualisation implements Exportable{
 		
 		
 		//add uncertainty
-		Column<Data, Number> uncertainityColumn = new Column<Data, Number>(new NumberCell()) {
+		uncertainityColumn = new Column<Data, Number>(new NumberCell()) {
 			@Override
 			public Double getValue(Data object) {
 				return object.getUncertainty();
@@ -131,7 +150,7 @@ public class Table extends Visualisation implements Exportable{
 		
 		
 		// add city 	
-		TextColumn<Data> cityColumn = new TextColumn<Data>() {
+		cityColumn = new TextColumn<Data>() {
 			@Override
 			public String getValue(Data object) {
 				return object.getCity();
@@ -141,7 +160,7 @@ public class Table extends Visualisation implements Exportable{
 		cityColumn.setSortable(true);
 		
 		// add country
-		TextColumn<Data> countryColumn = new TextColumn<Data>() {
+		countryColumn = new TextColumn<Data>() {
 			@Override
 			public String getValue(Data object) {
 				return object.getCountry();
@@ -152,7 +171,7 @@ public class Table extends Visualisation implements Exportable{
 		
 		
 		// add latitude
-		Column<Data, Number> latitudeColumn = new Column<Data, Number>(new NumberCell()) {
+		latitudeColumn = new Column<Data, Number>(new NumberCell()) {
 			@Override
 			public Double getValue(Data object) {
 				return object.getLatitude();
@@ -164,7 +183,7 @@ public class Table extends Visualisation implements Exportable{
 		
 		
 		// add longitude
-		Column<Data, Number> longitudeColumn = new Column<Data, Number>(new NumberCell()) {
+		longitudeColumn = new Column<Data, Number>(new NumberCell()) {
 			@Override
 			public Double getValue(Data object) {
 				return object.getLongitude();
@@ -194,7 +213,7 @@ public class Table extends Visualisation implements Exportable{
 		/*
 		 * Create sortHandler
 		 */
-	    ListHandler<Data> columnSortHandler = new ListHandler<Data>(dataList);
+	    columnSortHandler = new ListHandler<Data>(dataList);
 
 	    // create Comparator for dateColumn
 	    columnSortHandler.setComparator(dateColumn, new Comparator<Data>() {
@@ -385,7 +404,7 @@ public class Table extends Visualisation implements Exportable{
 		table.addColumnSortHandler(columnSortHandler);
 		
 		// create docklayoutPanel to organize the view of table and pager
-		DockLayoutPanel docklayoutPanel = new DockLayoutPanel(Unit.EM);
+		docklayoutPanel = new DockLayoutPanel(Unit.EM);
 		docklayoutPanel.addSouth(pager, 3);
 		docklayoutPanel.add(table);
 		
