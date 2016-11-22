@@ -9,10 +9,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.widgetideas.client.SliderBar;
+import com.google.gwt.widgetideas.client.SliderBar.LabelFormatter;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
 import ch.uzh.ifi.rerg.se16_climeter.client.map.Map;
 import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
+
 
 /**
  * The class UserInterface creates the tab structured GUI and adds data source
@@ -41,8 +44,12 @@ public class UserInterface {
 	private TabLayoutPanel tabs;
 	private HorizontalPanel southContainer;
 	private DockLayoutPanel mainPanel;
+	private DockLayoutPanel mapContainer;
+	private DockLayoutPanel mapTabContainer;
+	private DockLayoutPanel timeLineContainer;
 	private LayoutPanel titleContainer;
-
+	private SliderBar timeLine;
+	
 	/**
 	 * Creates the GUI.
 	 * @pre	-
@@ -77,10 +84,22 @@ public class UserInterface {
 	 */
 	private TabLayoutPanel createTabs() {
 		TabLayoutPanel tabs = new TabLayoutPanel(30, Unit.PX);
+				
+		mapTabContainer = new DockLayoutPanel(Unit.EM);		
+		mapContainer = new DockLayoutPanel(Unit.EM);
+		timeLineContainer = new DockLayoutPanel(Unit.PX);
 		
-		tabs.add(map.getPanel(), "Map");
+		mapContainer.add(map.getPanel());
+		timeLineContainer.add(createTimeLine());
+
+		
+		mapTabContainer.addNorth(mapContainer, 50);
+		mapTabContainer.addSouth(timeLineContainer, 2.5);
+		
+		tabs.add(mapTabContainer, "Map");
 		tabs.add(table.getPanel(), "Table");
 		tabs.addStyleName("tabContainer");
+
 
 		tabs.add(filterMenu.getPanel(), "Filter");
 
@@ -133,4 +152,21 @@ public class UserInterface {
 		return titleContainer;
 	}
 	
+	
+	private SliderBar createTimeLine()
+	{
+	timeLine = new SliderBar(1900, 2015, new LabelFormatter() {
+	public String formatLabel(SliderBar slider, double value) {
+	return (int) (10 * value) / 10 + "";
+	}
+	});
+	timeLine.setStepSize(1.0);
+	timeLine.setMinValue(1900);
+	timeLine.setMaxValue(2015);
+	timeLine.setCurrentValue((1900 + 2015)/2);
+	timeLine.setNumTicks((int) (2015 - 1900));
+	timeLine.setNumLabels(13);
+
+	return timeLine;
+	}
 }
