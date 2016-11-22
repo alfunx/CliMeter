@@ -58,6 +58,8 @@ public class DataPoint {
 	 * @param data Data object to visualise on the map
 	 */
 	protected void initDataPoint() {
+		setVisibility(false);
+		
 		final VerticalPanel dataPointPanel = new VerticalPanel();
 		dataPointPanel.addStyleName("temperatureOverlay");
 		
@@ -100,6 +102,23 @@ public class DataPoint {
 		};
 		
 		this.dataPoint = OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler);
+	}
+	
+	/**
+	 * Set visibility of DataPoint.
+	 * @pre -
+	 * @post -
+	 */
+	protected void setVisibility(boolean isVisible) {
+		if (dataPoint == null) {
+			return;
+		}
+		
+		if (isVisible) {
+			this.dataPoint.setMap(this.mapWidget);
+		} else {
+			this.dataPoint.setMap(null);
+		}
 	}
 	
 	/**

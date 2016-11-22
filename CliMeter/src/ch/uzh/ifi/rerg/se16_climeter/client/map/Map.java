@@ -42,14 +42,16 @@ public class Map extends Visualisation {
 		
 		initMap();
 		
-		// testing temperatureOverlays
-		for (int i = 1; i < 10; i++) {
-			addTemperatureOverlay(Data.getRandomData(120), i * 5000);
-		}
+		addTemperatureOverlay(dataSet, 2000);
 		
-		for (int i = 100; i < 200; i++) {
-			showTemperatureOverlay((i - 100) % 9, i * 500);
-		}
+		// testing temperatureOverlays
+//		for (int i = 1; i < 10; i++) {
+//			addTemperatureOverlay(Data.getRandomData(120), i * 5000);
+//		}
+//		
+//		for (int i = 100; i < 200; i++) {
+//			showTemperatureOverlay((i - 100) % 9, i * 500);
+//		}
 	}
 	
 	/**

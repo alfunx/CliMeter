@@ -66,11 +66,11 @@ public class TemperatureOverlay {
 	public void setVisibility(boolean isVisible) {
 		if (isVisible) {
 			for (DataPoint dataPoint : this.dataPoints) {
-				dataPoint.getDataPointOverlayView().setMap(this.mapWidget);
+				dataPoint.setVisibility(isVisible);;
 			}
 		} else {
 			for (DataPoint dataPoint : this.dataPoints) {
-				dataPoint.getDataPointOverlayView().setMap(null);
+				dataPoint.setVisibility(isVisible);
 			}
 		}
 	}
