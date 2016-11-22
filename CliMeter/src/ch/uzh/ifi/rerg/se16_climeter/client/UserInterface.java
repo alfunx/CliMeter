@@ -39,7 +39,7 @@ public class UserInterface {
 
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(300000));
-	private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
+	// private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
 	
 	private TabLayoutPanel tabs;
 	private HorizontalPanel southContainer;
@@ -98,11 +98,9 @@ public class UserInterface {
 		
 		tabs.add(mapTabContainer, "Map");
 		tabs.add(table.getPanel(), "Table");
+		//tabs.add(filterMenu.getPanel(), "Filter");
+		
 		tabs.addStyleName("tabContainer");
-
-
-		tabs.add(filterMenu.getPanel(), "Filter");
-
 		tabs.setAnimationDuration(450);
 		tabs.setAnimationVertical(false);
 		

@@ -9,12 +9,15 @@ import java.util.List;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.ListDataProvider;
@@ -22,6 +25,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Exportable;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
+import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
 
 /**
  * The class Table initializes a table and returns it in a panel.
@@ -49,6 +53,8 @@ public class Table extends Visualisation implements Exportable{
 	private ListDataProvider<Data> dataProvider;
 	private List<Data> dataList;  // needed for ListDataProvider
 	
+	private Visualisation filterMenu;
+	
 	private SimplePager pager;
 	
 	private DateCell dateCell;
@@ -62,9 +68,11 @@ public class Table extends Visualisation implements Exportable{
 	
 	private ListHandler<Data> columnSortHandler;
 	
-	private DockLayoutPanel docklayoutPanel;
+	private boolean filterHidden;
+	private DockLayoutPanel footerPanel;
+	private DockLayoutPanel dockLayoutPanel;
 	
-
+ 
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
 	 * @pre -
@@ -403,13 +411,48 @@ public class Table extends Visualisation implements Exportable{
 	    // add SortHandler to table
 		table.addColumnSortHandler(columnSortHandler);
 		
-		// create docklayoutPanel to organize the view of table and pager
-		docklayoutPanel = new DockLayoutPanel(Unit.EM);
-		docklayoutPanel.addSouth(pager, 3);
-		docklayoutPanel.add(table);
+		// create FilterMenu
+		filterMenu = new FilterMenu(Data.getRandomData(100));
+		
+		// create button to toggle filter visibility
+		filterHidden = true;
+		final Button toggleFilterButton = new Button("Show");
+		toggleFilterButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (filterHidden == true){
+					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
+					dockLayoutPanel.animate(300);
+					filterHidden = false;
+					toggleFilterButton.setText("Hide");
+				}
+				else {
+					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
+					dockLayoutPanel.animate(300);
+					filterHidden = true;
+					toggleFilterButton.setText("Show");
+				}
+				
+			}
+			
+		});
+		toggleFilterButton.addStyleName("toggleFilterButton");
+		
+		// create footerpanel for pager and filter toggle
+		footerPanel = new DockLayoutPanel(Unit.EM);
+		footerPanel.addEast(toggleFilterButton, 5);
+		footerPanel.add(pager);
+		
+		// create docklayoutPanel to organize the view of table, filter and pager
+		dockLayoutPanel = new DockLayoutPanel(Unit.EM);
+		dockLayoutPanel.addEast(filterMenu.getPanel(), 18);
+		dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
+		dockLayoutPanel.addSouth(footerPanel, 3);
+		dockLayoutPanel.add(table);
 		
 		// add docklayoutPanel to panel
-		panel.add(docklayoutPanel);
+		panel.add(dockLayoutPanel);
 	
 		return table;
 	}
