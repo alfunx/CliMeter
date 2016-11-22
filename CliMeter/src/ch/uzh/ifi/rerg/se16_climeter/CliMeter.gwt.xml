@@ -24,6 +24,11 @@
 	<inherits name='com.google.gwt.ajaxloader.AjaxLoader' />
 	<!-- <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE' /> -->
 	
+	<!-- Inherit GWT Incubator for time line -->
+	<inherits name='com.google.gwt.widgetideas.client.SliderBar' />
+	<inherits name='com.google.gwt.widgetideas.client.SliderBar.LabelFormatter' />
+	
+	
 	<!-- Specify the app entry point class -->
 	<entry-point class='ch.uzh.ifi.rerg.se16_climeter.client.CliMeter' />
 	
