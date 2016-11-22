@@ -25,8 +25,8 @@
 	<!-- <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE' /> -->
 	
 	<!-- Inherit GWT Incubator for time line -->
-	<inherits name='com.google.gwt.widgetideas.client.SliderBar' />
-	<inherits name='com.google.gwt.widgetideas.client.SliderBar.LabelFormatter' />
+	<inherits name='com.google.gwt.widgetideas.WidgetIdeas' />
+	
 	
 	
 	<!-- Specify the app entry point class -->

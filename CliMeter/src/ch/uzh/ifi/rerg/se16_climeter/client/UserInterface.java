@@ -87,14 +87,16 @@ public class UserInterface {
 				
 		mapTabContainer = new DockLayoutPanel(Unit.EM);		
 		mapContainer = new DockLayoutPanel(Unit.EM);
-		timeLineContainer = new DockLayoutPanel(Unit.PX);
+		timeLineContainer = new DockLayoutPanel(Unit.EM);
 		
 		mapContainer.add(map.getPanel());
 		timeLineContainer.add(createTimeLine());
+		timeLineContainer.setSize("100%", "100%");
 
 		
 		mapTabContainer.addNorth(mapContainer, 50);
-		mapTabContainer.addSouth(timeLineContainer, 2.5);
+		mapTabContainer.addSouth(timeLineContainer, 5);
+		mapTabContainer.setSize("100%","100%");
 		
 		tabs.add(mapTabContainer, "Map");
 		tabs.add(table.getPanel(), "Table");
@@ -164,6 +166,7 @@ public class UserInterface {
 	timeLine.setCurrentValue((1900 + 2015)/2);
 	timeLine.setNumTicks((int) (2015 - 1900));
 	timeLine.setNumLabels(13);
+	timeLine.setWidth("");
 
 	return timeLine;
 	}
