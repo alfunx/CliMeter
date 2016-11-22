@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-maps-api-3.10.0-alpha-8.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-ajaxloader-1.1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/Timo/Dropbox/HS16 Software Engineering/GWT/JARs/gwt-slider-bar-1.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

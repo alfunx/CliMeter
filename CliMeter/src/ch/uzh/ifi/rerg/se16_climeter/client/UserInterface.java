@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
-
 import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
 import ch.uzh.ifi.rerg.se16_climeter.client.map.Map;
 import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
@@ -37,6 +36,9 @@ public class UserInterface {
 	private Visualisation map = new Map(Data.getRandomData(100));
 	private Visualisation table = new Table(Data.getRandomData(300000));
 	private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
+	
+	private TimeSlider timeSlider = new TimeSlider(2016,"200", "400");
+	
 	
 	private TabLayoutPanel tabs;
 	private HorizontalPanel southContainer;
@@ -79,6 +81,7 @@ public class UserInterface {
 		TabLayoutPanel tabs = new TabLayoutPanel(30, Unit.PX);
 		
 		tabs.add(map.getPanel(), "Map");
+		//tabs.add(timeSlider.getWidget(), "TimeLine");
 		tabs.add(table.getPanel(), "Table");
 		tabs.addStyleName("tabContainer");
 

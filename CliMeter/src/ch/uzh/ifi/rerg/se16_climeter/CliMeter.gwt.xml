@@ -24,6 +24,9 @@
 	<inherits name='com.google.gwt.ajaxloader.AjaxLoader' />
 	<!-- <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE' /> -->
 	
+	<!-- Inherit Slider Bar API -->
+	<inherits name="com.kiouri.sliderbar.SliderBarMVP" />
+	
 	<!-- Specify the app entry point class -->
 	<entry-point class='ch.uzh.ifi.rerg.se16_climeter.client.CliMeter' />
 	
