@@ -6,14 +6,16 @@
 }
 
 .pager {
-	margin: auto;
-	width: 20%;
+	margin-left: 35%;
+	width: 30%;
 }
 
 .tableHeader {
 	background-color: #1ec91e;
 }
 
-.tableNummericColumn {
-	
+.toggleFilterButton {
+	height: 100%;
+	width: 100%;
+  
 }
