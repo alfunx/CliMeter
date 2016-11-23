@@ -38,7 +38,8 @@ public class FilterMenu extends Visualisation {
 		dock.add(cityBox(data));
 		dock.add(addInaccuracyBox());
 		dock.add(addResetButton());
-
+		
+		dock.setStyleName("filterMenuPanel");
 		panel.add(dock);
 	}
 
@@ -49,7 +50,7 @@ public class FilterMenu extends Visualisation {
 		MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
 
 		// add strings which are displayed when typing character(s)
-		String[] countries = 	countryArray;
+		String[] countries = countryArray;
 		for (int i = 0; i < countries.length; ++i) {
 			oracle.add(countries[i]);
 		}
@@ -86,7 +87,7 @@ public class FilterMenu extends Visualisation {
 
 	public Widget addFilterButton() {
 
-		Button filterButton = new Button("filter");
+		Button filterButton = new Button("Filter");
 		filterButton.setStyleName("filterButton");
 //		filterButton.setWidth("200px");
 		return filterButton;

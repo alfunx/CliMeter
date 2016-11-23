@@ -8,3 +8,20 @@
 .dialogVPanel {
 	margin: 5px;
 }
+
+.filterMenuPanel {
+	border-top: 2em solid #1ec91e;
+	border-left: 5px solid #1ec91e;
+	margin: auto;
+	height: 100%;
+	width: 100%;
+}
+
+.filterButton {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.resetButton {
+	
+}
