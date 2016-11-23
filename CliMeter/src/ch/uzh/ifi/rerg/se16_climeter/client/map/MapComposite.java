@@ -29,7 +29,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 				2016-11-14 AM Gray-map glitch fixed
  * 				2016-11-16 AM Added dynamic colored data points
  * 				2016-11-20 AM Moved overlay creation to TemperatureOverlay
- * @version 	2016-11-20 AM 1.2
+ * 				2016-11-23 AM Completely restructured, ready for TimeLine
+ * @version 	2016-11-23 AM 1.3
  * @responsibilities 
  * 				This class contains the map and all layers on top of it.
  */

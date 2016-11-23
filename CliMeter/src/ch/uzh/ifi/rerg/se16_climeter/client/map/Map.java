@@ -17,8 +17,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
  * 				2016-11-07 AM Added parameter dataSet to constructor
  * 				2016-11-14 AM Gray-map glitch fixed
  * 				2016-11-20 AM New class MapRunnable instead of anonym class
- *              2016-11-23 AM Completely restructured, ready for TimeLine
- * @version 	2016-11-20 AM 1.3
+ * 				2016-11-23 AM Completely restructured, ready for TimeLine
+ * @version 	2016-11-23 AM 1.3
  * @responsibilities 
  * 				This class starts the map in a thread and passes the data 
  * 				to it [and has to pass filter details in future].
