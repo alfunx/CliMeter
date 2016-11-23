@@ -28,8 +28,8 @@ public class Map extends Visualisation {
 	private MapRunnable mapRunnable;
 	private boolean sensor = true;
 	
-	private TemperatureOverlay activeTemperatureOverlay;
-	private List<TemperatureOverlay> temperatureOverlays;
+//	private TemperatureOverlay activeTemperatureOverlay;
+//	private List<TemperatureOverlay> temperatureOverlays;
 	
 	/**
 	 * Initializes the map and adds it to the visualisation-panel.
@@ -38,11 +38,13 @@ public class Map extends Visualisation {
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public Map(List<Data> dataSet) {
-		this.temperatureOverlays = new ArrayList<TemperatureOverlay>();
+//		this.temperatureOverlays = new ArrayList<TemperatureOverlay>();
 		
 		initMap();
 		
-		addTemperatureOverlay(dataSet, 2000);
+//		addTemperatureOverlay(dataSet, 2000);
+		
+		this.mapRunnable.addTemperatureOverlay(dataSet);
 		
 		// testing temperatureOverlays
 //		for (int i = 1; i < 10; i++) {
@@ -85,37 +87,37 @@ public class Map extends Visualisation {
 	 * @param dataSet a list of Data to display on the map
 	 * @param delay the delay to wait before starting process
 	 */
-	public void addTemperatureOverlay(final List<Data> dataSet, int delay) {
-		Timer t = new Timer() {
-			@Override
-			public void run() {
-				TemperatureOverlay newTemperatureOverlay = mapRunnable.addTemperatureOverlay(dataSet);
-				temperatureOverlays.add(newTemperatureOverlay);
-				
-				if (activeTemperatureOverlay != null) {
-					activeTemperatureOverlay.setVisibility(false);
-				}
-				
-				activeTemperatureOverlay = newTemperatureOverlay;
-			}
-		};
-		t.schedule(delay);
-	}
-	
-	public void showTemperatureOverlay(final int index, int delay) {
-		Timer t = new Timer() {
-			@Override
-			public void run() {
-				if (activeTemperatureOverlay != null) {
-					activeTemperatureOverlay.setVisibility(false);
-				}
-				
-				activeTemperatureOverlay = temperatureOverlays.get(index);
-				activeTemperatureOverlay.setVisibility(true);
-			}
-		};
-		t.schedule(delay);
-	}
+//	public void addTemperatureOverlay(final List<Data> dataSet, int delay) {
+//		Timer t = new Timer() {
+//			@Override
+//			public void run() {
+//				TemperatureOverlay newTemperatureOverlay = mapRunnable.addTemperatureOverlay(dataSet);
+//				temperatureOverlays.add(newTemperatureOverlay);
+//				
+//				if (activeTemperatureOverlay != null) {
+//					activeTemperatureOverlay.setVisibility(false);
+//				}
+//				
+//				activeTemperatureOverlay = newTemperatureOverlay;
+//			}
+//		};
+//		t.schedule(delay);
+//	}
+//	
+//	public void showTemperatureOverlay(final int index, int delay) {
+//		Timer t = new Timer() {
+//			@Override
+//			public void run() {
+//				if (activeTemperatureOverlay != null) {
+//					activeTemperatureOverlay.setVisibility(false);
+//				}
+//				
+//				activeTemperatureOverlay = temperatureOverlays.get(index);
+//				activeTemperatureOverlay.setVisibility(true);
+//			}
+//		};
+//		t.schedule(delay);
+//	}
 	
 	/**
 	 * Add a MapComposite object to the panel of Map.

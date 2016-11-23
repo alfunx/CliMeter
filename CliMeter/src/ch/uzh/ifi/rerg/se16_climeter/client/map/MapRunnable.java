@@ -52,8 +52,8 @@ public class MapRunnable implements Runnable {
 	 * @param dataSet a list of Data to add on the map
 	 * @return the temperatureOverlay
 	 */
-	public TemperatureOverlay addTemperatureOverlay(List<Data> dataSet) {
-		return this.mapComposite.addTemperatureOverlay(dataSet);
+	public void addTemperatureOverlay(List<Data> dataSet) {
+		this.mapComposite.addTemperatureOverlay(dataSet);
 	}
 	
 }

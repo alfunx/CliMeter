@@ -1,5 +1,6 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
@@ -32,6 +33,9 @@ public class MapComposite extends Composite {
 	private LayoutPanel panel;
 	private MapWidget mapWidget;
 	
+	private TemperatureOverlay activeTemperatureOverlay;
+	private List<TemperatureOverlay> temperatureOverlays;
+	
 	/**
 	 * Initialize as Composite and add google map on it.
 	 * @pre -
@@ -41,6 +45,8 @@ public class MapComposite extends Composite {
 	public MapComposite(Map map) {
 		this.colorTransition = new ColorTransition(-30.0, 30.0);
 		this.panel = new LayoutPanel();
+		
+		this.temperatureOverlays = new ArrayList<TemperatureOverlay>();
 		
 		initWidget(this.panel);
 		draw();
@@ -86,9 +92,10 @@ public class MapComposite extends Composite {
 	 * @param dataSet a list of Data to add on the map
 	 * @return the temperatureOverlay
 	 */
-	protected TemperatureOverlay addTemperatureOverlay(List<Data> dataSet) {
-		TemperatureOverlay temperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-		return temperatureOverlay;
+	protected void addTemperatureOverlay(List<Data> dataSet) {
+		addTemperatureOverlay(dataSet, 1000);
+//		TemperatureOverlay temperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+//		return temperatureOverlay;
 	}
 	
 	/**
@@ -98,6 +105,48 @@ public class MapComposite extends Composite {
 	 */
 	protected MapWidget getMapWidget() {
 		return this.mapWidget;
+	}
+	
+	public void addTemperatureOverlay(final List<Data> dataSet, int delay) {
+//		Timer t = new Timer() {
+//			@Override
+//			public void run() {
+////				TemperatureOverlay newTemperatureOverlay = addTemperatureOverlay(dataSet);
+//				TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(mapWidget, colorTransition, dataSet);
+//				temperatureOverlays.add(newTemperatureOverlay);
+//				
+//				if (activeTemperatureOverlay != null) {
+//					activeTemperatureOverlay.setVisibility(false);
+//				}
+//				
+//				activeTemperatureOverlay = newTemperatureOverlay;
+//			}
+//		};
+//		t.schedule(delay);
+		
+		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+		temperatureOverlays.add(newTemperatureOverlay);
+		
+		if (activeTemperatureOverlay != null) {
+			this.activeTemperatureOverlay.setVisibility(false);
+		}
+		
+		this.activeTemperatureOverlay = newTemperatureOverlay;
+	}
+	
+	public void showTemperatureOverlay(final int index, int delay) {
+		Timer t = new Timer() {
+			@Override
+			public void run() {
+				if (activeTemperatureOverlay != null) {
+					activeTemperatureOverlay.setVisibility(false);
+				}
+				
+				activeTemperatureOverlay = temperatureOverlays.get(index);
+				activeTemperatureOverlay.setVisibility(true);
+			}
+		};
+		t.schedule(delay);
 	}
 	
 }
