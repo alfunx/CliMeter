@@ -12,26 +12,35 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
  */
 public class ColorTransition {
 	
-	private Color minColor;
-	private Color maxColor;
+	private Color[] color;
+	private double min;
+	private double max;
 	
 	/**
-	 * Initialize ColorTransition object.
-	 * @pre minColor != null, maxColor != null
+	 * Initialize ColorTransition object. color[0] should contain the color 
+	 * for the minimum value, color[n - 1] should contain the color for the 
+	 * maximum value for n = color.length.
+	 * @pre color != null
 	 * @post -
-	 * @param minColor color for min value
-	 * @param maxColor color for max value
+	 * @param color array of colors for the color transition
 	 */
-	public ColorTransition(Color minColor, Color maxColor) {
-		if (minColor == null) {
-			minColor = new Color(0, 0, 0);
-		}
-		if (maxColor == null) {
-			maxColor = new Color(0, 0, 0);
+	public ColorTransition(Color[] color, double min, double max) {
+		this.min = min;
+		this.max = max;
+		
+		if (color == null) {
+			setDefaultColors();
+			return;
 		}
 		
-		this.minColor = minColor;
-		this.maxColor = maxColor;
+		for(int i = 0; i < color.length; i++) {
+			if (color[i] == null) {
+				setDefaultColors();
+				return;
+			}
+		}
+		
+		this.color = color;
 	}
 	
 	/**
@@ -39,8 +48,22 @@ public class ColorTransition {
 	 * @pre -
 	 * @post -
 	 */
-	public ColorTransition() {
-		this(new Color(70, 70, 255), new Color(255, 70, 70));
+	public ColorTransition(double min, double max) {
+		this.min = min;
+		this.max = max;
+		setDefaultColors();
+	}
+	
+	/**
+	 * Set color array with default colors.
+	 * @pre -
+	 * @post -
+	 */
+	private void setDefaultColors() {
+		this.color = new Color[3];
+		this.color[0] = new Color(0, 255, 0);
+		this.color[1] = new Color(255, 255, 0);
+		this.color[2] = new Color(255, 0, 0);
 	}
 	
 	/**
@@ -52,11 +75,23 @@ public class ColorTransition {
 	 * @param max maximum value of dataset
 	 * @return the corresponding color
 	 */
-	public Color getPercentageColor(double value, double min, double max) {
-		double p = normalize(value, min, max);
-		int r = (int) Math.round(maxColor.getRed() * p + minColor.getRed() * (1 - p));
-		int g = (int) Math.round(maxColor.getGreen() * p + minColor.getGreen() * (1 - p));
-		int b = (int) Math.round(maxColor.getBlue() * p + minColor.getBlue() * (1 - p));
+	public Color getPercentageColor(double value) {
+		double p = normalize(value, this.min, this.max);
+		
+		// return, if p == 1
+		if (p == 1) {
+			return this.color[this.color.length - 1];
+		}
+		
+		// calculate normalized numbers for specific color range
+		double q = p * (this.color.length - 1);
+		int i = (int) q;
+		p = normalize(q, i, i + 1);
+		
+		int r = (int) Math.round(this.color[i + 1].getRed() * p + this.color[i].getRed() * (1 - p));
+		int g = (int) Math.round(this.color[i + 1].getGreen() * p + this.color[i].getGreen() * (1 - p));
+		int b = (int) Math.round(this.color[i + 1].getBlue() * p + this.color[i].getBlue() * (1 - p));
+		
 		Color c = new Color(r, g, b);
 		return c;
 	}
@@ -98,37 +133,10 @@ public class ColorTransition {
 	/**
 	 * @pre -
 	 * @post -
-	 * @return the minColor
+	 * @return the color
 	 */
-	public Color getMinColor() {
-		return minColor;
-	}
-	
-	/**
-	 * @pre -
-	 * @post -
-	 * @param minColor the minColor to set
-	 */
-	public void setMinColor(Color minColor) {
-		this.minColor = minColor;
-	}
-	
-	/**
-	 * @pre -
-	 * @post -
-	 * @return the maxColor
-	 */
-	public Color getMaxColor() {
-		return maxColor;
-	}
-	
-	/**
-	 * @pre -
-	 * @post -
-	 * @param maxColor the maxColor to set
-	 */
-	public void setMaxColor(Color maxColor) {
-		this.maxColor = maxColor;
+	public Color[] getColor() {
+		return color;
 	}
 	
 }
