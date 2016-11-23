@@ -43,7 +43,7 @@ public class DataPoint {
 	 * @param colorTransition the ColorTransition to choose a color for a DataPoint object
 	 * @param data Data object that should be displayed
 	 */
-	protected DataPoint(MapWidget mapWidget, ColorTransition colorTransition, Data data) {
+	public DataPoint(MapWidget mapWidget, ColorTransition colorTransition, Data data) {
 		this.mapWidget = mapWidget;
 		this.colorTransition = colorTransition;
 		this.data = data;
@@ -109,7 +109,7 @@ public class DataPoint {
 	 * @pre -
 	 * @post -
 	 */
-	protected void setVisibility(boolean isVisible) {
+	public void setVisibility(boolean isVisible) {
 		if (dataPoint == null) {
 			return;
 		}
@@ -126,7 +126,7 @@ public class DataPoint {
 	 * @post -
 	 * @return the DataPoint as OverlayView
 	 */
-	protected OverlayView getDataPointOverlayView() {
+	public OverlayView getDataPointOverlayView() {
 		return this.dataPoint;
 	}
 	
