@@ -151,7 +151,7 @@ public class Table extends Visualisation implements Exportable{
 	 * @pre -
 	 * @post filtermenu =! null
 	 */
-	public void initFilterMenu() {
+	private void initFilterMenu() {
 		filterMenu = new FilterMenu(Data.getRandomData(100));
 		
 		// create button to toggle filter visibility
@@ -183,7 +183,7 @@ public class Table extends Visualisation implements Exportable{
 	 * @pre -
 	 * @post columnSortHandler =! null
 	 */
-	public void initSortHandler() {
+	private void initSortHandler() {
 		columnSortHandler = new ListHandler<Data>(dataList);
 
 	    // create Comparator for dateColumn
@@ -380,7 +380,7 @@ public class Table extends Visualisation implements Exportable{
 	 * @pre table != null 
 	 * @post all columns of table are initialized
 	 */
-	public void initColumns() {
+	private void initColumns() {
 		// add dates
 		dateCell = new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy"));
 		dateColumn = new Column<Data, Date>(dateCell) {
