@@ -2,12 +2,18 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
@@ -30,7 +36,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 public class MapComposite extends Composite {
 	
 	private ColorTransition colorTransition;
-	private LayoutPanel panel;
+	private DockLayoutPanel panel;
 	private MapWidget mapWidget;
 	
 	private TemperatureOverlay activeTemperatureOverlay;
@@ -42,9 +48,9 @@ public class MapComposite extends Composite {
 	 * @post panel != null, mapWidget != null
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
-	public MapComposite(Map map) {
+	public MapComposite() {
 		this.colorTransition = new ColorTransition(-30.0, 30.0);
-		this.panel = new LayoutPanel();
+		this.panel = new DockLayoutPanel(Unit.EM);
 		
 		this.temperatureOverlays = new ArrayList<TemperatureOverlay>();
 		
@@ -66,10 +72,26 @@ public class MapComposite extends Composite {
 		options.setMapTypeId(MapTypeId.TERRAIN);
 		
 		// add mapWidget to panel
+		LayoutPanel mapPanel = new LayoutPanel();
 		this.mapWidget = new MapWidget(options);
-		this.panel.clear();
-		this.panel.add(this.mapWidget);
+		mapPanel.clear();
+		mapPanel.add(this.mapWidget);
 		this.mapWidget.setSize("100%", "100%");
+		
+		// add shuffle button (later: timeline)
+		LayoutPanel timeLinePanel = new LayoutPanel();
+		Button shuffleButton = new Button("Shuffle Data");
+		shuffleButton.setSize("100%", "100%");
+		shuffleButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				addTemperatureOverlay(Data.getRandomData(140));
+			}
+		});
+		timeLinePanel.add(shuffleButton);
+		
+		// add to composite panel
+		this.panel.addSouth(timeLinePanel, 2.5);
+		this.panel.add(mapPanel);
 	}
 	
 	@Override
@@ -90,12 +112,31 @@ public class MapComposite extends Composite {
 	 * @pre -
 	 * @post -
 	 * @param dataSet a list of Data to add on the map
-	 * @return the temperatureOverlay
 	 */
-	protected void addTemperatureOverlay(List<Data> dataSet) {
-		addTemperatureOverlay(dataSet, 1000);
-//		TemperatureOverlay temperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-//		return temperatureOverlay;
+	public void addTemperatureOverlay(List<Data> dataSet) {
+		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+		this.temperatureOverlays.add(newTemperatureOverlay);
+		
+		if (activeTemperatureOverlay != null) {
+			this.activeTemperatureOverlay.setVisibility(false);
+		}
+		
+		this.activeTemperatureOverlay = newTemperatureOverlay;
+	}
+	
+	/**
+	 * Show a set of data on the map.
+	 * @pre -
+	 * @post -
+	 * @param index the index in the list of temperatureOverlays
+	 */
+	public void showTemperatureOverlay(int index) {
+		if (this.activeTemperatureOverlay != null) {
+			this.activeTemperatureOverlay.setVisibility(false);
+		}
+		
+		this.activeTemperatureOverlay = temperatureOverlays.get(index);
+		this.activeTemperatureOverlay.setVisibility(true);
 	}
 	
 	/**
@@ -105,48 +146,6 @@ public class MapComposite extends Composite {
 	 */
 	protected MapWidget getMapWidget() {
 		return this.mapWidget;
-	}
-	
-	public void addTemperatureOverlay(final List<Data> dataSet, int delay) {
-//		Timer t = new Timer() {
-//			@Override
-//			public void run() {
-////				TemperatureOverlay newTemperatureOverlay = addTemperatureOverlay(dataSet);
-//				TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(mapWidget, colorTransition, dataSet);
-//				temperatureOverlays.add(newTemperatureOverlay);
-//				
-//				if (activeTemperatureOverlay != null) {
-//					activeTemperatureOverlay.setVisibility(false);
-//				}
-//				
-//				activeTemperatureOverlay = newTemperatureOverlay;
-//			}
-//		};
-//		t.schedule(delay);
-		
-		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-		temperatureOverlays.add(newTemperatureOverlay);
-		
-		if (activeTemperatureOverlay != null) {
-			this.activeTemperatureOverlay.setVisibility(false);
-		}
-		
-		this.activeTemperatureOverlay = newTemperatureOverlay;
-	}
-	
-	public void showTemperatureOverlay(final int index, int delay) {
-		Timer t = new Timer() {
-			@Override
-			public void run() {
-				if (activeTemperatureOverlay != null) {
-					activeTemperatureOverlay.setVisibility(false);
-				}
-				
-				activeTemperatureOverlay = temperatureOverlays.get(index);
-				activeTemperatureOverlay.setVisibility(true);
-			}
-		};
-		t.schedule(delay);
 	}
 	
 }

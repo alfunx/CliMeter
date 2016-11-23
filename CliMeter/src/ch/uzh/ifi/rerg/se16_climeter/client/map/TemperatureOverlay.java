@@ -2,6 +2,7 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.google.gwt.maps.client.MapWidget;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
