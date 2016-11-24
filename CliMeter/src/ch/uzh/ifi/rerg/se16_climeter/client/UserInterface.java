@@ -34,7 +34,7 @@ public class UserInterface {
 	private final String DATA_SOURCE = "Berkeley Earth";
 	private final String SOURCE_URL = "http://www.berkeleyearth.org/";
 
-	private Visualisation map = new Map(Data.getRandomData(100));
+	private Visualisation map = new Map();
 	private Visualisation table = new Table(Data.getRandomData(300000));
 	// private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
 	
@@ -82,24 +82,7 @@ public class UserInterface {
 	private TabLayoutPanel createTabs() {
 		TabLayoutPanel tabs = new TabLayoutPanel(30, Unit.PX);
 				
-		mapTabContainer = new DockLayoutPanel(Unit.EM);		
-		mapContainer = new DockLayoutPanel(Unit.EM);
-		timeLineContainer = new DockLayoutPanel(Unit.EM);
-		
-		timeLine = new TimeLine();
-		timeLine.setStartDate(1900);
-		timeLine.setEndDate(2015);
-		
-		mapContainer.add(map.getPanel());
-		timeLineContainer.add(timeLine.getSliderBar());
-		timeLineContainer.setSize("100%", "100%");
-		timeLineContainer.addStyleName("timeLineContainer");
-
-		
-		mapTabContainer.addSouth(timeLineContainer, 2.5);
-		mapTabContainer.addSouth(mapContainer, 50);
-
-		tabs.add(mapTabContainer, "Map");
+		tabs.add(map.getPanel(), "Map");
 		tabs.add(table.getPanel(), "Table");
 		
 		tabs.addStyleName("tabContainer");
