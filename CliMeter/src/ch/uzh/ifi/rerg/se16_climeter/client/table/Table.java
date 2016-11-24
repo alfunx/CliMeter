@@ -104,7 +104,7 @@ public class Table extends Visualisation implements Exportable{
 		table.setAutoHeaderRefreshDisabled(true);
 		
 		// Set the message to display when the table is empty.
-	    table.setEmptyTableWidget(new Label("Table does not contain any data"));
+	    table.setEmptyTableWidget(new Label("Table does NOT contain any data!"));
 	    
 	    // create pager for page handling and set table as the display
 	    pager = new SimplePager();
@@ -123,7 +123,7 @@ public class Table extends Visualisation implements Exportable{
 		// Create sortHandler
 		initSortHandler();
 		
-		// create FilterMenu
+		// create filterMenu
 		initFilterMenu();
 		
 		// add TEST DATA!
@@ -146,6 +146,7 @@ public class Table extends Visualisation implements Exportable{
 	
 		return table;
 	}
+	
 
 	/** Initialize filtermenu 
 	 * @pre -
