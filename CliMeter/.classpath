@@ -7,7 +7,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-maps-api-3.10.0-alpha-8.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-ajaxloader-1.1.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-incubator-2.2.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-incubator-20101117-r1766.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

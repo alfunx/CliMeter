@@ -1,8 +1,8 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.widgetideas.client.SliderBar;
 import com.google.gwt.widgetideas.client.SliderBar.LabelFormatter;
+import com.google.gwt.user.client.ui.Image;
 
 /**
  * The class TimeLine extends the SliderBar class
@@ -22,27 +22,17 @@ public class TimeLine extends SliderBar {
 			@Override
 			public String formatLabel(SliderBar slider, double value) {
 				return (int) (10 * value) / 10 + "";
-			}
+		        }
 		});
 		
-		this.setStepSize(50);
+		this.setStepSize((maxValue-minValue)*12);
 
 		this.setCurrentValue((minValue + maxValue)/2);
 		this.setNumTicks((int) (maxValue - minValue));
 	
-		this.setNumLabels(13);
-		this.setSize("100%", "100%");
-		this.setVisible(true);
-		
-		this.addValueChangeHandler(new ValueChangeHandler(){
-
-			@Override
-			public void onValueChange(ValueChangeEvent event) {
-			System.out.println();
-
-			}
-
-			});
+		this.setNumLabels(10);
+		this.setSize("100%", "300%");
+	
 		
 	}
 }

@@ -97,7 +97,7 @@ public class MapComposite extends Composite {
 		timeLinePanel.add(timeLine);
 		
 		// add to composite panel
-		this.panel.addSouth(timeLinePanel, 2.5);
+		this.panel.addSouth(timeLinePanel, 4);
 		this.panel.add(mapPanel);
 	}
 	
