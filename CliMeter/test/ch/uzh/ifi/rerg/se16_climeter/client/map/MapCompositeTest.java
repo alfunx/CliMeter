@@ -26,21 +26,7 @@ public class MapCompositeTest extends GWTTestCase {
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
-				final MapComposite mapComposite = new MapComposite(null);
-				assertNotNull(mapComposite);
-			}
-		};
-		
-		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
-	}
-	
-	@Test
-	public void testMapComposite_1() {
-		// thread with running map
-		Runnable onLoad = new Runnable() {
-			@Override
-			public void run() {
-				final MapComposite mapComposite = new MapComposite(Data.getRandomData(100));
+				final MapComposite mapComposite = new MapComposite();
 				assertNotNull(mapComposite);
 			}
 		};
@@ -54,21 +40,7 @@ public class MapCompositeTest extends GWTTestCase {
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
-				final MapComposite mapComposite = new MapComposite(null);
-				assertNotNull(mapComposite.getMapWidget());
-			}
-		};
-		
-		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
-	}
-	
-	@Test
-	public void testGetMapWidget_1() {
-		// thread with running map
-		Runnable onLoad = new Runnable() {
-			@Override
-			public void run() {
-				final MapComposite mapComposite = new MapComposite(Data.getRandomData(100));
+				final MapComposite mapComposite = new MapComposite();
 				assertNotNull(mapComposite.getMapWidget());
 			}
 		};
