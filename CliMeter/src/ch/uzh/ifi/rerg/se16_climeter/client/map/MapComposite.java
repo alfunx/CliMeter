@@ -79,6 +79,8 @@ public class MapComposite extends Composite {
 		mapPanel.add(this.mapWidget);
 		this.mapWidget.setSize("100%", "100%");
 		
+		// TODO: Change Button to TimeLine.
+		
 		// add shuffle button (later: timeline)
 		LayoutPanel timeLinePanel = new LayoutPanel();
 		Button shuffleButton = new Button("Shuffle Data");
@@ -96,6 +98,12 @@ public class MapComposite extends Composite {
 	}
 	
 	@Override
+	/**
+	 * Workaround to fix a bug in the API.
+	 * @pre -
+	 * @post -
+	 * @see com.google.gwt.user.client.ui.Composite#onAttach()
+	 */
 	protected void onAttach() {
 		super.onAttach();
 		
@@ -112,9 +120,21 @@ public class MapComposite extends Composite {
 	 * Add a set of data on the map.
 	 * @pre -
 	 * @post -
+	 * @param date date of the temperatureOverlay
 	 * @param dataSet a list of Data to add on the map
 	 */
 	public void addTemperatureOverlay(List<Data> dataSet) {
+		
+		// TODO: Change type of temperatureOverlays
+		//       from ArrayList to Hashtable.
+		
+//		TemperatureOverlay newTemperatureOverlay = temperatureOverlays.get(0);
+//		
+//		if (newTemperatureOverlay == null) {
+//			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+//			this.temperatureOverlays.add(newTemperatureOverlay);
+//		}
+		
 		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 		this.temperatureOverlays.add(newTemperatureOverlay);
 		
@@ -123,21 +143,6 @@ public class MapComposite extends Composite {
 		}
 		
 		this.activeTemperatureOverlay = newTemperatureOverlay;
-	}
-	
-	/**
-	 * Show a set of data on the map.
-	 * @pre -
-	 * @post -
-	 * @param index the index in the list of temperatureOverlays
-	 */
-	public void showTemperatureOverlay(int index) {
-		if (this.activeTemperatureOverlay != null) {
-			this.activeTemperatureOverlay.setVisibility(false);
-		}
-		
-		this.activeTemperatureOverlay = temperatureOverlays.get(index);
-		this.activeTemperatureOverlay.setVisibility(true);
 	}
 	
 	/**
