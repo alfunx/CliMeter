@@ -30,7 +30,7 @@ public class Data {
 	 * Generate ArrayList with random data (only for testing purposes).
 	 * @pre quantity > 0
 	 * @post dataSet.size() = quantity
-	 * @return an ArrayList<Data> with random data
+	 * @return an ArrayList of Data with random data
 	 */
 	public static ArrayList<Data> getRandomData(int quantity) {
 		ArrayList<Data> dataSet = new ArrayList<Data>();
