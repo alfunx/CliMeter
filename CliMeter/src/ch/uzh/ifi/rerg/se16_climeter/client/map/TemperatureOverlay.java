@@ -54,8 +54,6 @@ public class TemperatureOverlay {
 				this.dataPoints.add(dataPoint);
 			}
 		}
-		
-		setVisibility(true);
 	}
 	
 	/**
