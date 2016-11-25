@@ -15,25 +15,13 @@ public class MapTest extends GWTTestCase {
 	
 	@Test
 	public void testMap_null() {
-		Map map = new Map(null);
-		assertNotNull(map.getPanel());
-	}
-	
-	@Test
-	public void testMap_1() {
-		Map map = new Map(Data.getRandomData(100));
+		Map map = new Map();
 		assertNotNull(map.getPanel());
 	}
 	
 	@Test
 	public void testGetPanel_null() {
-		Map map = new Map(null);
-		assertNotNull(map.getPanel());
-	}
-	
-	@Test
-	public void testGetPanel_1() {
-		Map map = new Map(Data.getRandomData(100));
+		Map map = new Map();
 		assertNotNull(map.getPanel());
 	}
 	

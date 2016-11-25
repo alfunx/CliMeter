@@ -1,31 +1,27 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import com.google.gwt.dom.client.Style.Position;
+import java.util.TreeMap;
+
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
-import com.google.gwt.maps.client.base.Point;
-import com.google.gwt.maps.client.overlays.MapCanvasProjection;
-import com.google.gwt.maps.client.overlays.OverlayView;
-import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewMethods;
-import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnAddHandler;
-import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHandler;
-import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnRemoveHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
 /**
- * The class MapComposite is a concrete Map, load into a Composite object, 
- * which shows data on corresponding coordinates.
+ * The class MapComposite is a concrete Map, load into a Composite object.
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-03 AM Initial Commit
@@ -34,17 +30,22 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 				2016-11-07 AM Displays multiple data points
  * 				2016-11-14 AM Gray-map glitch fixed
  * 				2016-11-16 AM Added dynamic colored data points
- * @version 	2016-11-16 AM 1.1
+ * 				2016-11-20 AM Moved overlay creation to TemperatureOverlay
+ * 				2016-11-23 AM Completely restructured, ready for TimeLine
+ * @version 	2016-11-23 AM 1.3
  * @responsibilities 
  * 				This class contains the map and all layers on top of it.
  */
 public class MapComposite extends Composite {
 	
-	private LayoutPanel panel;
-	private MapWidget mapWidget;
-	private List<Data> dataSet;
+	private long counter = 0;
+	
 	private ColorTransition colorTransition;
-	private List<OverlayView> temperatureOverlays;
+	private DockLayoutPanel panel;
+	private MapWidget mapWidget;
+	
+	private TemperatureOverlay activeTemperatureOverlay;
+	private TreeMap<Long, TemperatureOverlay> temperatureOverlays;
 	
 	/**
 	 * Initialize as Composite and add google map on it.
@@ -52,33 +53,14 @@ public class MapComposite extends Composite {
 	 * @post panel != null, mapWidget != null
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
-	public MapComposite(List<Data> dataSet) {
-		this.panel = new LayoutPanel();
-		this.temperatureOverlays = new ArrayList<OverlayView>();
-		this.dataSet = dataSet;
+	public MapComposite() {
+		this.colorTransition = new ColorTransition(-30.0, 30.0);
+		this.panel = new DockLayoutPanel(Unit.EM);
 		
-		this.initWidget(this.panel);
-		this.draw();
-		this.addData();
-	}
-	
-	/**
-	 * Add Data to the map.
-	 * @pre -
-	 * @post -
-	 */
-	private void addData() {
-		colorTransition = new ColorTransition();
+		this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
 		
-		if (this.dataSet != null) {
-			for (Data data : this.dataSet) {
-				this.addTemperatureOverlay(data);
-			}
-		}
-		
-		for (OverlayView overlayView : this.temperatureOverlays) {
-			overlayView.setMap(this.mapWidget);
-		}
+		initWidget(this.panel);
+		draw();
 	}
 	
 	/**
@@ -95,64 +77,38 @@ public class MapComposite extends Composite {
 		options.setMapTypeId(MapTypeId.TERRAIN);
 		
 		// add mapWidget to panel
+		LayoutPanel mapPanel = new LayoutPanel();
 		this.mapWidget = new MapWidget(options);
-		this.panel.clear();
-		this.panel.add(this.mapWidget);
+		mapPanel.clear();
+		mapPanel.add(this.mapWidget);
 		this.mapWidget.setSize("100%", "100%");
-	}
-	
-	/**
-	 * Visualises one Data object on the map.
-	 * @pre data != null
-	 * @post temperatureOverlays.size() = temperatureOverlays.size()@pre + 1
-	 * @param data Data object to visualise on the map
-	 */
-	private void addTemperatureOverlay(final Data data) {
-		final VerticalPanel temperatureOverlayPanel = new VerticalPanel();
-		temperatureOverlayPanel.addStyleName("temperatureOverlay");
 		
-		// calculate corresponding color for a data object
-		Color color = colorTransition.getPercentageColor(data.getAverageTemperature(), -30.0, 30.0);
-		temperatureOverlayPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
+		// TODO: Change Button to TimeLine.
 		
-		OverlayViewOnDrawHandler onDrawHandler = new OverlayViewOnDrawHandler() {
-			@Override
-			public void onDraw(OverlayViewMethods methods) {
-				// positioning of a data point
-				MapCanvasProjection projection = methods.getProjection();
-				Point point = projection.fromLatLngToDivPixel(data.getLatLng());
-				temperatureOverlayPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
-				temperatureOverlayPanel.getElement().getStyle().setLeft(point.getX()
-						- temperatureOverlayPanel.getElement().getClientWidth()/2, Unit.PX);
-				temperatureOverlayPanel.getElement().getStyle().setTop(point.getY()
-						- temperatureOverlayPanel.getElement().getClientHeight()/2, Unit.PX);
-				
-				// setting text and style
-				HTML text = new HTML(data.getAverageTemperature() + "");
-				text.addStyleName("temperatureText");
-				temperatureOverlayPanel.clear();
-				temperatureOverlayPanel.add(text);
+		// add shuffle button (later: timeline)
+		LayoutPanel timeLinePanel = new LayoutPanel();
+		Button shuffleButton = new Button("Shuffle Data");
+		shuffleButton.setSize("100%", "100%");
+		shuffleButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Console.log("counter: " + counter);
+				addTemperatureOverlay(new Date(counter++ % 5), Data.getRandomData(140));
 			}
-		};
+		});
+		timeLinePanel.add(shuffleButton);
 		
-		OverlayViewOnAddHandler onAddHandler = new OverlayViewOnAddHandler() {
-			@Override
-			public void onAdd(OverlayViewMethods methods) {
-				methods.getPanes().getFloatPane().appendChild(temperatureOverlayPanel.getElement());
-			}
-		};
-		
-		OverlayViewOnRemoveHandler onRemoveHandler = new OverlayViewOnRemoveHandler() {
-			@Override
-			public void onRemove(OverlayViewMethods methods) {
-				temperatureOverlayPanel.getElement().removeFromParent();
-			}
-		};
-		
-		this.temperatureOverlays.add(OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler));
+		// add to composite panel
+		this.panel.addSouth(timeLinePanel, 2.5);
+		this.panel.add(mapPanel);
 	}
 	
 	@Override
+	/**
+	 * Workaround to fix a bug in the API.
+	 * @pre -
+	 * @post -
+	 * @see com.google.gwt.user.client.ui.Composite#onAttach()
+	 */
 	protected void onAttach() {
 		super.onAttach();
 		
@@ -163,6 +119,29 @@ public class MapComposite extends Composite {
 			public void run() {}
 		};
 		timer.schedule(1);
+	}
+	
+	/**
+	 * Add a set of data on the map.
+	 * @pre -
+	 * @post -
+	 * @param date date of the temperatureOverlay
+	 * @param dataSet a list of Data to add on the map
+	 */
+	public void addTemperatureOverlay(Date date, List<Data> dataSet) {
+		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
+		
+		if (newTemperatureOverlay == null) {
+			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+			this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
+		}
+		newTemperatureOverlay.setVisibility(true);
+		
+		if (activeTemperatureOverlay != null) {
+			this.activeTemperatureOverlay.setVisibility(false);
+		}
+		
+		this.activeTemperatureOverlay = newTemperatureOverlay;
 	}
 	
 	/**
