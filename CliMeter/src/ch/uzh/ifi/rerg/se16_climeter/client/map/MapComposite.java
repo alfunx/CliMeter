@@ -1,7 +1,8 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,6 +17,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
 /**
@@ -36,12 +38,14 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  */
 public class MapComposite extends Composite {
 	
+	private long counter = 0;
+	
 	private ColorTransition colorTransition;
 	private DockLayoutPanel panel;
 	private MapWidget mapWidget;
 	
 	private TemperatureOverlay activeTemperatureOverlay;
-	private List<TemperatureOverlay> temperatureOverlays;
+	private TreeMap<Long, TemperatureOverlay> temperatureOverlays;
 	
 	/**
 	 * Initialize as Composite and add google map on it.
@@ -53,7 +57,7 @@ public class MapComposite extends Composite {
 		this.colorTransition = new ColorTransition(-30.0, 30.0);
 		this.panel = new DockLayoutPanel(Unit.EM);
 		
-		this.temperatureOverlays = new ArrayList<TemperatureOverlay>();
+		this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
 		
 		initWidget(this.panel);
 		draw();
@@ -87,7 +91,8 @@ public class MapComposite extends Composite {
 		shuffleButton.setSize("100%", "100%");
 		shuffleButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				addTemperatureOverlay(Data.getRandomData(140));
+				Console.log("counter: " + counter);
+				addTemperatureOverlay(new Date(counter++ % 5), Data.getRandomData(140));
 			}
 		});
 		timeLinePanel.add(shuffleButton);
@@ -123,20 +128,14 @@ public class MapComposite extends Composite {
 	 * @param date date of the temperatureOverlay
 	 * @param dataSet a list of Data to add on the map
 	 */
-	public void addTemperatureOverlay(List<Data> dataSet) {
+	public void addTemperatureOverlay(Date date, List<Data> dataSet) {
+		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
 		
-		// TODO: Change type of temperatureOverlays
-		//       from ArrayList to Hashtable.
-		
-//		TemperatureOverlay newTemperatureOverlay = temperatureOverlays.get(0);
-//		
-//		if (newTemperatureOverlay == null) {
-//			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-//			this.temperatureOverlays.add(newTemperatureOverlay);
-//		}
-		
-		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-		this.temperatureOverlays.add(newTemperatureOverlay);
+		if (newTemperatureOverlay == null) {
+			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+			this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
+		}
+		newTemperatureOverlay.setVisibility(true);
 		
 		if (activeTemperatureOverlay != null) {
 			this.activeTemperatureOverlay.setVisibility(false);
