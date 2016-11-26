@@ -34,7 +34,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 				2016-11-23 AM Completely restructured, ready for TimeLine
  * @version 	2016-11-23 AM 1.3
  * @responsibilities 
- * 				This class contains the map and all layers on top of it.
+ * 				This class contains the map and all layers on top of it. It 
+ * 				loads the TimeLine aswell.
  */
 public class MapComposite extends Composite {
 	

@@ -20,8 +20,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
  * 				2016-11-23 AM Completely restructured, ready for TimeLine
  * @version 	2016-11-23 AM 1.3
  * @responsibilities 
- * 				This class starts the map in a thread and passes the data 
- * 				to it [and has to pass filter details in future].
+ * 				This class starts the map in a thread.
  */
 public class Map extends Visualisation {
 	

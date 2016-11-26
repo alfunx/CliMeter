@@ -58,8 +58,6 @@ public class DataPoint {
 	 * @param data Data object to visualise on the map
 	 */
 	protected void initDataPoint() {
-		setVisibility(false);
-		
 		final VerticalPanel dataPointPanel = new VerticalPanel();
 		dataPointPanel.addStyleName("temperatureOverlay");
 		

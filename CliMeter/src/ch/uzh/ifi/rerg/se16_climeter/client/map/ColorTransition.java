@@ -20,13 +20,20 @@ public class ColorTransition {
 	 * Initialize ColorTransition object. color[0] should contain the color 
 	 * for the minimum value, color[n - 1] should contain the color for the 
 	 * maximum value for n = color.length.
-	 * @pre color != null
-	 * @post -
+	 * @pre min != max
+	 * @post min < max
 	 * @param color array of colors for the color transition
 	 */
 	public ColorTransition(Color[] color, double min, double max) {
-		this.min = min;
-		this.max = max;
+		if (max == min) {
+			throw new IllegalArgumentException("\"min\" must not be equal to \"max\".");
+		} else if (max < min) {
+			this.min = max;
+			this.max = min;
+		} else {
+			this.min = min;
+			this.max = max;
+		}
 		
 		if (color == null) {
 			setDefaultColors();
@@ -45,13 +52,11 @@ public class ColorTransition {
 	
 	/**
 	 * Initialize ColorTransition object with default colors.
-	 * @pre -
-	 * @post -
+	 * @pre min != max
+	 * @post min < max
 	 */
 	public ColorTransition(double min, double max) {
-		this.min = min;
-		this.max = max;
-		setDefaultColors();
+		this(null, min, max);
 	}
 	
 	/**
@@ -108,22 +113,16 @@ public class ColorTransition {
 	protected double normalize(double value, double min, double max) {
 		if (max == min) {
 			throw new IllegalArgumentException("Divide by 0.");
-		}
-		if (max < min) {
+		} else if (max < min) {
 			double temp = max;
 			max = min;
 			min = temp;
 		}
+		
 		if (value < min) {
 			value = min;
-		}
-		if (value > max) {
+		} else if (value > max) {
 			value = max;
-		}
-		if (min < 0) {
-			value += min;
-			max += min;
-			min += min;
 		}
 		
 		double p = (value - min) / (max - min);
