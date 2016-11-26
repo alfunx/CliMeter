@@ -31,13 +31,16 @@ public class TimeLine extends SliderBar {
 		this.setCurrentValue((minValue + maxValue)/2);
 		this.setNumTicks((int) (maxValue - minValue));
 	
+		Console.log("Hola");
+		
 		this.setNumLabels(10);
 		this.setSize("100%", "300%");
 		this.addChangeListener(new ChangeListener() {
 
 			@Override
 			public void onChange(Widget sender) {
-				// TODO Auto-generated method stub
+				Console.log("Ciao, you changed timeline!!");
+
 				
 			}
 			
