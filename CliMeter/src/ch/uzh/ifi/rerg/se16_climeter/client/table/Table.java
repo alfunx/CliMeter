@@ -158,6 +158,7 @@ public class Table extends Visualisation implements Exportable{
 		// create button to toggle filter visibility
 		filterHidden = true;
 		toggleFilterButton = new Button("Show");
+		toggleFilterButton.removeStyleName("gwt-Button");
 		toggleFilterButton.addClickHandler(new ClickHandler() {
 
 			@Override

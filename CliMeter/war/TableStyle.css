@@ -15,7 +15,6 @@
 }
 
 .toggleFilterButton {
-	height: 100%;
-	width: 100%;
-  
+	background-image: url("war/Images/filtericon25x25.png");
+	background-repeat: no-repeat;
 }
