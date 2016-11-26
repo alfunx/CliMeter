@@ -1,8 +1,8 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import com.google.gwt.widgetideas.client.SliderBar;
-import com.google.gwt.widgetideas.client.SliderBar.LabelFormatter;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ChangeListener;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The class TimeLine extends the SliderBar class
@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Image;
  * 
  * @responsibilities 
  */
+@SuppressWarnings("deprecation")
 public class TimeLine extends SliderBar {
 
 	public TimeLine(double minValue, double maxValue) {
@@ -32,6 +33,15 @@ public class TimeLine extends SliderBar {
 	
 		this.setNumLabels(10);
 		this.setSize("100%", "300%");
+		this.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void onChange(Widget sender) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	
 		
 	}
