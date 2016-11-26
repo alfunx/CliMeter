@@ -6,7 +6,8 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-16 AM Initial Commit
- * @version 	2016-11-16 AM 1.0
+ * 				2016-11-26 AM Added more checks
+ * @version 	2016-11-26 AM 1.1
  * @responsibilities 
  * 				This class calculates a color for a given value.
  */

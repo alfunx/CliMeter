@@ -32,12 +32,20 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 				2016-11-16 AM Added dynamic colored data points
  * 				2016-11-20 AM Moved overlay creation to TemperatureOverlay
  * 				2016-11-23 AM Completely restructured, ready for TimeLine
- * @version 	2016-11-23 AM 1.3
+ * 				2016-11-25 AM ShuffleButton as placeholder for TimeLine
+ * 				2016-11-25 AM map constants added
+ * @version 	2016-11-25 AM 1.3
  * @responsibilities 
  * 				This class contains the map and all layers on top of it. It 
  * 				loads the TimeLine aswell.
  */
 public class MapComposite extends Composite {
+	
+	private final double DATASET_MIN = -30.0;
+	private final double DATASET_MAX = 30.0;
+	private final int MAP_ZOOM = 5;
+	private final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
+	private final double SOUTHPANEL_HEIGHT = 2.5;
 	
 	private long counter = 0;
 	
@@ -55,7 +63,7 @@ public class MapComposite extends Composite {
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public MapComposite() {
-		this.colorTransition = new ColorTransition(-30.0, 30.0);
+		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.panel = new DockLayoutPanel(Unit.EM);
 		
 		this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
@@ -71,10 +79,9 @@ public class MapComposite extends Composite {
 	 */
 	private void draw() {
 		// set up basic map
-		LatLng center = LatLng.newInstance(47.37174, 8.54226);
 		MapOptions options = MapOptions.newInstance();
-		options.setZoom(5);
-		options.setCenter(center);
+		options.setZoom(MAP_ZOOM);
+		options.setCenter(MAP_CENTER);
 		options.setMapTypeId(MapTypeId.TERRAIN);
 		
 		// add mapWidget to panel
@@ -99,7 +106,7 @@ public class MapComposite extends Composite {
 		timeLinePanel.add(shuffleButton);
 		
 		// add to composite panel
-		this.panel.addSouth(timeLinePanel, 2.5);
+		this.panel.addSouth(timeLinePanel, SOUTHPANEL_HEIGHT);
 		this.panel.add(mapPanel);
 	}
 	
