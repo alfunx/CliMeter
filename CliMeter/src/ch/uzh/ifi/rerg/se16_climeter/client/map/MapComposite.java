@@ -33,7 +33,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 				2016-11-20 AM Moved overlay creation to TemperatureOverlay
  * 				2016-11-23 AM Completely restructured, ready for TimeLine
  * 				2016-11-25 AM ShuffleButton as placeholder for TimeLine
- * 				2016-11-25 AM map constants added
+ * 				2016-11-25 AM Map constants added
  * @version 	2016-11-25 AM 1.3
  * @responsibilities 
  * 				This class contains the map and all layers on top of it. It 
