@@ -6,54 +6,60 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-16 AM Initial Commit
- * @version 	2016-11-16 AM 1.0
+ * 				2016-11-26 AM Added more checks
+ * @version 	2016-11-26 AM 1.1
  * @responsibilities 
  * 				This class calculates a color for a given value.
  */
 public class ColorTransition {
-	
+
 	private Color[] color;
 	private double min;
 	private double max;
-	
+
 	/**
 	 * Initialize ColorTransition object. color[0] should contain the color 
 	 * for the minimum value, color[n - 1] should contain the color for the 
 	 * maximum value for n = color.length.
-	 * @pre color != null
-	 * @post -
+	 * @pre min != max
+	 * @post min < max
 	 * @param color array of colors for the color transition
 	 */
 	public ColorTransition(Color[] color, double min, double max) {
-		this.min = min;
-		this.max = max;
-		
+		if (max == min) {
+			throw new IllegalArgumentException("\"min\" must not be equal to \"max\".");
+		} else if (max < min) {
+			this.min = max;
+			this.max = min;
+		} else {
+			this.min = min;
+			this.max = max;
+		}
+
 		if (color == null) {
 			setDefaultColors();
 			return;
 		}
-		
+
 		for(int i = 0; i < color.length; i++) {
 			if (color[i] == null) {
 				setDefaultColors();
 				return;
 			}
 		}
-		
+
 		this.color = color;
 	}
-	
+
 	/**
 	 * Initialize ColorTransition object with default colors.
-	 * @pre -
-	 * @post -
+	 * @pre min != max
+	 * @post min < max
 	 */
 	public ColorTransition(double min, double max) {
-		this.min = min;
-		this.max = max;
-		setDefaultColors();
+		this(null, min, max);
 	}
-	
+
 	/**
 	 * Set color array with default colors.
 	 * @pre -
@@ -65,7 +71,7 @@ public class ColorTransition {
 		this.color[1] = new Color(255, 255, 0);
 		this.color[2] = new Color(255, 0, 0);
 	}
-	
+
 	/**
 	 * Calculate color based on value.
 	 * @pre max >= value >= min
@@ -77,25 +83,25 @@ public class ColorTransition {
 	 */
 	public Color getPercentageColor(double value) {
 		double p = normalize(value, this.min, this.max);
-		
+
 		// return, if p == 1
 		if (p == 1) {
 			return this.color[this.color.length - 1];
 		}
-		
+
 		// calculate normalized numbers for specific color range
 		double q = p * (this.color.length - 1);
 		int i = (int) q;
 		p = normalize(q, i, i + 1);
-		
+
 		int r = (int) Math.round(this.color[i + 1].getRed() * p + this.color[i].getRed() * (1 - p));
 		int g = (int) Math.round(this.color[i + 1].getGreen() * p + this.color[i].getGreen() * (1 - p));
 		int b = (int) Math.round(this.color[i + 1].getBlue() * p + this.color[i].getBlue() * (1 - p));
-		
+
 		Color c = new Color(r, g, b);
 		return c;
 	}
-	
+
 	/**
 	 * Calculates the normalized value of a temperature.
 	 * @pre max != min
@@ -108,28 +114,22 @@ public class ColorTransition {
 	protected double normalize(double value, double min, double max) {
 		if (max == min) {
 			throw new IllegalArgumentException("Divide by 0.");
-		}
-		if (max < min) {
+		} else if (max < min) {
 			double temp = max;
 			max = min;
 			min = temp;
 		}
+
 		if (value < min) {
 			value = min;
-		}
-		if (value > max) {
+		} else if (value > max) {
 			value = max;
 		}
-		if (min < 0) {
-			value += min;
-			max += min;
-			min += min;
-		}
-		
+
 		double p = (value - min) / (max - min);
 		return (p < 0) ? 0 : (p > 1) ? 1 : p;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -138,5 +138,5 @@ public class ColorTransition {
 	public Color[] getColor() {
 		return color;
 	}
-	
+
 }
