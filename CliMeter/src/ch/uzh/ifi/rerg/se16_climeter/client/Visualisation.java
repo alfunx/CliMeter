@@ -14,9 +14,9 @@ import com.google.gwt.user.client.ui.LayoutPanel;
  * 				getPanel().
  */
 public abstract class Visualisation {
-	
+
 	protected LayoutPanel panel = new LayoutPanel();
-	
+
 	/**
 	 * Returns a panel with visual content.
 	 * @pre -
@@ -26,5 +26,5 @@ public abstract class Visualisation {
 	public LayoutPanel getPanel() {
 		return panel;
 	}
-	
+
 }

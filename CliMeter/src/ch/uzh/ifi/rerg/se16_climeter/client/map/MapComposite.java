@@ -45,7 +45,8 @@ public class MapComposite extends Composite {
 	private final double DATASET_MAX = 30.0;
 	private final int MAP_ZOOM = 5;
 	private final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
-	private final double SOUTHPANEL_HEIGHT = 2.5;
+	private final double SOUTHPANEL_HEIGHT = 3;
+	private final boolean CACHING_TEMPERATURE_OVERLAYS = true;
 	private final int RANDOM_DATA_AMOUNT = 140;
 
 	private long counter = 0;
@@ -67,7 +68,9 @@ public class MapComposite extends Composite {
 		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.panel = new DockLayoutPanel(Unit.EM);
 
-		this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
+		if (CACHING_TEMPERATURE_OVERLAYS) {
+			this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
+		}
 
 		initWidget(this.panel);
 		draw();
@@ -138,12 +141,18 @@ public class MapComposite extends Composite {
 	 * @param dataSet a list of Data to add on the map
 	 */
 	public void addTemperatureOverlay(Date date, List<Data> dataSet) {
-		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
+		TemperatureOverlay newTemperatureOverlay;
 
-		if (newTemperatureOverlay == null) {
+		if (CACHING_TEMPERATURE_OVERLAYS) {
+			newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
+			if (newTemperatureOverlay == null) {
+				newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+				this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
+			}
+		} else {
 			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-			this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
 		}
+
 		newTemperatureOverlay.setVisibility(true);
 
 		if (activeTemperatureOverlay != null) {

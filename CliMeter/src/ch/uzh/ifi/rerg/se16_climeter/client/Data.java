@@ -17,7 +17,7 @@ import com.google.gwt.maps.client.base.LatLng;
  * 				getRandomData() for testing purposes.
  */
 public class Data {
-	
+
 	private Date date;
 	private double averageTemperature;
 	private double uncertainty;
@@ -25,7 +25,7 @@ public class Data {
 	private String country;
 	private double latitude;
 	private double longitude;
-	
+
 	/**
 	 * Generate ArrayList with random data (only for testing purposes).
 	 * @pre quantity > 0
@@ -34,7 +34,7 @@ public class Data {
 	 */
 	public static ArrayList<Data> getRandomData(int quantity) {
 		ArrayList<Data> dataSet = new ArrayList<Data>();
-		
+
 		// one data-point in zurich
 		Data d = new Data();
 		d.setAverageTemperature(88.888);
@@ -45,11 +45,11 @@ public class Data {
 		d.setLongitude(8.54226);
 		d.setUncertainty(1.5);
 		dataSet.add(d);
-		
+
 		if (quantity <= 1) {
 			return dataSet;
 		}
-		
+
 		// random data-points for testing
 		Random r = new Random();
 		for (int i = 2; i <= quantity; i++) {
@@ -63,10 +63,10 @@ public class Data {
 			d.setUncertainty(r.nextDouble() * 10);
 			dataSet.add(d);
 		}
-		
+
 		return dataSet;
 	}
-	
+
 	/**
 	 * Converts the coordinates of a Data object into a LatLng Object.
 	 * @pre -
@@ -77,7 +77,7 @@ public class Data {
 	public LatLng getLatLng() {
 		return LatLng.newInstance(this.getLatitude(), this.getLongitude());
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -86,7 +86,7 @@ public class Data {
 	public Date getDate() {
 		return date;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -95,7 +95,7 @@ public class Data {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -104,7 +104,7 @@ public class Data {
 	public double getAverageTemperature() {
 		return averageTemperature;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -113,7 +113,7 @@ public class Data {
 	public void setAverageTemperature(double averageTemperature) {
 		this.averageTemperature = averageTemperature;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -122,7 +122,7 @@ public class Data {
 	public double getUncertainty() {
 		return uncertainty;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -131,7 +131,7 @@ public class Data {
 	public void setUncertainty(double uncertainty) {
 		this.uncertainty = uncertainty;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -140,7 +140,7 @@ public class Data {
 	public String getCity() {
 		return city;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -149,7 +149,7 @@ public class Data {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -158,7 +158,7 @@ public class Data {
 	public String getCountry() {
 		return country;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -167,7 +167,7 @@ public class Data {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -176,7 +176,7 @@ public class Data {
 	public double getLatitude() {
 		return latitude;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -185,7 +185,7 @@ public class Data {
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -194,7 +194,7 @@ public class Data {
 	public double getLongitude() {
 		return longitude;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -203,5 +203,5 @@ public class Data {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	
+
 }
