@@ -135,19 +135,28 @@ public class MapComposite extends Composite {
 
 		if (CACHING_TEMPERATURE_OVERLAYS) {
 			newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
+
 			if (newTemperatureOverlay == null) {
 				newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 				this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
 			}
+
+			if (this.activeTemperatureOverlay == null) {
+				newTemperatureOverlay.setVisibility(true);
+			} else if (this.activeTemperatureOverlay != newTemperatureOverlay) {
+				newTemperatureOverlay.setVisibility(true);
+				this.activeTemperatureOverlay.setVisibility(false);
+			}
 		} else {
 			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-		}
 
-		if (this.activeTemperatureOverlay != null) {
-			this.activeTemperatureOverlay.setVisibility(false);
+			if (this.activeTemperatureOverlay == null) {
+				newTemperatureOverlay.setVisibility(true);
+			} else {
+				newTemperatureOverlay.setVisibility(true);
+				this.activeTemperatureOverlay.setVisibility(false);
+			}
 		}
-
-		newTemperatureOverlay.setVisibility(true);
 
 		this.activeTemperatureOverlay = newTemperatureOverlay;
 	}
