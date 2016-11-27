@@ -12,7 +12,7 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
  * 				the method export().
  */
 public interface Exportable {
-	
+
 	/**
 	 * Export (filtered) dataset or visualisations to filesystem.
 	 * @pre -
@@ -20,5 +20,5 @@ public interface Exportable {
 	 * @throws Exception if export didn't work
 	 */
 	public void export() throws Exception;
-	
+
 }

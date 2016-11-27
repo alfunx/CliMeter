@@ -18,13 +18,13 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 				This class displays DataPoints for one point in time.
  */
 public class TemperatureOverlay {
-	
+
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
 	private List<Data> dataSet;
-	
+
 	private List<DataPoint> dataPoints;
-	
+
 	/**
 	 * Generate DataPoint objects for a list of Data.
 	 * @pre -
@@ -38,10 +38,10 @@ public class TemperatureOverlay {
 		this.colorTransition = colorTransition;
 		this.dataSet = dataSet;
 		this.dataPoints = new ArrayList<DataPoint>();
-		
+
 		initTemperatureOverlay();
 	}
-	
+
 	/**
 	 * Initialize DataPoints for all Data in dataSet.
 	 * @pre -
@@ -55,7 +55,7 @@ public class TemperatureOverlay {
 			}
 		}
 	}
-	
+
 	/**
 	 * Set visibility of all DataPoints.
 	 * @pre -
@@ -73,5 +73,5 @@ public class TemperatureOverlay {
 			}
 		}
 	}
-	
+
 }

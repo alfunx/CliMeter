@@ -13,13 +13,13 @@ import java.util.List;
  * 				This class contains filtering criteria.
  */
 public class Filter {
-	
+
 	private Date beginDate;
 	private Date endDate;
 	private double maxCertainty;
 	private List<String> countries;
 	private List<String> cities;
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -28,7 +28,7 @@ public class Filter {
 	public Date getBeginDate() {
 		return beginDate;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -37,7 +37,7 @@ public class Filter {
 	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -46,7 +46,7 @@ public class Filter {
 	public Date getEndDate() {
 		return endDate;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -55,7 +55,7 @@ public class Filter {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -64,7 +64,7 @@ public class Filter {
 	public double getMaxCertainty() {
 		return maxCertainty;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -73,7 +73,7 @@ public class Filter {
 	public void setMaxCertainty(double maxCertainty) {
 		this.maxCertainty = maxCertainty;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -82,7 +82,7 @@ public class Filter {
 	public List<String> getCountries() {
 		return countries;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -91,7 +91,7 @@ public class Filter {
 	public void setCountries(List<String> countries) {
 		this.countries = countries;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -100,7 +100,7 @@ public class Filter {
 	public List<String> getCities() {
 		return cities;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -109,5 +109,5 @@ public class Filter {
 	public void setCities(List<String> cities) {
 		this.cities = cities;
 	}
-	
+
 }
