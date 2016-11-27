@@ -19,6 +19,8 @@
   background-repeat: no-repeat;
   background-position: 50% 50%;
   margin: 3px;
+  width: 3em;
+  height: 2m;  
 }
 
 .toggleFilterButton:active {
