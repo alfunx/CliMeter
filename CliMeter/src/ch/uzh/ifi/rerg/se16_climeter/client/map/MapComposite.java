@@ -95,19 +95,9 @@ public class MapComposite extends Composite {
 		mapPanel.add(this.mapWidget);
 		this.mapWidget.setSize("100%", "100%");
 
-		// TODO: Change Button to TimeLine.
-
-		// add shuffle button (later: timeline)
+		// add timeLine to panel
 		LayoutPanel timeLinePanel = new LayoutPanel();
-		Button shuffleButton = new Button("Shuffle Data");
-		shuffleButton.setSize("100%", "100%");
-		shuffleButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				Console.log("counter: " + counter);
-				addTemperatureOverlay(new Date(counter++ % 5), Data.getRandomData(RANDOM_DATA_AMOUNT));
-			}
-		});
-		timeLinePanel.add(shuffleButton);
+		addTimeLineToPanel(timeLinePanel);
 
 		// add to composite panel
 		this.panel.addSouth(timeLinePanel, SOUTHPANEL_HEIGHT);
@@ -160,6 +150,30 @@ public class MapComposite extends Composite {
 		}
 
 		this.activeTemperatureOverlay = newTemperatureOverlay;
+	}
+
+	/**
+	 * Add timeLine to panel and return.
+	 * @pre timeLinePanel != null
+	 * @post -
+	 * @param timeLinePanel the panel to add timeLine
+	 * @return the panel with the timeLine in it
+	 */
+	protected LayoutPanel addTimeLineToPanel(LayoutPanel timeLinePanel) {
+		// TODO: implement timeLine
+		
+		Button shuffleButton = new Button("Shuffle Data");
+		shuffleButton.setSize("100%", "100%");
+		shuffleButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Console.log("counter: " + counter);
+				addTemperatureOverlay(new Date(counter++ % 5), Data.getRandomData(RANDOM_DATA_AMOUNT));
+			}
+		});
+		
+		// add to timeLinePanel and return
+		timeLinePanel.add(shuffleButton);
+		return timeLinePanel;
 	}
 
 	/**
