@@ -41,11 +41,9 @@ public class UserInterface {
 	private TabLayoutPanel tabs;
 	private HorizontalPanel southContainer;
 	private DockLayoutPanel mainPanel;
-	private DockLayoutPanel mapContainer;
-	private DockLayoutPanel mapTabContainer;
-	private DockLayoutPanel timeLineContainer;
+
 	private LayoutPanel titleContainer;
-	private TimeLine timeLine;
+
 	
 	/**
 	 * Creates the GUI.
