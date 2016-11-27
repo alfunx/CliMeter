@@ -41,12 +41,15 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  */
 public class MapComposite extends Composite {
 
-	private final double DATASET_MIN = -30.0;
-	private final double DATASET_MAX = 30.0;
 	private final int MAP_ZOOM = 5;
 	private final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
+	private final boolean MAP_STREETVIEW = false;
+	private final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
 	private final double SOUTHPANEL_HEIGHT = 3;
 	private final boolean CACHING_TEMPERATURE_OVERLAYS = true;
+
+	private final double DATASET_MIN = -30.0;
+	private final double DATASET_MAX = 30.0;
 	private final int RANDOM_DATA_AMOUNT = 140;
 
 	private long counter = 0;
@@ -86,7 +89,8 @@ public class MapComposite extends Composite {
 		MapOptions options = MapOptions.newInstance();
 		options.setZoom(MAP_ZOOM);
 		options.setCenter(MAP_CENTER);
-		options.setMapTypeId(MapTypeId.TERRAIN);
+		options.setStreetViewControl(MAP_STREETVIEW);
+		options.setMapTypeId(MAP_TYPE);
 
 		// add mapWidget to panel
 		LayoutPanel mapPanel = new LayoutPanel();
