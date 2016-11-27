@@ -40,22 +40,23 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 				loads the TimeLine aswell.
  */
 public class MapComposite extends Composite {
-	
+
 	private final double DATASET_MIN = -30.0;
 	private final double DATASET_MAX = 30.0;
 	private final int MAP_ZOOM = 5;
 	private final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
 	private final double SOUTHPANEL_HEIGHT = 2.5;
-	
+	private final int RANDOM_DATA_AMOUNT = 140;
+
 	private long counter = 0;
-	
+
 	private ColorTransition colorTransition;
 	private DockLayoutPanel panel;
 	private MapWidget mapWidget;
-	
+
 	private TemperatureOverlay activeTemperatureOverlay;
 	private TreeMap<Long, TemperatureOverlay> temperatureOverlays;
-	
+
 	/**
 	 * Initialize as Composite and add google map on it.
 	 * @pre -
@@ -65,13 +66,13 @@ public class MapComposite extends Composite {
 	public MapComposite() {
 		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.panel = new DockLayoutPanel(Unit.EM);
-		
+
 		this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
-		
+
 		initWidget(this.panel);
 		draw();
 	}
-	
+
 	/**
 	 * Draws the basic map.
 	 * @pre panel != null
@@ -83,16 +84,16 @@ public class MapComposite extends Composite {
 		options.setZoom(MAP_ZOOM);
 		options.setCenter(MAP_CENTER);
 		options.setMapTypeId(MapTypeId.TERRAIN);
-		
+
 		// add mapWidget to panel
 		LayoutPanel mapPanel = new LayoutPanel();
 		this.mapWidget = new MapWidget(options);
 		mapPanel.clear();
 		mapPanel.add(this.mapWidget);
 		this.mapWidget.setSize("100%", "100%");
-		
+
 		// TODO: Change Button to TimeLine.
-		
+
 		// add shuffle button (later: timeline)
 		LayoutPanel timeLinePanel = new LayoutPanel();
 		Button shuffleButton = new Button("Shuffle Data");
@@ -100,16 +101,16 @@ public class MapComposite extends Composite {
 		shuffleButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Console.log("counter: " + counter);
-				addTemperatureOverlay(new Date(counter++ % 5), Data.getRandomData(140));
+				addTemperatureOverlay(new Date(counter++ % 5), Data.getRandomData(RANDOM_DATA_AMOUNT));
 			}
 		});
 		timeLinePanel.add(shuffleButton);
-		
+
 		// add to composite panel
 		this.panel.addSouth(timeLinePanel, SOUTHPANEL_HEIGHT);
 		this.panel.add(mapPanel);
 	}
-	
+
 	@Override
 	/**
 	 * Workaround to fix a bug in the API.
@@ -119,7 +120,7 @@ public class MapComposite extends Composite {
 	 */
 	protected void onAttach() {
 		super.onAttach();
-		
+
 		// workaround to fix a glitch, where the map occasionally stays gray
 		// needed for Internet Explorer
 		Timer timer = new Timer() {
@@ -128,7 +129,7 @@ public class MapComposite extends Composite {
 		};
 		timer.schedule(1);
 	}
-	
+
 	/**
 	 * Add a set of data on the map.
 	 * @pre -
@@ -138,20 +139,20 @@ public class MapComposite extends Composite {
 	 */
 	public void addTemperatureOverlay(Date date, List<Data> dataSet) {
 		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
-		
+
 		if (newTemperatureOverlay == null) {
 			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 			this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
 		}
 		newTemperatureOverlay.setVisibility(true);
-		
+
 		if (activeTemperatureOverlay != null) {
 			this.activeTemperatureOverlay.setVisibility(false);
 		}
-		
+
 		this.activeTemperatureOverlay = newTemperatureOverlay;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -160,5 +161,5 @@ public class MapComposite extends Composite {
 	protected MapWidget getMapWidget() {
 		return this.mapWidget;
 	}
-	
+
 }

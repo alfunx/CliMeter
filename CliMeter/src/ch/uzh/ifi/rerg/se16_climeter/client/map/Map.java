@@ -23,9 +23,9 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
  * 				This class starts the map in a thread.
  */
 public class Map extends Visualisation {
-	
+
 	private final boolean SENSOR = true;
-	
+
 	/**
 	 * Initializes the map and adds it to the visualisation-panel.
 	 * @pre -
@@ -42,14 +42,14 @@ public class Map extends Visualisation {
 		loadLibraries.add(LoadLibrary.PLACES);
 		loadLibraries.add(LoadLibrary.WEATHER);
 		loadLibraries.add(LoadLibrary.VISUALIZATION);
-		
+
 		// thread with running map
 		Runnable mapThread = new Runnable() {
 			@Override
 			public void run() {
 				final MapComposite mapComposite = new MapComposite();
 				panel.add(mapComposite);
-				
+
 				// workaround to fix a glitch, where the map occasionally stays gray
 				Timer timer = new Timer() {
 					@Override
@@ -60,10 +60,10 @@ public class Map extends Visualisation {
 				timer.schedule(1);
 			}
 		};
-		
+
 		// set key for google maps
 		String keyParameter = "key=AIzaSyB4zRgy_BdYcjhDiMNv-kZboiLBCpmyYWs";
 		LoadApi.go(mapThread, loadLibraries, this.SENSOR, keyParameter);
 	}
-	
+
 }

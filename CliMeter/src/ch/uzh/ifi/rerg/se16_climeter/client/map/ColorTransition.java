@@ -12,11 +12,11 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
  * 				This class calculates a color for a given value.
  */
 public class ColorTransition {
-	
+
 	private Color[] color;
 	private double min;
 	private double max;
-	
+
 	/**
 	 * Initialize ColorTransition object. color[0] should contain the color 
 	 * for the minimum value, color[n - 1] should contain the color for the 
@@ -35,22 +35,22 @@ public class ColorTransition {
 			this.min = min;
 			this.max = max;
 		}
-		
+
 		if (color == null) {
 			setDefaultColors();
 			return;
 		}
-		
+
 		for(int i = 0; i < color.length; i++) {
 			if (color[i] == null) {
 				setDefaultColors();
 				return;
 			}
 		}
-		
+
 		this.color = color;
 	}
-	
+
 	/**
 	 * Initialize ColorTransition object with default colors.
 	 * @pre min != max
@@ -59,7 +59,7 @@ public class ColorTransition {
 	public ColorTransition(double min, double max) {
 		this(null, min, max);
 	}
-	
+
 	/**
 	 * Set color array with default colors.
 	 * @pre -
@@ -71,7 +71,7 @@ public class ColorTransition {
 		this.color[1] = new Color(255, 255, 0);
 		this.color[2] = new Color(255, 0, 0);
 	}
-	
+
 	/**
 	 * Calculate color based on value.
 	 * @pre max >= value >= min
@@ -83,25 +83,25 @@ public class ColorTransition {
 	 */
 	public Color getPercentageColor(double value) {
 		double p = normalize(value, this.min, this.max);
-		
+
 		// return, if p == 1
 		if (p == 1) {
 			return this.color[this.color.length - 1];
 		}
-		
+
 		// calculate normalized numbers for specific color range
 		double q = p * (this.color.length - 1);
 		int i = (int) q;
 		p = normalize(q, i, i + 1);
-		
+
 		int r = (int) Math.round(this.color[i + 1].getRed() * p + this.color[i].getRed() * (1 - p));
 		int g = (int) Math.round(this.color[i + 1].getGreen() * p + this.color[i].getGreen() * (1 - p));
 		int b = (int) Math.round(this.color[i + 1].getBlue() * p + this.color[i].getBlue() * (1 - p));
-		
+
 		Color c = new Color(r, g, b);
 		return c;
 	}
-	
+
 	/**
 	 * Calculates the normalized value of a temperature.
 	 * @pre max != min
@@ -119,17 +119,17 @@ public class ColorTransition {
 			max = min;
 			min = temp;
 		}
-		
+
 		if (value < min) {
 			value = min;
 		} else if (value > max) {
 			value = max;
 		}
-		
+
 		double p = (value - min) / (max - min);
 		return (p < 0) ? 0 : (p > 1) ? 1 : p;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -138,5 +138,5 @@ public class ColorTransition {
 	public Color[] getColor() {
 		return color;
 	}
-	
+
 }
