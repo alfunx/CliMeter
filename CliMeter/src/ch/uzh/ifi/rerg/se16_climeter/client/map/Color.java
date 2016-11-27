@@ -11,11 +11,11 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
  * 				a hex-color string.
  */
 public class Color {
-	
+
 	private int red;
 	private int green;
 	private int blue;
-	
+
 	/**
 	 * Initialize Color object.
 	 * @pre -
@@ -29,7 +29,7 @@ public class Color {
 		this.green = intTo2Bytes(green);
 		this.blue = intTo2Bytes(blue);
 	}
-	
+
 	/**
 	 * Convert RGB color to a hex-color string.
 	 * @pre -
@@ -43,7 +43,7 @@ public class Color {
 				.concat(intTo2BytesStr(this.blue));
 		return str;
 	}
-	
+
 	/**
 	 * Reduce int to the size of 2 bytes.
 	 * @pre -
@@ -54,7 +54,7 @@ public class Color {
 	protected int intTo2Bytes(int i) {
 		return (i < 0) ? 0 : (i > 255) ? 255 : i;
 	}
-	
+
 	/**
 	 * Convert an int of 2 byte size to hex representation with length 2.
 	 * @pre -
@@ -65,7 +65,7 @@ public class Color {
 	protected String intTo2BytesStr(int i) {
 		return this.padding(Integer.toHexString(intTo2Bytes(i)));
 	}
-	
+
 	/**
 	 * Add padding to string, if it's shorter than length 2.
 	 * @pre 1 <= str.length <= 2
@@ -80,7 +80,7 @@ public class Color {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -89,7 +89,7 @@ public class Color {
 	public int getRed() {
 		return red;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -98,7 +98,7 @@ public class Color {
 	public void setRed(int red) {
 		this.red = red;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -107,7 +107,7 @@ public class Color {
 	public int getGreen() {
 		return green;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -116,7 +116,7 @@ public class Color {
 	public void setGreen(int green) {
 		this.green = green;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -125,7 +125,7 @@ public class Color {
 	public int getBlue() {
 		return blue;
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -134,5 +134,5 @@ public class Color {
 	public void setBlue(int blue) {
 		this.blue = blue;
 	}
-	
+
 }

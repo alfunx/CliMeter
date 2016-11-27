@@ -25,16 +25,16 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 				This class displays one data object on the map.
  */
 public class DataPoint {
-	
+
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
 	private Data data;
-	
+
 	private OverlayViewOnDrawHandler onDrawHandler;
 	private OverlayViewOnAddHandler onAddHandler;
 	private OverlayViewOnRemoveHandler onRemoveHandler;
 	private OverlayView dataPoint;
-	
+
 	/**
 	 * Generate DataPoint object for a Data object.
 	 * @pre -
@@ -47,10 +47,10 @@ public class DataPoint {
 		this.mapWidget = mapWidget;
 		this.colorTransition = colorTransition;
 		this.data = data;
-		
+
 		initDataPoint();
 	}
-	
+
 	/**
 	 * Visualises one Data object on the map.
 	 * @pre data != null
@@ -58,11 +58,9 @@ public class DataPoint {
 	 * @param data Data object to visualise on the map
 	 */
 	protected void initDataPoint() {
-		setVisibility(false);
-		
 		final VerticalPanel dataPointPanel = new VerticalPanel();
 		dataPointPanel.addStyleName("temperatureOverlay");
-		
+
 		onDrawHandler = new OverlayViewOnDrawHandler() {
 			@Override
 			public void onDraw(OverlayViewMethods methods) {
@@ -74,11 +72,11 @@ public class DataPoint {
 						- dataPointPanel.getElement().getClientWidth() / 2, Unit.PX);
 				dataPointPanel.getElement().getStyle().setTop(point.getY()
 						- dataPointPanel.getElement().getClientHeight() / 2, Unit.PX);
-				
+
 				// calculate corresponding color for a data object
 				Color color = colorTransition.getPercentageColor(data.getAverageTemperature());
 				dataPointPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
-				
+
 				// setting text and style
 				HTML text = new HTML(data.getAverageTemperature() + "");
 				text.addStyleName("temperatureText");
@@ -86,24 +84,24 @@ public class DataPoint {
 				dataPointPanel.add(text);
 			}
 		};
-		
+
 		onAddHandler = new OverlayViewOnAddHandler() {
 			@Override
 			public void onAdd(OverlayViewMethods methods) {
 				methods.getPanes().getFloatPane().appendChild(dataPointPanel.getElement());
 			}
 		};
-		
+
 		onRemoveHandler = new OverlayViewOnRemoveHandler() {
 			@Override
 			public void onRemove(OverlayViewMethods methods) {
 				dataPointPanel.getElement().removeFromParent();
 			}
 		};
-		
+
 		this.dataPoint = OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler);
 	}
-	
+
 	/**
 	 * Set visibility of DataPoint.
 	 * @pre -
@@ -113,14 +111,14 @@ public class DataPoint {
 		if (dataPoint == null) {
 			return;
 		}
-		
+
 		if (isVisible) {
 			this.dataPoint.setMap(this.mapWidget);
 		} else {
 			this.dataPoint.setMap(null);
 		}
 	}
-	
+
 	/**
 	 * @pre -
 	 * @post -
@@ -129,5 +127,5 @@ public class DataPoint {
 	public OverlayView getDataPointOverlayView() {
 		return this.dataPoint;
 	}
-	
+
 }
