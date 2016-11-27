@@ -143,11 +143,11 @@ public class MapComposite extends Composite {
 			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 		}
 
-		newTemperatureOverlay.setVisibility(true);
-
-		if (activeTemperatureOverlay != null) {
+		if (this.activeTemperatureOverlay != null) {
 			this.activeTemperatureOverlay.setVisibility(false);
 		}
+
+		newTemperatureOverlay.setVisibility(true);
 
 		this.activeTemperatureOverlay = newTemperatureOverlay;
 	}
