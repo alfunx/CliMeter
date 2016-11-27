@@ -157,7 +157,7 @@ public class Table extends Visualisation implements Exportable{
 		
 		// create button to toggle filter visibility
 		filterHidden = true;
-		toggleFilterButton = new Button("Show");
+		toggleFilterButton = new Button();
 		toggleFilterButton.removeStyleName("gwt-Button");
 		toggleFilterButton.addClickHandler(new ClickHandler() {
 
@@ -167,13 +167,11 @@ public class Table extends Visualisation implements Exportable{
 					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
 					dockLayoutPanel.animate(300);
 					filterHidden = false;
-					toggleFilterButton.setText("Hide");
 				}
 				else {
 					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
 					dockLayoutPanel.animate(300);
 					filterHidden = true;
-					toggleFilterButton.setText("Show");
 				}	
 			}
 		});
