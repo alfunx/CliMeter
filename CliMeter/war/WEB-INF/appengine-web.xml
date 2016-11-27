@@ -7,7 +7,10 @@
     Allows App Engine to send multiple requests to one instance in parallel:
   -->
   <threadsafe>true</threadsafe>
-
+  
+  <!-- Enables MySQL Connector/j -->
+  <use-google-connector-j>true</use-google-connector-j>
+  
   <!-- Configure serving/caching of GWT files -->
   <static-files>
     <include path="**" />
@@ -22,6 +25,7 @@
   <!-- Configure java.util.logging -->
   <system-properties>
     <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+    <property name="cloudsql.dev" value="jdbc:google:mysql://climeter-150120:myinstance/cliMeter?user=root&amp;password=3Vy;Jf/X#Hey"/>
   </system-properties>
 
   <!--
@@ -38,5 +42,5 @@
     stale session data. For details, see
     https://cloud.google.com/appengine/docs/java/config/appconfig#Java_appengine_web_xml_Enabling_sessions
   -->
-
+  
 </appengine-web-app>
