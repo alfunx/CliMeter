@@ -8,18 +8,16 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.maps.client.LoadApi;
 import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 
-import ch.uzh.ifi.rerg.se16_climeter.client.Data;
-
 public class MapCompositeTest extends GWTTestCase {
-	
+
 	private boolean sensor;
 	private ArrayList<LoadLibrary> loadLibraries;
-		
+
 	@Override
 	public String getModuleName() {
 		return "ch.uzh.ifi.rerg.se16_climeter.CliMeter";
 	}
-	
+
 	@Test
 	public void testMapComposite_null() {
 		// thread with running map
@@ -30,10 +28,10 @@ public class MapCompositeTest extends GWTTestCase {
 				assertNotNull(mapComposite);
 			}
 		};
-		
+
 		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
 	}
-	
+
 	@Test
 	public void testGetMapWidget_null() {
 		// thread with running map
@@ -44,14 +42,14 @@ public class MapCompositeTest extends GWTTestCase {
 				assertNotNull(mapComposite.getMapWidget());
 			}
 		};
-		
+
 		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
 	}
-	
+
 	@Before
 	public void init() {
 		sensor = true;
-		
+
 		// load all the libraries for use in the maps
 		this.loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
 		this.loadLibraries.add(LoadLibrary.ADSENSE);
@@ -62,5 +60,5 @@ public class MapCompositeTest extends GWTTestCase {
 		this.loadLibraries.add(LoadLibrary.WEATHER);
 		this.loadLibraries.add(LoadLibrary.VISUALIZATION);
 	}
-	
+
 }

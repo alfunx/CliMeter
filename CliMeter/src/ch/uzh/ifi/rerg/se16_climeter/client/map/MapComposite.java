@@ -161,7 +161,7 @@ public class MapComposite extends Composite {
 	 */
 	protected LayoutPanel addTimeLineToPanel(LayoutPanel timeLinePanel) {
 		// TODO: implement timeLine
-		
+
 		Button shuffleButton = new Button("Shuffle Data");
 		shuffleButton.setSize("100%", "100%");
 		shuffleButton.addClickHandler(new ClickHandler() {
@@ -170,7 +170,7 @@ public class MapComposite extends Composite {
 				addTemperatureOverlay(new Date(counter++ % 5), Data.getRandomData(RANDOM_DATA_AMOUNT));
 			}
 		});
-		
+
 		// add to timeLinePanel and return
 		timeLinePanel.add(shuffleButton);
 		return timeLinePanel;
