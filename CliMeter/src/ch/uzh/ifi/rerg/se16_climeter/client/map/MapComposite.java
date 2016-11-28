@@ -5,21 +5,17 @@ import java.util.List;
 import java.util.TreeMap;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
-import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
-import ch.uzh.ifi.rerg.se16_climeter.client.TimeLine;
+import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
 
 /**
  * The class MapComposite is a concrete Map, load into a Composite object.
@@ -35,22 +31,23 @@ import ch.uzh.ifi.rerg.se16_climeter.client.TimeLine;
  * 				2016-11-23 AM Completely restructured, ready for TimeLine
  * 				2016-11-25 AM ShuffleButton as placeholder for TimeLine
  * 				2016-11-25 AM Map constants added
- * @version 	2016-11-25 AM 1.3
+ * 				2016-11-28 AM Optional caching for temperature overlays
+ * @version 	2016-11-25 AM 1.4
  * @responsibilities 
  * 				This class contains the map and all layers on top of it. It 
  * 				loads the TimeLine aswell.
  */
 public class MapComposite extends Composite {
 
-	private final double DATASET_MIN = -30.0;
-	private final double DATASET_MAX = 30.0;
 	private final int MAP_ZOOM = 5;
 	private final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
+	private final boolean MAP_STREETVIEW = false;
+	private final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
 	private final double SOUTHPANEL_HEIGHT = 3;
-	private final boolean CACHING_TEMPERATURE_OVERLAYS = true;
-	private final int RANDOM_DATA_AMOUNT = 140;
 
-	private long counter = 0;
+	private final double DATASET_MIN = -30.0;
+	private final double DATASET_MAX = 30.0;
+	private final int RANDOM_DATA_AMOUNT = 140;
 
 	private ColorTransition colorTransition;
 	private DockLayoutPanel panel;
@@ -68,10 +65,7 @@ public class MapComposite extends Composite {
 	public MapComposite() {
 		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.panel = new DockLayoutPanel(Unit.EM);
-
-		if (CACHING_TEMPERATURE_OVERLAYS) {
-			this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
-		}
+		this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
 
 		initWidget(this.panel);
 		draw();
@@ -87,7 +81,8 @@ public class MapComposite extends Composite {
 		MapOptions options = MapOptions.newInstance();
 		options.setZoom(MAP_ZOOM);
 		options.setCenter(MAP_CENTER);
-		options.setMapTypeId(MapTypeId.TERRAIN);
+		options.setStreetViewControl(MAP_STREETVIEW);
+		options.setMapTypeId(MAP_TYPE);
 
 		// add mapWidget to panel
 		LayoutPanel mapPanel = new LayoutPanel();
@@ -96,15 +91,16 @@ public class MapComposite extends Composite {
 		mapPanel.add(this.mapWidget);
 		this.mapWidget.setSize("100%", "100%");
 
-
 		// add timeLine to panel
 		LayoutPanel timeLinePanel = new LayoutPanel();
 		addTimeLineToPanel(timeLinePanel);
 
 		// add to composite panel
-
 		this.panel.addSouth(timeLinePanel, SOUTHPANEL_HEIGHT);
 		this.panel.add(mapPanel);
+
+		// TODO: remove
+		addTemperatureOverlay(Data.getRandomData(RANDOM_DATA_AMOUNT));
 	}
 
 	@Override
@@ -127,28 +123,41 @@ public class MapComposite extends Composite {
 	}
 
 	/**
-	 * Add a set of data on the map.
-	 * @pre -
+	 * Add a set of data on the map (with caching).
+	 * @pre temperatureOverlays != null
 	 * @post -
 	 * @param date date of the temperatureOverlay
 	 * @param dataSet a list of Data to add on the map
 	 */
 	public void addTemperatureOverlay(Date date, List<Data> dataSet) {
-		TemperatureOverlay newTemperatureOverlay;
+		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
 
-		if (CACHING_TEMPERATURE_OVERLAYS) {
-			newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
-			if (newTemperatureOverlay == null) {
-				newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-				this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
-			}
-		} else {
+		if (newTemperatureOverlay == null) {
 			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+			this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
 		}
 
+		if (this.activeTemperatureOverlay == null) {
+			newTemperatureOverlay.setVisibility(true);
+		} else if (this.activeTemperatureOverlay != newTemperatureOverlay) {
+			newTemperatureOverlay.setVisibility(true);
+			this.activeTemperatureOverlay.setVisibility(false);
+		}
+
+		this.activeTemperatureOverlay = newTemperatureOverlay;
+	}
+
+	/**
+	 * Add a set of data on the map (without caching).
+	 * @pre -
+	 * @post -
+	 * @param dataSet a list of Data to add on the map
+	 */
+	public void addTemperatureOverlay(List<Data> dataSet) {
+		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 		newTemperatureOverlay.setVisibility(true);
 
-		if (activeTemperatureOverlay != null) {
+		if (this.activeTemperatureOverlay != null) {
 			this.activeTemperatureOverlay.setVisibility(false);
 		}
 

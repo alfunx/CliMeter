@@ -1,14 +1,17 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
-import org.junit.Before;
+
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.maps.client.LoadApi;
 import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 
-public class MapCompositeTest extends GWTTestCase {
+import ch.uzh.ifi.rerg.se16_climeter.client.Data;
+
+public class TemperatureOverlayTest extends GWTTestCase {
 
 	@Override
 	public String getModuleName() {
@@ -16,7 +19,7 @@ public class MapCompositeTest extends GWTTestCase {
 	}
 
 	@Test
-	public void testMapComposite_null() {
+	public void testTemperatureOverlay_null() {
 		// load all the libraries for use in the maps
 		ArrayList<LoadLibrary> loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
 		loadLibraries.add(LoadLibrary.ADSENSE);
@@ -28,19 +31,20 @@ public class MapCompositeTest extends GWTTestCase {
 		loadLibraries.add(LoadLibrary.VISUALIZATION);
 
 		// thread with running map
-		Runnable onLoad = new Runnable() {
+		Runnable mapThread = new Runnable() {
 			@Override
 			public void run() {
 				final MapComposite mapComposite = new MapComposite();
-				assertNotNull(mapComposite);
+				TemperatureOverlay temperatureOverlay = new TemperatureOverlay(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(100));
+				assertNotNull(temperatureOverlay);
 			}
 		};
 
-		LoadApi.go(onLoad, loadLibraries, true);
+		LoadApi.go(mapThread, loadLibraries, true);
 	}
 
 	@Test
-	public void testGetMapWidget_null() {
+	public void testTemperatureOverlay_1() {
 		// load all the libraries for use in the maps
 		ArrayList<LoadLibrary> loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
 		loadLibraries.add(LoadLibrary.ADSENSE);
@@ -52,15 +56,16 @@ public class MapCompositeTest extends GWTTestCase {
 		loadLibraries.add(LoadLibrary.VISUALIZATION);
 
 		// thread with running map
-		Runnable onLoad = new Runnable() {
+		Runnable mapThread = new Runnable() {
 			@Override
 			public void run() {
 				final MapComposite mapComposite = new MapComposite();
-				assertNotNull(mapComposite.getMapWidget());
+				TemperatureOverlay temperatureOverlay = new TemperatureOverlay(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(100));
+				assertEquals(100, temperatureOverlay.getDataPoints().size());
 			}
 		};
 
-		LoadApi.go(onLoad, loadLibraries, true);
+		LoadApi.go(mapThread, loadLibraries, true);
 	}
 
 }
