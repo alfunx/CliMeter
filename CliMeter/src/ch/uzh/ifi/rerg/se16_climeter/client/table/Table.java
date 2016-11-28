@@ -1,6 +1,5 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.table;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;

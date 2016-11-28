@@ -34,7 +34,7 @@
 }	
 
 .toggleFilterButton:hover {
-	background: url("Images/filtericon.png"), #a1a1a1;
+	background: url("Images/filtericon.png"), #bbbbbb;
 	background-repeat: no-repeat;
  	background-position: 50% 50%;
 }
