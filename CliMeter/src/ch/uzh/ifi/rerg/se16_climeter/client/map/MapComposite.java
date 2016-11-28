@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
+import ch.uzh.ifi.rerg.se16_climeter.client.TimeLine;
 
 /**
  * The class MapComposite is a concrete Map, load into a Composite object.
@@ -95,11 +96,13 @@ public class MapComposite extends Composite {
 		mapPanel.add(this.mapWidget);
 		this.mapWidget.setSize("100%", "100%");
 
+
 		// add timeLine to panel
 		LayoutPanel timeLinePanel = new LayoutPanel();
 		addTimeLineToPanel(timeLinePanel);
 
 		// add to composite panel
+
 		this.panel.addSouth(timeLinePanel, SOUTHPANEL_HEIGHT);
 		this.panel.add(mapPanel);
 	}
@@ -160,19 +163,10 @@ public class MapComposite extends Composite {
 	 * @return the panel with the timeLine in it
 	 */
 	protected LayoutPanel addTimeLineToPanel(LayoutPanel timeLinePanel) {
-		// TODO: implement timeLine
-		
-		Button shuffleButton = new Button("Shuffle Data");
-		shuffleButton.setSize("100%", "100%");
-		shuffleButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				Console.log("counter: " + counter);
-				addTemperatureOverlay(new Date(counter++ % 5), Data.getRandomData(RANDOM_DATA_AMOUNT));
-			}
-		});
-		
-		// add to timeLinePanel and return
-		timeLinePanel.add(shuffleButton);
+		timeLinePanel.setSize("100%", "100%");
+		TimeLine timeLine = new TimeLine(1900, 2015);
+
+		timeLinePanel.add(timeLine);
 		return timeLinePanel;
 	}
 

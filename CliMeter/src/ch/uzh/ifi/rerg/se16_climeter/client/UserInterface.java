@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
-import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
+
 import ch.uzh.ifi.rerg.se16_climeter.client.map.Map;
 import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
@@ -41,8 +41,10 @@ public class UserInterface {
 	private TabLayoutPanel tabs;
 	private HorizontalPanel southContainer;
 	private DockLayoutPanel mainPanel;
+
 	private LayoutPanel titleContainer;
 
+	
 	/**
 	 * Creates the GUI.
 	 * @pre	-
@@ -77,7 +79,7 @@ public class UserInterface {
 	 */
 	private TabLayoutPanel createTabs() {
 		TabLayoutPanel tabs = new TabLayoutPanel(30, Unit.PX);
-		
+				
 		tabs.add(map.getPanel(), "Map");
 		tabs.add(table.getPanel(), "Table");
 		
