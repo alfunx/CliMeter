@@ -60,7 +60,7 @@ public class Data {
 			d.setDate(new Date(r.nextInt(Integer.MAX_VALUE)));
 			d.setLatitude((r.nextDouble() * 2 - 1) * 80);
 			d.setLongitude((r.nextDouble() * 2 - 1) * 150);
-			d.setUncertainty(r.nextDouble() * 10);
+			d.setUncertainty(r.nextDouble() * 20);
 			dataSet.add(d);
 		}
 
