@@ -98,8 +98,8 @@ public class MapComposite extends Composite {
 		// add to composite panel
 		this.panel.addSouth(timeLinePanel, SOUTHPANEL_HEIGHT);
 		this.panel.add(mapPanel);
-		
-		// add random data
+
+		// TODO: remove
 		addTemperatureOverlay(Data.getRandomData(RANDOM_DATA_AMOUNT));
 	}
 
@@ -146,7 +146,7 @@ public class MapComposite extends Composite {
 
 		this.activeTemperatureOverlay = newTemperatureOverlay;
 	}
-	
+
 	/**
 	 * Add a set of data on the map (without caching).
 	 * @pre -

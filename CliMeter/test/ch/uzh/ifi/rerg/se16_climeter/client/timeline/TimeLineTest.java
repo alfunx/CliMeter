@@ -16,7 +16,7 @@ public class TimeLineTest extends GWTTestCase {
 		TimeLine timeLine = new TimeLine(1800, 2016);
 		assertNotNull(timeLine);
 	}
-	
+
 	@Test
 	public void testTimeLine_1() {
 		TimeLine timeLine = new TimeLine(1800, 2016);
