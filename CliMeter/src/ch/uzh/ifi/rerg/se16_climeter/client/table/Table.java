@@ -119,14 +119,16 @@ public class Table extends Visualisation implements Exportable{
 		// create columns with header cells
 		initColumns();
 		
+		// add TEST DATA!
+		addData(data);
+		
 		// Create sortHandler
 		initSortHandler();
 		
 		// create filterMenu
 		initFilterMenu();
 		
-		// add TEST DATA!
-		addData(data);
+		
 				
 		// create footerpanel for pager and toggleButton
 		footerPanel = new DockLayoutPanel(Unit.EM);
