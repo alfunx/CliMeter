@@ -10,9 +10,6 @@ import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 
 public class MapCompositeTest extends GWTTestCase {
 
-	private boolean sensor;
-	private ArrayList<LoadLibrary> loadLibraries;
-
 	@Override
 	public String getModuleName() {
 		return "ch.uzh.ifi.rerg.se16_climeter.CliMeter";
@@ -20,6 +17,16 @@ public class MapCompositeTest extends GWTTestCase {
 
 	@Test
 	public void testMapComposite_null() {
+		// load all the libraries for use in the maps
+		ArrayList<LoadLibrary> loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
+		loadLibraries.add(LoadLibrary.ADSENSE);
+		loadLibraries.add(LoadLibrary.DRAWING);
+		loadLibraries.add(LoadLibrary.GEOMETRY);
+		loadLibraries.add(LoadLibrary.PANORAMIO);
+		loadLibraries.add(LoadLibrary.PLACES);
+		loadLibraries.add(LoadLibrary.WEATHER);
+		loadLibraries.add(LoadLibrary.VISUALIZATION);
+
 		// thread with running map
 		Runnable onLoad = new Runnable() {
 			@Override
@@ -29,11 +36,21 @@ public class MapCompositeTest extends GWTTestCase {
 			}
 		};
 
-		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
+		LoadApi.go(onLoad, loadLibraries, true);
 	}
 
 	@Test
 	public void testGetMapWidget_null() {
+		// load all the libraries for use in the maps
+		ArrayList<LoadLibrary> loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
+		loadLibraries.add(LoadLibrary.ADSENSE);
+		loadLibraries.add(LoadLibrary.DRAWING);
+		loadLibraries.add(LoadLibrary.GEOMETRY);
+		loadLibraries.add(LoadLibrary.PANORAMIO);
+		loadLibraries.add(LoadLibrary.PLACES);
+		loadLibraries.add(LoadLibrary.WEATHER);
+		loadLibraries.add(LoadLibrary.VISUALIZATION);
+
 		// thread with running map
 		Runnable onLoad = new Runnable() {
 			@Override
@@ -43,22 +60,7 @@ public class MapCompositeTest extends GWTTestCase {
 			}
 		};
 
-		LoadApi.go(onLoad, this.loadLibraries, this.sensor);
-	}
-
-	@Before
-	public void init() {
-		sensor = true;
-
-		// load all the libraries for use in the maps
-		this.loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
-		this.loadLibraries.add(LoadLibrary.ADSENSE);
-		this.loadLibraries.add(LoadLibrary.DRAWING);
-		this.loadLibraries.add(LoadLibrary.GEOMETRY);
-		this.loadLibraries.add(LoadLibrary.PANORAMIO);
-		this.loadLibraries.add(LoadLibrary.PLACES);
-		this.loadLibraries.add(LoadLibrary.WEATHER);
-		this.loadLibraries.add(LoadLibrary.VISUALIZATION);
+		LoadApi.go(onLoad, loadLibraries, true);
 	}
 
 }

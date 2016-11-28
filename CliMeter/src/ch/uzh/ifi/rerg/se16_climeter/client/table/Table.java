@@ -1,6 +1,5 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.table;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -37,6 +36,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
  * 				2016-11-05 JS Changed table to a DataGrid
  * 				2016-11-09 JS Implemented sorting
  * 				2016-11-10 JS Implemented pager
+ * 				2016-11-22 JS Moved filterMenu into table tab
  *          
  * @version 	2016-11-08 JS 1.0
  * @responsibilities 
@@ -69,6 +69,8 @@ public class Table extends Visualisation implements Exportable{
 	private ListHandler<Data> columnSortHandler;
 	
 	private boolean filterHidden;
+	private Button toggleFilterButton;
+	
 	private DockLayoutPanel footerPanel;
 	private DockLayoutPanel dockLayoutPanel;
 	
@@ -101,7 +103,7 @@ public class Table extends Visualisation implements Exportable{
 		table.setAutoHeaderRefreshDisabled(true);
 		
 		// Set the message to display when the table is empty.
-	    table.setEmptyTableWidget(new Label("Table does not contain any data"));
+	    table.setEmptyTableWidget(new Label("Table does NOT contain any data!"));
 	    
 	    // create pager for page handling and set table as the display
 	    pager = new SimplePager();
@@ -114,114 +116,76 @@ public class Table extends Visualisation implements Exportable{
 		// set table as display of dataProvider
 		dataProvider.addDataDisplay(table);
 		
+		// create columns with header cells
+		initColumns();
 		
-	    
-		/*
-		 * create columns with header cells
-		 */
-		
-		// add dates
-		dateCell = new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy"));
-		dateColumn = new Column<Data, Date>(dateCell) {
-			 
-			@Override
-			public Date getValue(Data object) {
-				return object.getDate();
-		    }
-		};
-		table.addColumn(dateColumn, "Date");
-		dateColumn.setSortable(true);
-		
-		 
-		// add aveTemps
-		avgTempColumn = new Column<Data, Number>(new NumberCell()) {
-			@Override
-			public Double getValue(Data object) {
-				return object.getAverageTemperature();
-			}
-			
-		};
-		table.addColumn(avgTempColumn, "AvgTemperature");
-		avgTempColumn.setSortable(true);
-		
-		
-		//add uncertainty
-		uncertainityColumn = new Column<Data, Number>(new NumberCell()) {
-			@Override
-			public Double getValue(Data object) {
-				return object.getUncertainty();
-			}
-			
-		};
-		table.addColumn(uncertainityColumn, "Uncertainity");
-		uncertainityColumn.setSortable(true);
-		
-		
-		// add city 	
-		cityColumn = new TextColumn<Data>() {
-			@Override
-			public String getValue(Data object) {
-				return object.getCity();
-				}
-		};
-		table.addColumn(cityColumn, "City");
-		cityColumn.setSortable(true);
-		
-		// add country
-		countryColumn = new TextColumn<Data>() {
-			@Override
-			public String getValue(Data object) {
-				return object.getCountry();
-				}
-		};
-		table.addColumn(countryColumn, "Country");
-		countryColumn.setSortable(true);
-		
-		
-		// add latitude
-		latitudeColumn = new Column<Data, Number>(new NumberCell()) {
-			@Override
-			public Double getValue(Data object) {
-				return object.getLatitude();
-			}
-			
-		};
-		table.addColumn(latitudeColumn, "Latitude");
-		latitudeColumn.setSortable(true);
-		
-		
-		// add longitude
-		longitudeColumn = new Column<Data, Number>(new NumberCell()) {
-			@Override
-			public Double getValue(Data object) {
-				return object.getLongitude();
-			}
-			
-		};
-		table.addColumn(longitudeColumn, "Longitude");
-		longitudeColumn.setSortable(true);
-			
-		// add styles
-		table.addStyleName("table");
-		table.addColumnStyleName(0, "tableHeader");
-		table.addColumnStyleName(1, "tableHeader");
-		table.addColumnStyleName(2, "tableHeader");
-		table.addColumnStyleName(3, "tableHeader");
-		table.addColumnStyleName(4, "tableHeader");
-		table.addColumnStyleName(5, "tableHeader");
-		table.addColumnStyleName(6, "tableHeader");
-		
-		
-		/*
-		 * add TEST DATA!
-		 */
+		// add TEST DATA!
 		addData(data);
 		
+		// Create sortHandler
+		initSortHandler();
 		
-		/*
-		 * Create sortHandler
-		 */
-	    columnSortHandler = new ListHandler<Data>(dataList);
+		// create filterMenu
+		initFilterMenu();
+		
+		
+				
+		// create footerpanel for pager and toggleButton
+		footerPanel = new DockLayoutPanel(Unit.EM);
+		footerPanel.addEast(toggleFilterButton, 5);
+		footerPanel.add(pager);
+		
+		// create docklayoutPanel to organize the view of table, filter and pager
+		dockLayoutPanel = new DockLayoutPanel(Unit.EM);
+		dockLayoutPanel.addEast(filterMenu.getPanel(), 18);
+		dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
+		dockLayoutPanel.addSouth(footerPanel, 3);
+		dockLayoutPanel.add(table);
+		
+		// add docklayoutPanel to panel
+		panel.add(dockLayoutPanel);
+	
+		return table;
+	}
+	
+
+	/** Initialize filtermenu 
+	 * @pre -
+	 * @post filtermenu =! null
+	 */
+	private void initFilterMenu() {
+		filterMenu = new FilterMenu(Data.getRandomData(100));
+		
+		// create button to toggle filter visibility
+		filterHidden = true;
+		toggleFilterButton = new Button();
+		toggleFilterButton.removeStyleName("gwt-Button");
+		toggleFilterButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (filterHidden == true){
+					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
+					dockLayoutPanel.animate(300);
+					filterHidden = false;
+				}
+				else {
+					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
+					dockLayoutPanel.animate(300);
+					filterHidden = true;
+				}	
+			}
+		});
+		toggleFilterButton.addStyleName("toggleFilterButton");
+	}
+
+	/** Initializes columnSortHandler and provides correct 
+	 * 	comparing methods for each column
+	 * @pre -
+	 * @post columnSortHandler =! null
+	 */
+	private void initSortHandler() {
+		columnSortHandler = new ListHandler<Data>(dataList);
 
 	    // create Comparator for dateColumn
 	    columnSortHandler.setComparator(dateColumn, new Comparator<Data>() {
@@ -410,51 +374,104 @@ public class Table extends Visualisation implements Exportable{
 	    
 	    // add SortHandler to table
 		table.addColumnSortHandler(columnSortHandler);
-		
-		// create FilterMenu
-		filterMenu = new FilterMenu(Data.getRandomData(100));
-		
-		// create button to toggle filter visibility
-		filterHidden = true;
-		final Button toggleFilterButton = new Button("Show");
-		toggleFilterButton.addClickHandler(new ClickHandler() {
+	}
 
+	/**
+	 * Creates all columns of table
+	 * @pre table != null 
+	 * @post all columns of table are initialized
+	 */
+	private void initColumns() {
+		// add dates
+		dateCell = new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy"));
+		dateColumn = new Column<Data, Date>(dateCell) {
+			 
 			@Override
-			public void onClick(ClickEvent event) {
-				if (filterHidden == true){
-					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
-					dockLayoutPanel.animate(300);
-					filterHidden = false;
-					toggleFilterButton.setText("Hide");
-				}
-				else {
-					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
-					dockLayoutPanel.animate(300);
-					filterHidden = true;
-					toggleFilterButton.setText("Show");
-				}
-				
+			public Date getValue(Data object) {
+				return object.getDate();
+		    }
+		};
+		table.addColumn(dateColumn, "Date");
+		dateColumn.setSortable(true);
+		
+		 
+		// add aveTemps
+		avgTempColumn = new Column<Data, Number>(new NumberCell()) {
+			@Override
+			public Double getValue(Data object) {
+				return object.getAverageTemperature();
 			}
 			
-		});
-		toggleFilterButton.addStyleName("toggleFilterButton");
+		};
+		table.addColumn(avgTempColumn, "AvgTemperature");
+		avgTempColumn.setSortable(true);
 		
-		// create footerpanel for pager and filter toggle
-		footerPanel = new DockLayoutPanel(Unit.EM);
-		footerPanel.addEast(toggleFilterButton, 5);
-		footerPanel.add(pager);
 		
-		// create docklayoutPanel to organize the view of table, filter and pager
-		dockLayoutPanel = new DockLayoutPanel(Unit.EM);
-		dockLayoutPanel.addEast(filterMenu.getPanel(), 18);
-		dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
-		dockLayoutPanel.addSouth(footerPanel, 3);
-		dockLayoutPanel.add(table);
+		//add uncertainty
+		uncertainityColumn = new Column<Data, Number>(new NumberCell()) {
+			@Override
+			public Double getValue(Data object) {
+				return object.getUncertainty();
+			}
+			
+		};
+		table.addColumn(uncertainityColumn, "Uncertainity");
+		uncertainityColumn.setSortable(true);
 		
-		// add docklayoutPanel to panel
-		panel.add(dockLayoutPanel);
-	
-		return table;
+		
+		// add city 	
+		cityColumn = new TextColumn<Data>() {
+			@Override
+			public String getValue(Data object) {
+				return object.getCity();
+				}
+		};
+		table.addColumn(cityColumn, "City");
+		cityColumn.setSortable(true);
+		
+		// add country
+		countryColumn = new TextColumn<Data>() {
+			@Override
+			public String getValue(Data object) {
+				return object.getCountry();
+				}
+		};
+		table.addColumn(countryColumn, "Country");
+		countryColumn.setSortable(true);
+		
+		
+		// add latitude
+		latitudeColumn = new Column<Data, Number>(new NumberCell()) {
+			@Override
+			public Double getValue(Data object) {
+				return object.getLatitude();
+			}
+			
+		};
+		table.addColumn(latitudeColumn, "Latitude");
+		latitudeColumn.setSortable(true);
+		
+		
+		// add longitude
+		longitudeColumn = new Column<Data, Number>(new NumberCell()) {
+			@Override
+			public Double getValue(Data object) {
+				return object.getLongitude();
+			}
+			
+		};
+		table.addColumn(longitudeColumn, "Longitude");
+		longitudeColumn.setSortable(true);
+			
+		// add styles
+		table.addStyleName("table");
+		table.addColumnStyleName(0, "tableHeader");
+		table.addColumnStyleName(1, "tableHeader");
+		table.addColumnStyleName(2, "tableHeader");
+		table.addColumnStyleName(3, "tableHeader");
+		table.addColumnStyleName(4, "tableHeader");
+		table.addColumnStyleName(5, "tableHeader");
+		table.addColumnStyleName(6, "tableHeader");
 	}
 	
 	/**
