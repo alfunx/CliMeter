@@ -10,7 +10,8 @@ import com.google.gwt.user.client.ui.Widget;
  * in the MapComposite class.
  * 
  * @author 	Timo Surbeck
- * @history 2016-11-23 TS First Version 
+ * @history 2016-11-23 TS First Version
+ * 			2016-11-26 TS on-change stub method
  * @version	2016-11-23 TS 1.0
  * 
  * @responsibilities 
@@ -30,8 +31,6 @@ public class TimeLine extends SliderBar {
 
 		this.setCurrentValue((minValue + maxValue)/2);
 		this.setNumTicks((int) (maxValue - minValue));
-	
-		Console.log("Hola");
 		
 		this.setNumLabels(10);
 		this.setSize("100%", "300%");
@@ -39,7 +38,7 @@ public class TimeLine extends SliderBar {
 
 			@Override
 			public void onChange(Widget sender) {
-				Console.log("Ciao, you changed timeline!!");
+				Console.log("HelloWorld");
 
 				
 			}

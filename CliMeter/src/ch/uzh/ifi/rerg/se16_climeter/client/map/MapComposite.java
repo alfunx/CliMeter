@@ -163,8 +163,6 @@ public class MapComposite extends Composite {
 	 * @return the panel with the timeLine in it
 	 */
 	protected LayoutPanel addTimeLineToPanel(LayoutPanel timeLinePanel) {
-		// TODO: implement timeLine
-		
 		timeLinePanel.setSize("100%", "100%");
 		TimeLine timeLine = new TimeLine(1900, 2015);
 
