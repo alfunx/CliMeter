@@ -7,6 +7,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -18,7 +20,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
  * 
  * @author 		Joachim Baumann
  * @history 	2016-11-09 JB Initial Commit
- * @version 	2016-11-09 JB 1.0
+ * 				2016-11-09 JB Visual changes
+ * @version 	2016-11-28 JB 1.2
  * @responsibilities 
  * 				This class inherits from the class Visualisation.
  */
@@ -32,13 +35,14 @@ public class FilterMenu extends Visualisation {
 
 		VerticalPanel dock = new VerticalPanel();
 		dock.setStyleName("cw-DockPanel");
-		dock.setSpacing(30);
+		dock.setSpacing(10);
 
 		dock.add(countryBox(data));
 		dock.add(cityBox(data));
-		dock.add(addInaccuracyBox());
+		dock.add(addDateFilterPanel());	
+		dock.add(addInaccuracyPanel());	
 		dock.add(addResetButton());
-		
+
 		dock.setStyleName("filterMenuPanel");
 		panel.add(dock);
 	}
@@ -57,7 +61,7 @@ public class FilterMenu extends Visualisation {
 
 		// Create the suggest box
 		final SuggestBox suggestBox = new SuggestBox(oracle);
-		suggestBox.ensureDebugId("cwSuggestBox");
+		suggestBox.setStyleName("suggestBox");
 		VerticalPanel suggestPanel = new VerticalPanel();
 		suggestPanel.add(new Label("Country:"));
 		suggestPanel.add(suggestBox);
@@ -76,8 +80,8 @@ public class FilterMenu extends Visualisation {
 		}
 
 		// Create the suggest box
-		final SuggestBox suggestBox = new SuggestBox(cityOracle);
-		suggestBox.ensureDebugId("cwSuggestBox");
+		final SuggestBox suggestBox = new SuggestBox(cityOracle);		
+		suggestBox.setStyleName("suggestBox");
 		VerticalPanel suggestPanel = new VerticalPanel();
 		suggestPanel.add(new Label("City:"));
 		suggestPanel.add(suggestBox);
@@ -89,7 +93,6 @@ public class FilterMenu extends Visualisation {
 
 		Button filterButton = new Button("Filter");
 		filterButton.setStyleName("filterButton");
-//		filterButton.setWidth("200px");
 		return filterButton;
 	}
 
@@ -97,15 +100,40 @@ public class FilterMenu extends Visualisation {
 
 		Button resetButton = new Button("RESET");
 		resetButton.setStyleName("resetButton");
-//		resetButton.setWidth("200px");
 		return resetButton;
 	}
 
-	public Widget addInaccuracyBox() {
+	public Widget addInaccuracyPanel() {
 
-		CheckBox inaccuracyBox = new CheckBox("Hide inaccurate data");
+		VerticalPanel inaccuracyPanel = new VerticalPanel();
+		CheckBox inaccuracyCheckBox = new CheckBox("Hide inaccurate data");
+		TextBox inaccuracyBox = new TextBox();
 		inaccuracyBox.setStyleName("inaccuracyBox");
-//		inaccuracyBox.setWidth("200px");
-		return inaccuracyBox;
+		inaccuracyPanel.add(inaccuracyCheckBox);
+		inaccuracyPanel.add(inaccuracyBox);
+		return inaccuracyPanel;
+	}
+
+	public Widget addDateFilterPanel() {
+
+		VerticalPanel dateFilterPanel = new VerticalPanel();
+		dateFilterPanel.add(new Label("Filter dates from: "));
+
+		TextBox dateFilterBoxFrom = new TextBox();
+		dateFilterBoxFrom.setStyleName("dateFilterBoxFrom");
+		dateFilterPanel.add(dateFilterBoxFrom);
+		
+		dateFilterPanel.add(new Label("To: "));
+		TextBox dateFilterBoxTo = new TextBox();
+		dateFilterBoxTo.setStyleName("dateFilterBoxTo");
+		dateFilterPanel.add(dateFilterBoxTo);
+
+		Button dateButton = new Button("Filter date");
+		dateButton.setStyleName("dateButton");
+
+		dateFilterPanel.add(dateButton);
+
+
+		return dateFilterPanel;
 	}
 }
