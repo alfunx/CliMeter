@@ -27,15 +27,20 @@ public class FilterMenu extends Visualisation {
 
 	String[] countryArray = {"Schweiz","Deutschland","Frankreich","Schweiz1","Schweiz2"};
 	String[] cityArray = {"Zürich1","Zürich2","Zürich3","Winterthur","Winterthur1"};
+	
+	private VerticalPanel dock;
+	private MultiWordSuggestOracle countryOracle;
+	private SuggestBox countrySuggestBox;
+	private VerticalPanel CountrySuggestPanel;
 
 	public FilterMenu(ArrayList<Data> data){
 
-		VerticalPanel dock = new VerticalPanel();
+		dock = new VerticalPanel();
 		dock.setStyleName("cw-DockPanel");
 		dock.setSpacing(30);
 
-		dock.add(countryBox(data));
-		dock.add(cityBox(data));
+		dock.add(initCountryBox(data));
+		dock.add(initCityBox(data));
 		dock.add(addInaccuracyBox());
 		dock.add(addResetButton());
 		
@@ -45,28 +50,28 @@ public class FilterMenu extends Visualisation {
 
 
 
-	public Widget countryBox(ArrayList<Data> data) {
+	public Widget initCountryBox(ArrayList<Data> data) {
 		// Define the oracle that finds suggestions
-		MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
+		countryOracle = new MultiWordSuggestOracle();
 
 		// add strings which are displayed when typing character(s)
 		String[] countries = countryArray;
 		for (int i = 0; i < countries.length; ++i) {
-			oracle.add(countries[i]);
+			countryOracle.add(countries[i]);
 		}
 
 		// Create the suggest box
-		final SuggestBox suggestBox = new SuggestBox(oracle);
-		suggestBox.ensureDebugId("cwSuggestBox");
-		VerticalPanel suggestPanel = new VerticalPanel();
-		suggestPanel.add(new Label("Country:"));
-		suggestPanel.add(suggestBox);
-		suggestPanel.add(addFilterButton());
-		return suggestPanel;
+		countrySuggestBox = new SuggestBox(countryOracle);
+		countrySuggestBox.ensureDebugId("cwSuggestBox");
+		CountrySuggestPanel = new VerticalPanel();
+		CountrySuggestPanel.add(new Label("Country:"));
+		CountrySuggestPanel.add(countrySuggestBox);
+		CountrySuggestPanel.add(addFilterButton());
+		return CountrySuggestPanel;
 	}
 
 
-	public Widget cityBox(ArrayList<Data> data) {
+	public Widget initCityBox(ArrayList<Data> data) {
 		// Define the oracle that finds suggestions
 		MultiWordSuggestOracle cityOracle = new MultiWordSuggestOracle();
 		// add strings which are displayed when typing character(s)
