@@ -29,21 +29,21 @@ public class FilterMenu extends Visualisation {
 
 	String[] countryArray = {"Schweiz","Deutschland","Frankreich","Schweiz1","Schweiz2"};
 	String[] cityArray = {"Zürich1","Zürich2","Zürich3","Winterthur","Winterthur1"};
+	
 
 	public FilterMenu(ArrayList<Data> data){
 
-		VerticalPanel dock = new VerticalPanel();
-		dock.setStyleName("cw-DockPanel");
-		dock.setSpacing(10);
+		VerticalPanel filterMenuPanel = new VerticalPanel();
+		filterMenuPanel.setSpacing(10);
 
-		dock.add(countryBox(data));
-		dock.add(cityBox(data));
-		dock.add(addDateFilterPanel());	
-		dock.add(addInaccuracyPanel());	
-		dock.add(addResetButton());
+		filterMenuPanel.add(countryBox(data));
+		filterMenuPanel.add(cityBox(data));
+		filterMenuPanel.add(addDateFilterPanel());	
+		filterMenuPanel.add(addInaccuracyPanel());	
+		filterMenuPanel.add(addResetButton());
 
-		dock.setStyleName("filterMenuPanel");
-		panel.add(dock);
+		filterMenuPanel.setStyleName("filterMenuPanel");
+		panel.add(filterMenuPanel);
 	}
 
 
