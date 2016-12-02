@@ -15,7 +15,32 @@
 }
 
 .toggleFilterButton {
-	height: 100%;
-	width: 100%;
-  
+  	background: url("Images/filtericon.png"), #dfdfdf;
+  	background-repeat: no-repeat;
+ 	background-position: 50% 50%;
+  	margin: 3px;
+  	width: 3em;
+  	height: 2.5em;
+  	-moz-box-shadow:inset 0px 1px 2px 2px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 2px 2px #ffffff;
+	box-shadow:inset 0px 1px 2px 2px #ffffff;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	text-shadow:0px 1px 0px #ffffff;
+}	
+
+.toggleFilterButton:hover {
+	background: url("Images/filtericon.png"), #bbbbbb;
+	background-repeat: no-repeat;
+ 	background-position: 50% 50%;
+}
+
+.toggleFilterButton:active {
+	-moz-box-shadow:inset 0px 0px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 0px 0px 0px #ffffff;
+	box-shadow:inset 0px 0px 0px 0px #ffffff;
 }

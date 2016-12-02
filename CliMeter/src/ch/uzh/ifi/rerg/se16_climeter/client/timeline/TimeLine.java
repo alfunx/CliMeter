@@ -1,4 +1,4 @@
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.timeline;
 
 import com.google.gwt.widgetideas.client.SliderBar;
 import com.google.gwt.user.client.ui.ChangeListener;
