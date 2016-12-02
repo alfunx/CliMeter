@@ -24,27 +24,27 @@ public class TimeLine extends SliderBar {
 			@Override
 			public String formatLabel(SliderBar slider, double value) {
 				return (int) (10 * value) / 10 + "";
-		        }
-		});
-		
-		this.setStepSize((maxValue-minValue)*12);
-
-		this.setCurrentValue((minValue + maxValue)/2);
-		this.setNumTicks((int) (maxValue - minValue));
-		
-		this.setNumLabels(10);
-		this.setSize("100%", "300%");
-		this.addChangeListener(new ChangeListener() {
-
-			@Override
-			public void onChange(Widget sender) {
-				Console.log("HelloWorld");
-
-				
 			}
-			
 		});
-	
-		
+
+		this.setStepSize(1);
+		this.setCurrentValue(maxValue);
+
+		this.setNumTicks((int) (maxValue - minValue));
+		this.setNumLabels(10);
+
+		this.setSize("100%", "100%");
+//		this.addChangeListener(new ChangeListener() {
+//
+//			@Override
+//			public void onChange(Widget sender) {
+//				Console.log("HelloWorld");
+//
+//				
+//			}
+//			
+//		});
+
+
 	}
 }
