@@ -47,6 +47,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
  */
 public class Table extends Visualisation implements Exportable{
 	
+	private static final int PAGE_SIZE = 200;
+	
 	protected DataGrid<Data> table; // modifier changed to protected for JUnit tests
 	
 	// dataProvider which handles updating the data in table 
@@ -110,8 +112,9 @@ public class Table extends Visualisation implements Exportable{
 	    pager.addStyleName("pager");
 	    pager.setDisplay(table);
 	    
+	    
 	    // set how many rows per page
-		pager.setPageSize(200);
+		pager.setPageSize(PAGE_SIZE);
 		
 		// set table as display of dataProvider
 		dataProvider.addDataDisplay(table);
