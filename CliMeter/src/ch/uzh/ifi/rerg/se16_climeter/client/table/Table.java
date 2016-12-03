@@ -118,6 +118,8 @@ public class Table extends Visualisation implements Exportable{
 		
 		// set table as display of dataProvider
 		dataProvider.addDataDisplay(table);
+		// sets dataProvider as holder of the data
+		dataList = dataProvider.getList();
 		
 		// create columns with header cells
 		initColumns();
@@ -487,8 +489,6 @@ public class Table extends Visualisation implements Exportable{
 	 */
 	public void addData(ArrayList<Data> data){
 		
-		// sets dataProvider as holder of the data 
-		dataList = dataProvider.getList();
 		for(Data d : data){
 			dataList.add(d);
 		}
