@@ -74,4 +74,13 @@ public class TemperatureOverlay {
 		}
 	}
 
+	/**
+	 * @pre -
+	 * @post -
+	 * @return the dataPoints
+	 */
+	public List<DataPoint> getDataPoints() {
+		return dataPoints;
+	}
+
 }

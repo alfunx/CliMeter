@@ -2,6 +2,7 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.Point;
 import com.google.gwt.maps.client.overlays.MapCanvasProjection;
@@ -78,10 +79,17 @@ public class DataPoint {
 				dataPointPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
 
 				// setting text and style
-				HTML text = new HTML(data.getAverageTemperature() + "");
-				text.addStyleName("temperatureText");
+				HTML paddingText = new HTML("<br>");
+				paddingText.addStyleName("uncertaintyText");
+				HTML avgTempText = new HTML(NumberFormat.getFormat("0.##").format(data.getAverageTemperature()));
+				avgTempText.addStyleName("avgTempText");
+				HTML uncertaintyText = new HTML("&plusmn;" + NumberFormat.getFormat("0.##").format(data.getUncertainty()));
+				uncertaintyText.addStyleName("uncertaintyText");
+				
 				dataPointPanel.clear();
-				dataPointPanel.add(text);
+				dataPointPanel.add(paddingText);
+				dataPointPanel.add(avgTempText);
+				dataPointPanel.add(uncertaintyText);
 			}
 		};
 

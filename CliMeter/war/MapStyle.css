@@ -5,10 +5,15 @@
 	border-radius: 50%;
 	width: 35px;
 	height: 35px;
-	line-height: 35px;
+	line-height: 10px;
 }
 
-.temperatureText {
+.avgTempText {
 	font-size: 10px;
+	text-align: center;
+}
+
+.uncertaintyText {
+	font-size: 6px;
 	text-align: center;
 }
