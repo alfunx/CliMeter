@@ -43,7 +43,7 @@ public class MapComposite extends Composite {
 	private final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
 	private final boolean MAP_STREETVIEW = false;
 	private final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
-	private final double SOUTHPANEL_HEIGHT = 3;
+	private final double SOUTHPANEL_HEIGHT = 3.6;
 
 	private final double DATASET_MIN = -30.0;
 	private final double DATASET_MAX = 30.0;
@@ -173,7 +173,7 @@ public class MapComposite extends Composite {
 	 */
 	protected LayoutPanel addTimeLineToPanel(LayoutPanel timeLinePanel) {
 		timeLinePanel.setSize("100%", "100%");
-		TimeLine timeLine = new TimeLine(1900, 2015);
+		TimeLine timeLine = new TimeLine(1895, 2015);
 
 		timeLinePanel.add(timeLine);
 		return timeLinePanel;
