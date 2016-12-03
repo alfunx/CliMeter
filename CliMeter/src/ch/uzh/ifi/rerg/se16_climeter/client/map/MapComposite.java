@@ -15,6 +15,8 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
+import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
+import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
 
 /**
@@ -37,7 +39,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
  * 				This class contains the map and all layers on top of it. It 
  * 				loads the TimeLine aswell.
  */
-public class MapComposite extends Composite {
+public class MapComposite extends Composite implements Filterable {
 
 	private final int MAP_ZOOM = 5;
 	private final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
@@ -186,6 +188,11 @@ public class MapComposite extends Composite {
 	 */
 	protected MapWidget getMapWidget() {
 		return this.mapWidget;
+	}
+
+	@Override
+	public void apply(Filter filter) {
+		// TODO Auto-generated method stub
 	}
 
 }
