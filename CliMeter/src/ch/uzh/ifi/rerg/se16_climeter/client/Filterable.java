@@ -5,8 +5,8 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
  * items should be displayed.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-02 AM Initial Commit
- * @version 	2016-11-02 AM 1.0
+ * @history 	2016-12-03 AM Initial Commit
+ * @version 	2016-12-03 AM 1.0
  * @responsibilities 
  * 				This interface makes sure specific visualisations can be 
  * 				filtered.

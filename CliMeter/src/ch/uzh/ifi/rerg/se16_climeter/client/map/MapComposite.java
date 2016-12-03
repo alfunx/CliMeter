@@ -34,7 +34,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
  * 				2016-11-25 AM ShuffleButton as placeholder for TimeLine
  * 				2016-11-25 AM Map constants added
  * 				2016-11-28 AM Optional caching for temperature overlays
- * @version 	2016-11-25 AM 1.4
+ * @version 	2016-11-28 AM 1.5
  * @responsibilities 
  * 				This class contains the map and all layers on top of it. It 
  * 				loads the TimeLine aswell.
