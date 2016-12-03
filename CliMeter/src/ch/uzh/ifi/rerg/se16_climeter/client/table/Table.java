@@ -78,6 +78,8 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	private DockLayoutPanel footerPanel;
 	private DockLayoutPanel dockLayoutPanel;
 	
+	//private SQL sql;
+	
  
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
@@ -491,25 +493,41 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	 */
 	public void addData(ArrayList<Data> data){
 		
-		for(Data d : data){
+		for (Data d : data) {
 			dataList.add(d);
 		}
 		
-		table.setRowCount(data.size(), true);
+		table.setRowCount(dataList.size(), true);
 	}
 	
-
+	public void addData(){
+		ArrayList<Data> rawData = new ArrayList<Data>();
+		//rawData = sql.getData();
+		
+		for (Data d: rawData) {
+			dataList.add(d);
+		}
+		
+		dataProvider.refresh();
+		table.setRowCount(dataList.size(), true);
+	}
+	
 	@Override
 	public void apply(Filter filter) {
-		// TODO
+		ArrayList<Data> newData = new ArrayList<Data>();
+		//newData = sql.getData(filter);
+		
+		for (Data d: newData) {
+			dataList.add(d);
+		}
+		
+		dataProvider.refresh();
+		table.setRowCount(newData.size(), true);	
 	}	
 
 	@Override
 	public void export() throws Exception {
 		// TODO 
-		
-	
-		
 	}
 
 }
