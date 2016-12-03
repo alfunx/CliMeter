@@ -59,7 +59,7 @@ public class Data {
 			d.setCountry("Country");
 			d.setDate(new Date(r.nextInt(Integer.MAX_VALUE)));
 			d.setLatitude((r.nextDouble() * 2 - 1) * 80);
-			d.setLongitude((r.nextDouble() * 2 - 1) * 150);
+			d.setLongitude((r.nextDouble() * 2 - 1) * 80);
 			d.setUncertainty(r.nextDouble() * 20);
 			dataSet.add(d);
 		}
@@ -117,6 +117,15 @@ public class Data {
 	/**
 	 * @pre -
 	 * @post -
+	 * @param averageTemperature the averageTemperature to set
+	 */
+	public void setAverageTemperature(float averageTemperature) {
+		this.averageTemperature = (double) averageTemperature;
+	}
+
+	/**
+	 * @pre -
+	 * @post -
 	 * @return the uncertainty
 	 */
 	public double getUncertainty() {
@@ -130,6 +139,15 @@ public class Data {
 	 */
 	public void setUncertainty(double uncertainty) {
 		this.uncertainty = uncertainty;
+	}
+
+	/**
+	 * @pre -
+	 * @post -
+	 * @param uncertainty the uncertainty to set
+	 */
+	public void setUncertainty(float uncertainty) {
+		this.uncertainty = (double) uncertainty;
 	}
 
 	/**
@@ -187,6 +205,19 @@ public class Data {
 	}
 
 	/**
+	 * @pre latitude.endsWith("S") || latitude.endsWith("N")
+	 * @post -
+	 * @param latitude the latitude to set
+	 */
+	public void setLatitude(String latitude) {
+		if (latitude.endsWith("S")) {
+			this.latitude = Double.parseDouble(latitude.substring(0, latitude.length() - 1)) * -1;
+		} else {
+			this.latitude = Double.parseDouble(latitude.substring(0, latitude.length() - 1));
+		}
+	}
+
+	/**
 	 * @pre -
 	 * @post -
 	 * @return the longitude
@@ -202,6 +233,19 @@ public class Data {
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+
+	/**
+	 * @pre longitude.endsWith("W") || longitude.endsWith("E")
+	 * @post -
+	 * @param longitude the longitude to set
+	 */
+	public void setLongitude(String longitude) {
+		if (longitude.endsWith("W")) {
+			this.longitude = Double.parseDouble(longitude.substring(0, longitude.length() - 1)) * -1;
+		} else {
+			this.longitude = Double.parseDouble(longitude.substring(0, longitude.length() - 1));
+		}
 	}
 
 }

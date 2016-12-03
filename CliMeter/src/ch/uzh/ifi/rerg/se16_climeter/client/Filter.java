@@ -16,7 +16,7 @@ public class Filter {
 
 	private Date beginDate;
 	private Date endDate;
-	private double maxCertainty;
+	private double maxUncertainty;
 	private List<String> countries;
 	private List<String> cities;
 
@@ -62,7 +62,16 @@ public class Filter {
 	 * @return the maxCertainty
 	 */
 	public double getMaxCertainty() {
-		return maxCertainty;
+		return maxUncertainty;
+	}
+
+	/**
+	 * @pre -
+	 * @post -
+	 * @return the maxCertainty
+	 */
+	public float getMaxCertaintyFloat() {
+		return (float) maxUncertainty;
 	}
 
 	/**
@@ -71,7 +80,7 @@ public class Filter {
 	 * @param maxCertainty the maxCertainty to set
 	 */
 	public void setMaxCertainty(double maxCertainty) {
-		this.maxCertainty = maxCertainty;
+		this.maxUncertainty = maxCertainty;
 	}
 
 	/**
