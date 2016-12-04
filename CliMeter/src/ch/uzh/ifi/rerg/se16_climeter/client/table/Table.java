@@ -102,9 +102,6 @@ public class Table extends Visualisation implements Exportable, Filterable{
 		table  = new DataGrid<Data>();
 		dataProvider = new ListDataProvider<Data>();
 		
-		// set size of table
-		table.setRowCount(data.size(), true);
-		
 		// Do not refresh the headers every time the data is updated.
 		table.setAutoHeaderRefreshDisabled(true);
 		
@@ -493,23 +490,23 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	 */
 	public void addData(ArrayList<Data> data){
 		
-		for (Data d : data) {
-			dataList.add(d);
-		}
-		
-		table.setRowCount(dataList.size(), true);
+		dataProvider.getList().clear();
+	    dataProvider.getList().addAll(data);
+	    dataProvider.flush();
+	    dataProvider.refresh();
+	    //table.redraw();
+	    //table.setRowCount(dataList.size(), true);
 	}
 	
 	public void addData(){
 		ArrayList<Data> rawData = new ArrayList<Data>();
 		//rawData = sql.getData();
 		
-		for (Data d: rawData) {
-			dataList.add(d);
-		}
-		
-		dataProvider.refresh();
-		table.setRowCount(dataList.size(), true);
+		dataProvider.getList().clear();
+	    dataProvider.getList().addAll(rawData);
+	    dataProvider.flush();
+	    dataProvider.refresh();
+	    table.redraw();
 	}
 	
 	@Override
@@ -517,12 +514,11 @@ public class Table extends Visualisation implements Exportable, Filterable{
 		ArrayList<Data> newData = new ArrayList<Data>();
 		//newData = sql.getData(filter);
 		
-		for (Data d: newData) {
-			dataList.add(d);
-		}
-		
-		dataProvider.refresh();
-		table.setRowCount(newData.size(), true);	
+		dataProvider.getList().clear();
+	    dataProvider.getList().addAll(newData);
+	    dataProvider.flush();
+	    dataProvider.refresh();
+	    table.redraw();
 	}	
 
 	@Override
