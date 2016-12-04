@@ -1,6 +1,8 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -58,7 +60,7 @@ public class MapComposite extends Composite implements Filterable {
 	//	private SQL sql;
 
 	private TemperatureOverlay activeTemperatureOverlay;
-	private TreeMap<Date, TemperatureOverlay> temperatureOverlays;
+	private HashMap<Date, TemperatureOverlay> temperatureOverlays;
 
 	/**
 	 * Initialize as Composite and add google map on it.
@@ -71,7 +73,7 @@ public class MapComposite extends Composite implements Filterable {
 		this.panel = new DockLayoutPanel(Unit.EM);
 		// TODO
 		//		this.sql = new SQL();
-		this.temperatureOverlays = new TreeMap<Date, TemperatureOverlay>();
+		this.temperatureOverlays = new HashMap<Date, TemperatureOverlay>();
 
 		initWidget(this.panel);
 		draw();
