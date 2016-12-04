@@ -54,9 +54,11 @@ public class MapComposite extends Composite implements Filterable {
 	private ColorTransition colorTransition;
 	private DockLayoutPanel panel;
 	private MapWidget mapWidget;
+	// TODO
+//	private SQL sql;
 
 	private TemperatureOverlay activeTemperatureOverlay;
-	private TreeMap<Long, TemperatureOverlay> temperatureOverlays;
+	private TreeMap<Date, TemperatureOverlay> temperatureOverlays;
 
 	/**
 	 * Initialize as Composite and add google map on it.
@@ -67,7 +69,9 @@ public class MapComposite extends Composite implements Filterable {
 	public MapComposite() {
 		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.panel = new DockLayoutPanel(Unit.EM);
-		this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
+		// TODO
+//		this.sql = new SQL();
+		this.temperatureOverlays = new TreeMap<Date, TemperatureOverlay>();
 
 		initWidget(this.panel);
 		draw();
@@ -128,15 +132,15 @@ public class MapComposite extends Composite implements Filterable {
 	 * Add a set of data on the map (with caching).
 	 * @pre temperatureOverlays != null
 	 * @post -
-	 * @param date date of the temperatureOverlay
+	 * @param filter filtering criteria of the temperatureOverlay
 	 * @param dataSet a list of Data to add on the map
 	 */
-	public void addTemperatureOverlay(Date date, List<Data> dataSet) {
-		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
+	public void addTemperatureOverlay(Filter filter, List<Data> dataSet) {
+		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(filter.getBeginDate());
 
 		if (newTemperatureOverlay == null) {
 			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-			this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
+			this.temperatureOverlays.put(filter.getBeginDate(), newTemperatureOverlay);
 		}
 
 		if (this.activeTemperatureOverlay == null) {
@@ -192,7 +196,8 @@ public class MapComposite extends Composite implements Filterable {
 
 	@Override
 	public void apply(Filter filter) {
-		// TODO Auto-generated method stub
+		// TODO
+//		this.sql.getData(filter);
 	}
 
 }

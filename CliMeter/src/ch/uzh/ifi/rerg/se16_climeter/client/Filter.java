@@ -1,7 +1,6 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * The class Filter contains all filtering criteria.
@@ -17,8 +16,26 @@ public class Filter {
 	private Date beginDate;
 	private Date endDate;
 	private double maxUncertainty;
-	private List<String> countries;
-	private List<String> cities;
+	private String countries;
+	private String cities;
+
+	/**
+	 * Checks if a given filter is equal to this object.
+	 * @param filter the filter to compare
+	 * @return if the filter is equal
+	 */
+	public boolean equals(Filter filter) {
+		if (filter == null || 
+				!this.beginDate.equals(filter.getBeginDate()) || 
+				!this.endDate.equals(filter.getEndDate()) || 
+				this.maxUncertainty != filter.getMaxCertainty() || 
+				!this.countries.equals(filter.getCountries()) || 
+				!this.cities.equals(filter.getCities())) {
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * @pre -
@@ -88,7 +105,7 @@ public class Filter {
 	 * @post -
 	 * @return the countries
 	 */
-	public List<String> getCountries() {
+	public String getCountries() {
 		return countries;
 	}
 
@@ -97,7 +114,7 @@ public class Filter {
 	 * @post -
 	 * @param countries the countries to set
 	 */
-	public void setCountries(List<String> countries) {
+	public void setCountries(String countries) {
 		this.countries = countries;
 	}
 
@@ -106,7 +123,7 @@ public class Filter {
 	 * @post -
 	 * @return the cities
 	 */
-	public List<String> getCities() {
+	public String getCities() {
 		return cities;
 	}
 
@@ -115,7 +132,7 @@ public class Filter {
 	 * @post -
 	 * @param cities the cities to set
 	 */
-	public void setCities(List<String> cities) {
+	public void setCities(String cities) {
 		this.cities = cities;
 	}
 
