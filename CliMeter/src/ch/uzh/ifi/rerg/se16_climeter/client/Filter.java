@@ -29,7 +29,7 @@ public class Filter {
 		if (filter == null || 
 				!this.beginDate.equals(filter.getBeginDate()) || 
 				!this.endDate.equals(filter.getEndDate()) || 
-				this.maxUncertainty != filter.getMaxCertainty() || 
+				this.maxUncertainty != filter.getMaxUncertainty() || 
 				!this.country.equals(filter.getCountry()) || 
 				!this.city.equals(filter.getCity())) {
 			return false;
@@ -79,7 +79,7 @@ public class Filter {
 	 * @post -
 	 * @return the maxCertainty
 	 */
-	public double getMaxCertainty() {
+	public double getMaxUncertainty() {
 		return maxUncertainty;
 	}
 
@@ -88,7 +88,7 @@ public class Filter {
 	 * @post -
 	 * @return the maxCertainty
 	 */
-	public float getMaxCertaintyFloat() {
+	public float getMaxUncertaintyFloat() {
 		return (float) maxUncertainty;
 	}
 
@@ -97,7 +97,7 @@ public class Filter {
 	 * @post -
 	 * @param maxCertainty the maxCertainty to set
 	 */
-	public void setMaxCertainty(double maxCertainty) {
+	public void setMaxUncertainty(double maxCertainty) {
 		this.maxUncertainty = maxCertainty;
 	}
 
