@@ -140,4 +140,34 @@ public class SQL {
 		});
 		return list;	
 	}
+	
+	public LinkedList<LinkedList<String>> getData(Filter filter) {
+		if (filter == null) {
+			return null;
+		}
+		
+		String query = "SELECT * FROM primaryTable WHERE Longitude='%" + "Long" + "%'";
+		query = "SELECT * FROM primaryTable WHERE";
+		
+		query += " AverageTemperatureUncertainty<='%" + filter.getMaxCertaintyFloat() + "%'";
+		
+		if (filter.getBeginDate() != null && filter.getEndDate() != null) {
+			query += " dt>='%" + filter.getBeginDate() + "%' AND dt<='%" + filter.getEndDate() + "%'";
+		}
+		
+		if (filter.getCountry() != null) {
+			query += " Country='%" + filter.getCountry() + "%'";
+		}
+		
+		if (filter.getCity() != null) {
+			query += " City='%" + filter.getCity() + "%'";
+		}
+		
+		getList(query, new Listener() {
+			public void onQuerySuccess(LinkedList<LinkedList<String>> result) {
+				list = result;
+			}
+		});
+		return list;	
+	}
 }

@@ -16,7 +16,7 @@ public class Filter {
 
 	private Date beginDate;
 	private Date endDate;
-	private double maxUncertainty;
+	private double maxUncertainty = 100.0;
 	private List<String> countries;
 	private List<String> cities;
 
