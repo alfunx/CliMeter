@@ -23,6 +23,8 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Exportable;
+import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
+import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
 
@@ -45,7 +47,9 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
  * 				data from an ArrayList and wraps it in a panel.
  * 					  
  */
-public class Table extends Visualisation implements Exportable{
+public class Table extends Visualisation implements Exportable, Filterable{
+	
+	private static final int PAGE_SIZE = 200;
 	
 	protected DataGrid<Data> table; // modifier changed to protected for JUnit tests
 	
@@ -74,6 +78,8 @@ public class Table extends Visualisation implements Exportable{
 	private DockLayoutPanel footerPanel;
 	private DockLayoutPanel dockLayoutPanel;
 	
+	//private SQL sql;
+	
  
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
@@ -96,25 +102,25 @@ public class Table extends Visualisation implements Exportable{
 		table  = new DataGrid<Data>();
 		dataProvider = new ListDataProvider<Data>();
 		
-		// set size of table
-		table.setRowCount(data.size(), true);
-		
 		// Do not refresh the headers every time the data is updated.
 		table.setAutoHeaderRefreshDisabled(true);
 		
 		// Set the message to display when the table is empty.
-	    table.setEmptyTableWidget(new Label("Table does NOT contain any data!"));
+	    table.setEmptyTableWidget(new Label("Table does NOT contain any data! (SQL database not connected yet)"));
 	    
 	    // create pager for page handling and set table as the display
 	    pager = new SimplePager();
 	    pager.addStyleName("pager");
 	    pager.setDisplay(table);
 	    
+	    
 	    // set how many rows per page
-		pager.setPageSize(200);
+		pager.setPageSize(PAGE_SIZE);
 		
 		// set table as display of dataProvider
 		dataProvider.addDataDisplay(table);
+		// sets dataProvider as holder of the data
+		dataList = dataProvider.getList();
 		
 		// create columns with header cells
 		initColumns();
@@ -154,7 +160,7 @@ public class Table extends Visualisation implements Exportable{
 	 * @post filtermenu =! null
 	 */
 	private void initFilterMenu() {
-		filterMenu = new FilterMenu(Data.getRandomData(100));
+		filterMenu = new FilterMenu(Data.getRandomData(100), this);
 		
 		// create button to toggle filter visibility
 		filterHidden = true;
@@ -484,31 +490,40 @@ public class Table extends Visualisation implements Exportable{
 	 */
 	public void addData(ArrayList<Data> data){
 		
-		// sets dataProvider as holder of the data 
-		dataList = dataProvider.getList();
-		for(Data d : data){
-			dataList.add(d);
-		}
-		
-		table.setRowCount(data.size(), true);
+		dataProvider.getList().clear();
+	    dataProvider.getList().addAll(data);
+	    dataProvider.flush();
+	    dataProvider.refresh();
+	    //table.redraw();
+	    //table.setRowCount(dataList.size(), true);
 	}
 	
-	/**
-	 * NOT IMPLEMENTED YET
-	 * @pre -
-	 * @post -
-	 * @param data
-	 */
-	public void addData(Data data){
+	public void addData(){
+		ArrayList<Data> rawData = new ArrayList<Data>();
+		//rawData = sql.getData();
 		
-		// to be continued...
-			
+		dataProvider.getList().clear();
+	    dataProvider.getList().addAll(rawData);
+	    dataProvider.flush();
+	    dataProvider.refresh();
+	    table.redraw();
 	}
+	
+	@Override
+	public void apply(Filter filter) {
+		ArrayList<Data> newData = new ArrayList<Data>();
+		//newData = sql.getData(filter);
+		
+		dataProvider.getList().clear();
+	    dataProvider.getList().addAll(newData);
+	    dataProvider.flush();
+	    dataProvider.refresh();
+	    table.redraw();
+	}	
 
 	@Override
 	public void export() throws Exception {
 		// TODO 
-		
 	}
 
 }
