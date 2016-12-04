@@ -1,7 +1,10 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import com.google.gwt.maps.client.base.LatLng;
 
@@ -11,7 +14,8 @@ import com.google.gwt.maps.client.base.LatLng;
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-01 AM Initial Commit
  * 				2016-11-07 AM Added method getRandomData()
- * @version 	2016-11-07 AM 1.0
+ * 				2016-12-04 AM Added constructor to import list of strings
+ * @version 	2016-12-04 AM 1.1
  * @responsibilities 
  * 				This class represents one data point. Offers method
  * 				getRandomData() for testing purposes.
@@ -25,6 +29,33 @@ public class Data {
 	private String country;
 	private double latitude;
 	private double longitude;
+
+	/**
+	 * Default constructor.
+	 * @pre -
+	 * @post -
+	 */
+	public Data() {
+		// do nothing
+	}
+
+	/**
+	 * Load a Data object from a list of string.
+	 * @pre dataAsList != null && dataAsList.size >= 7
+	 * @post -
+	 * @param dataAsList the list containing data as strings
+	 */
+	public Data(List<String> dataAsList) {
+		if (dataAsList != null && dataAsList.size() >= 7) {
+			setDate(dataAsList.get(0));
+			setAverageTemperature(dataAsList.get(1));
+			setUncertainty(dataAsList.get(2));
+			setCity(dataAsList.get(3));
+			setCountry(dataAsList.get(4));
+			setLatitude(dataAsList.get(5));
+			setLongitude(dataAsList.get(6));
+		}
+	}
 
 	/**
 	 * Generate ArrayList with random data (only for testing purposes).
@@ -99,6 +130,21 @@ public class Data {
 	/**
 	 * @pre -
 	 * @post -
+	 * @param date the date to set
+	 * @throws ParseException date must be in the format yyyy-MM-dd
+	 */
+	public void setDate(String date) {
+		try {
+			this.date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			Console.log("ParseException: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * @pre -
+	 * @post -
 	 * @return the averageTemperature
 	 */
 	public double getAverageTemperature() {
@@ -119,8 +165,8 @@ public class Data {
 	 * @post -
 	 * @param averageTemperature the averageTemperature to set
 	 */
-	public void setAverageTemperature(float averageTemperature) {
-		this.averageTemperature = (double) averageTemperature;
+	public void setAverageTemperature(String averageTemperature) {
+		this.averageTemperature = Double.parseDouble(averageTemperature);
 	}
 
 	/**
@@ -146,8 +192,8 @@ public class Data {
 	 * @post -
 	 * @param uncertainty the uncertainty to set
 	 */
-	public void setUncertainty(float uncertainty) {
-		this.uncertainty = (double) uncertainty;
+	public void setUncertainty(String uncertainty) {
+		this.uncertainty = Double.parseDouble(uncertainty);
 	}
 
 	/**
