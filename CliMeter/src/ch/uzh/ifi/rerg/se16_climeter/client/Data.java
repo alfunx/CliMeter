@@ -1,11 +1,11 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.maps.client.base.LatLng;
 
 /**
@@ -131,15 +131,9 @@ public class Data {
 	 * @pre -
 	 * @post -
 	 * @param date the date to set
-	 * @throws ParseException date must be in the format yyyy-MM-dd
 	 */
 	public void setDate(String date) {
-		try {
-			this.date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			Console.log("ParseException: " + e.getMessage());
-		}
+		this.date = DateTimeFormat.getFormat("yyyy-MM-dd").parse(date);
 	}
 
 	/**
