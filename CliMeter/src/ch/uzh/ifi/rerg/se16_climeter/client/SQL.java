@@ -146,12 +146,12 @@ public class SQL {
 			return null;
 		}
 
-		String query = "SELECT * FROM primaryTable WHERE";
+		String query = "SELECT * FROM primaryTable";
 
-		query += " AverageTemperatureUncertainty<='%" + filter.getMaxUncertaintyFloat() + "%'";
+		query += " WHERE AverageTemperatureUncertainty<='%" + filter.getMaxUncertaintyFloat() + "%'";
 
 		if (filter.getBeginDate() != null && filter.getEndDate() != null) {
-			query += " dt>='%" + filter.getBeginDate() + "%' AND dt<='%" + filter.getEndDate() + "%'";
+			query += " AND dt>='%" + filter.getBeginDate() + "%' AND dt<='%" + filter.getEndDate() + "%'";
 		}
 
 		if (filter.getCountry() != null) {
