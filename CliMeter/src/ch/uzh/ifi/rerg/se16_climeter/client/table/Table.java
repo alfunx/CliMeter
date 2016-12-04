@@ -163,7 +163,7 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	 * @post filtermenu =! null
 	 */
 	private void initFilterMenu() {
-		filterMenu = new FilterMenu(Data.getRandomData(100));
+		filterMenu = new FilterMenu(Data.getRandomData(100), this);
 		
 		// create button to toggle filter visibility
 		filterHidden = true;

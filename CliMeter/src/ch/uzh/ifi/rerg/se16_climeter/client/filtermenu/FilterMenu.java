@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
+import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
 /**
  * The class FilterMenu includes the different widgets with which the date can be filtered.
@@ -30,10 +31,14 @@ public class FilterMenu extends Visualisation {
 	String[] countryArray = {"Schweiz","Deutschland","Frankreich","Schweiz1","Schweiz2"};
 	String[] cityArray = {"Zürich1","Zürich2","Zürich3","Winterthur","Winterthur1"};
 	
+	Table table;
+	
 
-	public FilterMenu(ArrayList<Data> data){
+	public FilterMenu(ArrayList<Data> data, Table table){
 
 		VerticalPanel filterMenuPanel = new VerticalPanel();
+		this.table = table;
+		
 		filterMenuPanel.setSpacing(10);
 
 		filterMenuPanel.add(countryBox(data));
