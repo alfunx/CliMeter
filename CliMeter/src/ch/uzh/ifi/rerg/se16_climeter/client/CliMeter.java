@@ -14,7 +14,6 @@ import com.google.gwt.core.client.EntryPoint;
  */
 public class CliMeter implements EntryPoint {
 
-	
 	private UserInterface ui;
 	
 	@Override
@@ -33,5 +32,4 @@ public class CliMeter implements EntryPoint {
 		ui.createGUI();
 		
 	}
-	
 }

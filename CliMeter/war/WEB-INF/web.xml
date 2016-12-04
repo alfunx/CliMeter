@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<web-app> xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
               http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5"
@@ -7,16 +7,16 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>ch.uzh.ifi.rerg.se16_climeter.server.GreetingServiceImpl</servlet-class>
+    <servlet-name>SQLConnector</servlet-name>
+    <servlet-class>ch.uzh.ifi.rerg.se16_climeter.server.SQLConnector</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
+    <servlet-name>SQLConnector</servlet-name>
     <url-pattern>/climeter/greet</url-pattern>
   </servlet-mapping>
   
-  <!-- Default page to serve -->
+  <!-- Default page to server -->
   <welcome-file-list>
     <welcome-file>CliMeter.html</welcome-file>
   </welcome-file-list>
