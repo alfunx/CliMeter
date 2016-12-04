@@ -3,6 +3,8 @@ package ch.uzh.ifi.rerg.se16_climeter.client.filtermenu;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -13,6 +15,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
@@ -83,7 +86,7 @@ public class FilterMenu extends Visualisation {
 		VerticalPanel suggestPanel = new VerticalPanel();
 		suggestPanel.add(new Label("Country:"));
 		suggestPanel.add(countrySuggestBox);
-		//suggestPanel.add(addFilterButton());
+		
 		return suggestPanel;
 	}
 
@@ -103,7 +106,7 @@ public class FilterMenu extends Visualisation {
 		VerticalPanel suggestPanel = new VerticalPanel();
 		suggestPanel.add(new Label("City:"));
 		suggestPanel.add(citySuggestBox);
-		//suggestPanel.add(addFilterButton());
+		
 		return suggestPanel;
 	}
 
@@ -118,10 +121,18 @@ public class FilterMenu extends Visualisation {
 		
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		
-		Button applyButton = new Button("Apply");
+		Button applyButton = new Button("Apply", new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				table.apply(getFilterValues());
+			}
+		});
 		applyButton.setStyleName("applyButton");
 		
-		Button resetButton = new Button("RESET");
+		Button resetButton = new Button("RESET", new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				// TODO
+			}
+		});
 		resetButton.setStyleName("resetButton");
 		
 		buttonPanel.add(applyButton);
@@ -156,29 +167,35 @@ public class FilterMenu extends Visualisation {
 		endDateBox.setStyleName("endDateBox");
 		dateFilterPanel.add(endDateBox);
 
-		//Button dateButton = new Button("Filter date");
-		//dateButton.setStyleName("dateButton");
-
-		//dateFilterPanel.add(dateButton);
-
-
 		return dateFilterPanel;
 	}
 	
 	public Filter getFilterValues(){
 		Filter filter = new Filter();
 		
-		String country = countrySuggestBox.getText();
-		String city = citySuggestBox.getText();
-		Date beginDate; // TODO!
-		Date endDate; //TODO!
+		String country = null;
+		String city = null;
+		Date beginDate = null; // TODO!
+		Date endDate = null ; //TODO!
+		double maxUncertainty = 0.0d;
 		
-		if (inaccuracyCheckBox.getValue() == true){
-			Double maxUncertainty = Double.parseDouble(inaccuracyBox.getText());
+		if (countrySuggestBox.getValue() != ""){
+			country = countrySuggestBox.getValue();
 		}
 		
+		if (citySuggestBox.getValue() != ""){
+			city = countrySuggestBox.getValue();
+		}
 		
+		if (inaccuracyCheckBox.getValue() == true){
+			maxUncertainty = Double.parseDouble(inaccuracyBox.getValue());
+		}
 		
+		filter.setCountry(country);
+		filter.setCity(city);
+		filter.setBeginDate(beginDate);
+		filter.setEndDate(endDate);
+		filter.setMaxUncertainty(maxUncertainty);
 		
 		return filter;
 	}
