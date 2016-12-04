@@ -131,7 +131,7 @@ public class FilterMenu extends Visualisation {
 		
 		Button resetButton = new Button("RESET", new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// TODO
+				table.addData(Data.getRandomData(200000));
 			}
 		});
 		resetButton.setStyleName("resetButton");
