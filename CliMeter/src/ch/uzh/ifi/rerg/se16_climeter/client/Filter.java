@@ -17,8 +17,8 @@ public class Filter {
 	private Date beginDate;
 	private Date endDate;
 	private double maxUncertainty;
-	private String countries;
-	private String cities;
+	private String country;
+	private String city;
 
 	/**
 	 * Checks if a given filter is equal to this object.
@@ -30,8 +30,8 @@ public class Filter {
 				!this.beginDate.equals(filter.getBeginDate()) || 
 				!this.endDate.equals(filter.getEndDate()) || 
 				this.maxUncertainty != filter.getMaxCertainty() || 
-				!this.countries.equals(filter.getCountries()) || 
-				!this.cities.equals(filter.getCities())) {
+				!this.country.equals(filter.getCountry()) || 
+				!this.city.equals(filter.getCity())) {
 			return false;
 		}
 
@@ -106,8 +106,8 @@ public class Filter {
 	 * @post -
 	 * @return the countries
 	 */
-	public String getCountries() {
-		return countries;
+	public String getCountry() {
+		return country;
 	}
 
 	/**
@@ -115,8 +115,8 @@ public class Filter {
 	 * @post -
 	 * @param countries the countries to set
 	 */
-	public void setCountries(String countries) {
-		this.countries = countries;
+	public void setCountry(String countries) {
+		this.country = countries;
 	}
 
 	/**
@@ -124,8 +124,8 @@ public class Filter {
 	 * @post -
 	 * @return the cities
 	 */
-	public String getCities() {
-		return cities;
+	public String getCity() {
+		return city;
 	}
 
 	/**
@@ -133,8 +133,8 @@ public class Filter {
 	 * @post -
 	 * @param cities the cities to set
 	 */
-	public void setCities(String cities) {
-		this.cities = cities;
+	public void setCity(String cities) {
+		this.city = cities;
 	}
 
 }
