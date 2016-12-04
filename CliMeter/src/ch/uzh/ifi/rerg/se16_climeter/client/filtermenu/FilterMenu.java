@@ -21,7 +21,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
  * @author 		Joachim Baumann
  * @history 	2016-11-09 JB Initial Commit
  * 				2016-11-09 JB Visual changes
- * 				2016-12-04 JS Prepared to updated table				
+ * 				2016-12-04 JS Prepared to apply filter on table				
  * 
  * @version 	2016-11-28 JB 1.2
  * @responsibilities 
