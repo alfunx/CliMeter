@@ -197,7 +197,8 @@ public class MapComposite extends Composite implements Filterable {
 	@Override
 	public void apply(Filter filter) {
 		// TODO
-//		this.sql.getData(filter);
+//		addTemperatureOverlay(this.sql.getData(filter));
+//		addTemperatureOverlay(filter, this.sql.getData(filter));
 	}
 
 }
