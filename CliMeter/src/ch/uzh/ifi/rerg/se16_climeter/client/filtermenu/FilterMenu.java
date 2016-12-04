@@ -58,7 +58,8 @@ public class FilterMenu extends Visualisation {
 		this.table = table;
 		
 		filterMenuPanel.setSpacing(10);
-
+		
+		filterMenuPanel.add(addFilterTitle());
 		filterMenuPanel.add(countryBox(data));
 		filterMenuPanel.add(cityBox(data));
 		filterMenuPanel.add(addDateFilterPanel());	
@@ -67,6 +68,14 @@ public class FilterMenu extends Visualisation {
 
 		filterMenuPanel.setStyleName("filterMenuPanel");
 		panel.add(filterMenuPanel);
+	}
+
+
+
+	private Widget addFilterTitle() {
+		Label title = new Label("Filter");
+		title.setStyleName("filterTitle");
+		return title;
 	}
 
 

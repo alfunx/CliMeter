@@ -29,3 +29,19 @@
 .applyButton {
 	margin: 5px;
 }
+
+.filterTitle {
+  	box-sizing: content-box;
+  	border: none;
+  	font: normal 24px/1 'Proza Libre', sans-serif;
+  	color: #000000;
+  	text-align: center;
+  	text-overflow: ellipsis;
+/*   	background: linear-gradient(360deg, rgba(140,255,53,0.29) 0, rgba(97,196,25,0.9) 50%, rgba(180,227,145,0.3) 100%); */
+/*  	background-position: 50% 50%; */
+/*   	background-origin: padding-box; */
+/*   	background-clip: border-box; */
+/*   	background-size: auto auto; */
+}
+
+
