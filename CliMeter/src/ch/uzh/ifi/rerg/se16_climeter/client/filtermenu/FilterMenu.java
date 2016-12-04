@@ -171,6 +171,12 @@ public class FilterMenu extends Visualisation {
 		return dateFilterPanel;
 	}
 	
+	/** NOT fully implemented! 
+	 * TODO: dates
+	 * 
+	 * @return filter
+	 */
+	
 	public Filter getFilterValues(){
 		Filter filter = new Filter();
 		
