@@ -145,29 +145,29 @@ public class SQL {
 		if (filter == null) {
 			return null;
 		}
-		
-		String query = "SELECT * FROM primaryTable WHERE Longitude='%" + "Long" + "%'";
-		query = "SELECT * FROM primaryTable WHERE";
-		
-		query += " AverageTemperatureUncertainty<='%" + filter.getMaxCertaintyFloat() + "%'";
-		
+
+		String query = "SELECT * FROM primaryTable WHERE";
+
+		query += " AverageTemperatureUncertainty<='%" + filter.getMaxUncertaintyFloat() + "%'";
+
 		if (filter.getBeginDate() != null && filter.getEndDate() != null) {
 			query += " dt>='%" + filter.getBeginDate() + "%' AND dt<='%" + filter.getEndDate() + "%'";
 		}
-		
+
 		if (filter.getCountry() != null) {
-			query += " Country='%" + filter.getCountry() + "%'";
+			query += " AND Country='%" + filter.getCountry() + "%'";
 		}
-		
+
 		if (filter.getCity() != null) {
-			query += " City='%" + filter.getCity() + "%'";
+			query += " AND City='%" + filter.getCity() + "%'";
 		}
-		
+
 		getList(query, new Listener() {
 			public void onQuerySuccess(LinkedList<LinkedList<String>> result) {
 				list = result;
 			}
 		});
+
 		return list;	
 	}
 }
