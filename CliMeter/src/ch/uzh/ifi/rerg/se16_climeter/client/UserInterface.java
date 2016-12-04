@@ -132,5 +132,4 @@ public class UserInterface {
 		titleContainer.setWidgetHorizontalPosition(title, Alignment.END);
 		return titleContainer;
 	}
-	
 }

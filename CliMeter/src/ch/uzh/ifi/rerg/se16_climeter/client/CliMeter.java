@@ -17,7 +17,6 @@ public class CliMeter implements EntryPoint {
 	private UserInterface ui;
 	
 	@Override
-
 	/**
 	 * Calls the createGUI method in ui (class UserInterface)
 	 * @pre	-

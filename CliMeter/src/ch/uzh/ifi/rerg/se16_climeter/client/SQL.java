@@ -35,6 +35,7 @@ public class SQL {
 	    	public void onSuccess(LinkedList<LinkedList<String>> result) {
 	    		if(listener != null){
 	    			listener.onQuerySuccess(result);
+	    			Console.log("Success");
 	    		}
 	    	}	
 	    };

@@ -26,7 +26,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class SQLConnector extends RemoteServiceServlet implements GreetingService{
 
 	static Logger log = Logger.getLogger("SQLConnector");
-	
 	/**
 	 * Tries to connect to the database.
 	 * @return Returns,if successful, the connection to the database.
