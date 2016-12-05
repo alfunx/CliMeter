@@ -199,9 +199,9 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	    	@Override
 			public int compare(Data o1, Data o2) {
 	    		/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -219,9 +219,9 @@ public class Table extends Visualisation implements Exportable, Filterable{
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -250,9 +250,9 @@ public class Table extends Visualisation implements Exportable, Filterable{
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -281,9 +281,9 @@ public class Table extends Visualisation implements Exportable, Filterable{
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -301,9 +301,9 @@ public class Table extends Visualisation implements Exportable, Filterable{
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -321,9 +321,9 @@ public class Table extends Visualisation implements Exportable, Filterable{
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -352,9 +352,9 @@ public class Table extends Visualisation implements Exportable, Filterable{
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
