@@ -16,7 +16,7 @@ public class Filter {
 
 	private Date beginDate;
 	private Date endDate;
-	private double maxUncertainty = Double.POSITIVE_INFINITY;
+	private float maxUncertainty = Float.POSITIVE_INFINITY;
 	private String country;
 	private String city;
 
@@ -79,7 +79,7 @@ public class Filter {
 	 * @post -
 	 * @param maxCertainty the maxCertainty to set
 	 */
-	public void setMaxUncertainty(double maxCertainty) {
+	public void setMaxUncertainty(float maxCertainty) {
 		this.maxUncertainty = maxCertainty;
 	}
 
