@@ -203,7 +203,7 @@ public class FilterMenu extends Visualisation {
 			city = countrySuggestBox.getValue();
 		}
 		
-		if (inaccuracyCheckBox.getValue() == true){
+		if (inaccuracyCheckBox.getValue() == true && inaccuracyBox.getValue() != ""){
 			maxUncertainty = Float.parseFloat(inaccuracyBox.getValue());
 		}
 		
