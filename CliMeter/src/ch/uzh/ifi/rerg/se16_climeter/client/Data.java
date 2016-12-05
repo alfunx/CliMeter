@@ -23,12 +23,12 @@ import com.google.gwt.maps.client.base.LatLng;
 public class Data {
 
 	private Date date;
-	private double averageTemperature;
-	private double uncertainty;
+	private float averageTemperature;
+	private float uncertainty;
 	private String city;
 	private String country;
-	private double latitude;
-	private double longitude;
+	private float latitude;
+	private float longitude;
 
 	/**
 	 * Default constructor.
@@ -68,13 +68,13 @@ public class Data {
 
 		// one data-point in zurich
 		Data d = new Data();
-		d.setAverageTemperature(88.888);
+		d.setAverageTemperature(88.888F);
 		d.setCity("Zurich");
 		d.setCountry("Switzerland");
 		d.setDate(new Date());
-		d.setLatitude(47.37174);
-		d.setLongitude(8.54226);
-		d.setUncertainty(1.5);
+		d.setLatitude(47.37174F);
+		d.setLongitude(8.54226F);
+		d.setUncertainty(1.5F);
 		dataSet.add(d);
 
 		if (quantity <= 1) {
@@ -89,9 +89,9 @@ public class Data {
 			d.setCity("City" + i);
 			d.setCountry("Country");
 			d.setDate(new Date(r.nextInt(Integer.MAX_VALUE)));
-			d.setLatitude((r.nextDouble() * 2 - 1) * 80);
-			d.setLongitude((r.nextDouble() * 2 - 1) * 80);
-			d.setUncertainty(r.nextDouble() * 20);
+			d.setLatitude((r.nextFloat() * 2 - 1) * 80);
+			d.setLongitude((r.nextFloat() * 2 - 1) * 80);
+			d.setUncertainty(r.nextFloat() * 20);
 			dataSet.add(d);
 		}
 
@@ -141,7 +141,7 @@ public class Data {
 	 * @post -
 	 * @return the averageTemperature
 	 */
-	public double getAverageTemperature() {
+	public float getAverageTemperature() {
 		return averageTemperature;
 	}
 
@@ -150,7 +150,7 @@ public class Data {
 	 * @post -
 	 * @param averageTemperature the averageTemperature to set
 	 */
-	public void setAverageTemperature(double averageTemperature) {
+	public void setAverageTemperature(float averageTemperature) {
 		this.averageTemperature = averageTemperature;
 	}
 
@@ -160,7 +160,7 @@ public class Data {
 	 * @param averageTemperature the averageTemperature to set
 	 */
 	public void setAverageTemperature(String averageTemperature) {
-		this.averageTemperature = Double.parseDouble(averageTemperature);
+		this.averageTemperature = Float.parseFloat(averageTemperature);
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class Data {
 	 * @post -
 	 * @param uncertainty the uncertainty to set
 	 */
-	public void setUncertainty(double uncertainty) {
+	public void setUncertainty(float uncertainty) {
 		this.uncertainty = uncertainty;
 	}
 
@@ -187,7 +187,7 @@ public class Data {
 	 * @param uncertainty the uncertainty to set
 	 */
 	public void setUncertainty(String uncertainty) {
-		this.uncertainty = Double.parseDouble(uncertainty);
+		this.uncertainty = Float.parseFloat(uncertainty);
 	}
 
 	/**
@@ -240,7 +240,7 @@ public class Data {
 	 * @post -
 	 * @param latitude the latitude to set
 	 */
-	public void setLatitude(double latitude) {
+	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
 
@@ -251,9 +251,9 @@ public class Data {
 	 */
 	public void setLatitude(String latitude) {
 		if (latitude.endsWith("S")) {
-			this.latitude = Double.parseDouble(latitude.substring(0, latitude.length() - 1)) * -1;
+			this.latitude = Float.parseFloat(latitude.substring(0, latitude.length() - 1)) * -1;
 		} else {
-			this.latitude = Double.parseDouble(latitude.substring(0, latitude.length() - 1));
+			this.latitude = Float.parseFloat(latitude.substring(0, latitude.length() - 1));
 		}
 	}
 
@@ -271,7 +271,7 @@ public class Data {
 	 * @post -
 	 * @param longitude the longitude to set
 	 */
-	public void setLongitude(double longitude) {
+	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
 
@@ -282,9 +282,9 @@ public class Data {
 	 */
 	public void setLongitude(String longitude) {
 		if (longitude.endsWith("W")) {
-			this.longitude = Double.parseDouble(longitude.substring(0, longitude.length() - 1)) * -1;
+			this.longitude = Float.parseFloat(longitude.substring(0, longitude.length() - 1)) * -1;
 		} else {
-			this.longitude = Double.parseDouble(longitude.substring(0, longitude.length() - 1));
+			this.longitude = Float.parseFloat(longitude.substring(0, longitude.length() - 1));
 		}
 	}
 
