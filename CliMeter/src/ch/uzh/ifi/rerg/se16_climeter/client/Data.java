@@ -23,12 +23,12 @@ import com.google.gwt.maps.client.base.LatLng;
 public class Data {
 
 	private Date date;
-	private float averageTemperature;
-	private float uncertainty;
+	private float averageTemperature = Float.NaN;
+	private float uncertainty = Float.NaN;
 	private String city;
 	private String country;
-	private float latitude;
-	private float longitude;
+	private float latitude = Float.NaN;
+	private float longitude = Float.NaN;
 
 	/**
 	 * Default constructor.
