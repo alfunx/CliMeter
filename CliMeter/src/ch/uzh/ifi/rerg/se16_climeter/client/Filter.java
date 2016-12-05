@@ -16,7 +16,7 @@ public class Filter {
 
 	private Date beginDate;
 	private Date endDate;
-	private double maxUncertainty;
+	private double maxUncertainty = Double.POSITIVE_INFINITY;
 	private String country;
 	private String city;
 

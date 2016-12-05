@@ -111,4 +111,42 @@ public class SQL {
 		return dataList;
 	}
 
+	/**
+	 * Gets all distinct values of a column.
+	 * @param column the column of the database
+	 * @return the list of strings
+	 */
+	private LinkedList<String> getDistinct(String column) {
+		LinkedList<String> stringList = new LinkedList<String>();
+		String query = "SELECT DISTINCT " + column + " FROM primaryTable";
+
+		getList(query, new Listener() {
+			public void onQuerySuccess(LinkedList<LinkedList<String>> result) {
+				list = result;
+			}
+		});
+
+		for (LinkedList<String> l : list) {
+			stringList.add(l.get(0));
+		}
+
+		return stringList;
+	}
+
+	/**
+	 * Gets all distinct values of the column Country.
+	 * @return the list of strings
+	 */
+	public LinkedList<String> getCountriesList() {
+		return getDistinct("Country");
+	}
+
+	/**
+	 * Gets all distinct values of the column City.
+	 * @return the list of strings
+	 */
+	public LinkedList<String> getCitiesList() {
+		return getDistinct("City");
+	}
+
 }
