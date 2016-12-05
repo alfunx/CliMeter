@@ -1,8 +1,7 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.maps.client.MapOptions;
@@ -15,6 +14,8 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
+import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
+import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
 
 /**
@@ -32,12 +33,12 @@ import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
  * 				2016-11-25 AM ShuffleButton as placeholder for TimeLine
  * 				2016-11-25 AM Map constants added
  * 				2016-11-28 AM Optional caching for temperature overlays
- * @version 	2016-11-25 AM 1.4
+ * @version 	2016-11-28 AM 1.5
  * @responsibilities 
  * 				This class contains the map and all layers on top of it. It 
  * 				loads the TimeLine aswell.
  */
-public class MapComposite extends Composite {
+public class MapComposite extends Composite implements Filterable {
 
 	private final int MAP_ZOOM = 5;
 	private final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
@@ -52,9 +53,11 @@ public class MapComposite extends Composite {
 	private ColorTransition colorTransition;
 	private DockLayoutPanel panel;
 	private MapWidget mapWidget;
+	// TODO
+	//	private SQL sql;
 
 	private TemperatureOverlay activeTemperatureOverlay;
-	private TreeMap<Long, TemperatureOverlay> temperatureOverlays;
+	private HashMap<Filter, TemperatureOverlay> temperatureOverlays;
 
 	/**
 	 * Initialize as Composite and add google map on it.
@@ -65,7 +68,9 @@ public class MapComposite extends Composite {
 	public MapComposite() {
 		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.panel = new DockLayoutPanel(Unit.EM);
-		this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
+		// TODO
+//		this.sql = new SQL();
+		this.temperatureOverlays = new HashMap<Filter, TemperatureOverlay>();
 
 		initWidget(this.panel);
 		draw();
@@ -126,15 +131,15 @@ public class MapComposite extends Composite {
 	 * Add a set of data on the map (with caching).
 	 * @pre temperatureOverlays != null
 	 * @post -
-	 * @param date date of the temperatureOverlay
+	 * @param filter filtering criteria of the temperatureOverlay
 	 * @param dataSet a list of Data to add on the map
 	 */
-	public void addTemperatureOverlay(Date date, List<Data> dataSet) {
-		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
+	public void addTemperatureOverlay(Filter filter, List<Data> dataSet) {
+		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(filter);
 
 		if (newTemperatureOverlay == null) {
 			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-			this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
+			this.temperatureOverlays.put(filter, newTemperatureOverlay);
 		}
 
 		if (this.activeTemperatureOverlay == null) {
@@ -186,6 +191,13 @@ public class MapComposite extends Composite {
 	 */
 	protected MapWidget getMapWidget() {
 		return this.mapWidget;
+	}
+
+	@Override
+	public void apply(Filter filter) {
+		// TODO
+//		addTemperatureOverlay(this.sql.getData(filter));
+//		addTemperatureOverlay(filter, this.sql.getData(filter));
 	}
 
 }
