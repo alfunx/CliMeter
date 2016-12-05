@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 /**
  * 
  * @author Christian Himmel
@@ -14,9 +15,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @responsibilities This class gets an input and gives the corresponding query to the database which results in a List of the formLinkedList<LinkedList<String>>
  */
 public class SQL {
+
 	static Logger log = Logger.getLogger("SQL");
 	private GreetingServiceAsync greet = GWT.create(GreetingService.class);
 	LinkedList<LinkedList<String>> list = new LinkedList<LinkedList<String>>();
+
 	/**
 	 * Sends a query to the databse, after its connection, and converts it.
 	 * @param query the query which needs that the database needs to convert.
@@ -30,18 +33,19 @@ public class SQL {
 		//Set up the callback object
 		AsyncCallback<LinkedList<LinkedList<String>>> callback = new AsyncCallback<LinkedList<LinkedList<String>>>(){
 			public void onFailure(Throwable caught) {
-	    		log.warning("AsyncCallback failed: " + caught.getMessage());
-	    	}
-	    	public void onSuccess(LinkedList<LinkedList<String>> result) {
-	    		if(listener != null){
-	    			listener.onQuerySuccess(result);
-	    			Console.log("Success");
-	    		}
-	    	}	
-	    };
-	    // Makes the call to the service
-	    greet.getData(query, callback);
+				log.warning("AsyncCallback failed: " + caught.getMessage());
+			}
+			public void onSuccess(LinkedList<LinkedList<String>> result) {
+				if(listener != null){
+					listener.onQuerySuccess(result);
+					Console.log("Success");
+				}
+			}	
+		};
+		// Makes the call to the service
+		greet.getData(query, callback);
 	}
+
 	/**
 	 * Gets a Date input, gives it to the server and returns a LinkedList
 	 * @param gets a Date dt and converts it into a string 
@@ -56,92 +60,13 @@ public class SQL {
 		});
 		return list;
 	}
+
 	/**
-	 * Gets a Temperature Input, gives it to the server and returns a LinkedList
-	 * @param gets a float Temp and converts it into a string 
-	 * @return a LinkedList<LinkedList<String>> of the corresponding server data
+	 * Returns all rows of the databank that matches the criteria in filter.
+	 * @param filter the filter to apply on database
+	 * @return a LinkedList of Data of the corresponding server data
 	 */
-	public LinkedList<LinkedList<String>> getTemperatureList(float Temp){
-		String query = "SELECT * FROM primaryTable WHERE AverageTemperature='%" + Temp + "%'";
-		getList(query, new Listener(){
-			public void onQuerySuccess(LinkedList<LinkedList<String>> result){
-				list = result;
-			}
-		});
-		return list;
-	}
-	/**
-	 * Gets a Temperature-Uncertainty Input, gives it to the server and returns a LinkedList
-	 * @param gets a float Unc and converts it into a string 
-	 * @return a LinkedList<LinkedList<String>> of the corresponding server data
-	 */
-	public LinkedList<LinkedList<String>> getUncertaintyList(float Unc){
-		String query = "SELECT * FROM primaryTable WHERE AverageTemperatureUncertainty='%" + Unc + "%'";
-		getList(query, new Listener(){
-			public void onQuerySuccess(LinkedList<LinkedList<String>> result){
-				list = result;
-			}
-		});
-		return list;	
-	}
-	/**
-	 * Gets a City Input, gives it to the server and returns a LinkedList
-	 * @param gets a String City and converts it into a string 
-	 * @return a LinkedList<LinkedList<String>> of the corresponding server data
-	 */
-	public LinkedList<LinkedList<String>> getCityList(String City){
-		String query = "SELECT * FROM primaryTable WHERE City='%" + City + "%'";
-		getList(query, new Listener(){
-			public void onQuerySuccess(LinkedList<LinkedList<String>> result){
-				list = result;
-			}
-		});
-		return list;	
-	}
-	/**
-	 * Gets a Country Input, gives it to the server and returns a LinkedList
-	 * @param gets a String Country and converts it into a string 
-	 * @return a LinkedList<LinkedList<String>> of the corresponding server data
-	 */
-	public LinkedList<LinkedList<String>> getCountry(String Country){
-		String query = "SELECT * FROM primaryTable WHERE Country='%" + Country + "%'";
-		getList(query, new Listener(){
-			public void onQuerySuccess(LinkedList<LinkedList<String>> result){
-				list = result;
-			}
-		});
-		return list;	
-	}
-	/**
-	 * Gets a Latitude Input, gives it to the server and returns a LinkedList
-	 * @param gets a String Lat and converts it into a string 
-	 * @return a LinkedList<LinkedList<String>> of the corresponding server data
-	 */
-	public LinkedList<LinkedList<String>> getLatitudeList(String Lat){
-		String query = "SELECT * FROM primaryTable WHERE Latitude='%" + Lat + "%'";
-		getList(query, new Listener(){
-			public void onQuerySuccess(LinkedList<LinkedList<String>> result){
-				list = result;
-			}
-		});
-		return list;	
-	}
-	/**
-	 * Gets a Longitude Input, gives it to the server and returns a LinkedList
-	 * @param gets a String Long and converts it into a string 
-	 * @return a LinkedList<LinkedList<String>> of the corresponding server data
-	 */
-	public LinkedList<LinkedList<String>> getLongitudeList(String Long){
-		String query = "SELECT * FROM primaryTable WHERE Longitude='%" + Long + "%'";
-		getList(query, new Listener(){
-			public void onQuerySuccess(LinkedList<LinkedList<String>> result){
-				list = result;
-			}
-		});
-		return list;	
-	}
-	
-	public LinkedList<LinkedList<String>> getData(Filter filter) {
+	public LinkedList<Data> getData(Filter filter) {
 		if (filter == null) {
 			return null;
 		}
@@ -168,6 +93,22 @@ public class SQL {
 			}
 		});
 
-		return list;	
+		return stringToData(list);	
 	}
+
+	/**
+	 * Converts lists of string to a list of Data.
+	 * @param stringList the list as list of strings
+	 * @return the list of Data
+	 */
+	public LinkedList<Data> stringToData(LinkedList<LinkedList<String>> stringList) {
+		LinkedList<Data> dataList = new LinkedList<Data>();
+
+		for (LinkedList<String> l : stringList) {
+			dataList.add(new Data(l));
+		}
+
+		return dataList;
+	}
+
 }
