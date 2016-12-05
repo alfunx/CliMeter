@@ -116,7 +116,7 @@ public class SQL {
 	 * @param column the column of the database
 	 * @return the list of strings
 	 */
-	private LinkedList<String> getDistinct(String column) {
+	public LinkedList<String> getDistinct(String column) {
 		LinkedList<String> stringList = new LinkedList<String>();
 		String query = "SELECT DISTINCT " + column + " FROM primaryTable";
 
