@@ -106,7 +106,7 @@ public class Table extends Visualisation implements Exportable, Filterable{
 		table.setAutoHeaderRefreshDisabled(true);
 		
 		// Set the message to display when the table is empty.
-	    table.setEmptyTableWidget(new Label("Table does NOT contain any data!"));
+	    table.setEmptyTableWidget(new Label("Table does NOT contain any data! (SQL database not connected yet)"));
 	    
 	    // create pager for page handling and set table as the display
 	    pager = new SimplePager();

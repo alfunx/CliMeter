@@ -1,8 +1,7 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.maps.client.MapOptions;
@@ -54,9 +53,11 @@ public class MapComposite extends Composite implements Filterable {
 	private ColorTransition colorTransition;
 	private DockLayoutPanel panel;
 	private MapWidget mapWidget;
+	// TODO
+	//	private SQL sql;
 
 	private TemperatureOverlay activeTemperatureOverlay;
-	private TreeMap<Long, TemperatureOverlay> temperatureOverlays;
+	private HashMap<Filter, TemperatureOverlay> temperatureOverlays;
 
 	/**
 	 * Initialize as Composite and add google map on it.
@@ -67,7 +68,9 @@ public class MapComposite extends Composite implements Filterable {
 	public MapComposite() {
 		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.panel = new DockLayoutPanel(Unit.EM);
-		this.temperatureOverlays = new TreeMap<Long, TemperatureOverlay>();
+		// TODO
+		//		this.sql = new SQL();
+		this.temperatureOverlays = new HashMap<Filter, TemperatureOverlay>();
 
 		initWidget(this.panel);
 		draw();
@@ -128,15 +131,15 @@ public class MapComposite extends Composite implements Filterable {
 	 * Add a set of data on the map (with caching).
 	 * @pre temperatureOverlays != null
 	 * @post -
-	 * @param date date of the temperatureOverlay
+	 * @param filter filtering criteria of the temperatureOverlay
 	 * @param dataSet a list of Data to add on the map
 	 */
-	public void addTemperatureOverlay(Date date, List<Data> dataSet) {
-		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(date.getTime());
+	public void addTemperatureOverlay(Filter filter, List<Data> dataSet) {
+		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(filter);
 
 		if (newTemperatureOverlay == null) {
 			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
-			this.temperatureOverlays.put(date.getTime(), newTemperatureOverlay);
+			this.temperatureOverlays.put(filter, newTemperatureOverlay);
 		}
 
 		if (this.activeTemperatureOverlay == null) {
@@ -192,7 +195,9 @@ public class MapComposite extends Composite implements Filterable {
 
 	@Override
 	public void apply(Filter filter) {
-		// TODO Auto-generated method stub
+		// TODO
+		//		addTemperatureOverlay(this.sql.getData(filter));
+		//		addTemperatureOverlay(filter, this.sql.getData(filter));
 	}
 
 }
