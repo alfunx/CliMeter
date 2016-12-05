@@ -184,7 +184,7 @@ public class FilterMenu extends Visualisation {
 		String city = null;
 		Date beginDate = null; // TODO!
 		Date endDate = null ; //TODO!
-		double maxUncertainty = 0.0d;
+		float maxUncertainty = 0.0F;
 		
 		if (countrySuggestBox.getValue() != ""){
 			country = countrySuggestBox.getValue();
@@ -195,7 +195,7 @@ public class FilterMenu extends Visualisation {
 		}
 		
 		if (inaccuracyCheckBox.getValue() == true){
-			maxUncertainty = Double.parseDouble(inaccuracyBox.getValue());
+			maxUncertainty = Float.parseFloat(inaccuracyBox.getValue());
 		}
 		
 		filter.setCountry(country);
