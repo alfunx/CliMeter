@@ -8,7 +8,7 @@ import java.util.Date;
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-02 AM Initial Commit
  * 				2016-12-04 AM Adjustments and added equals()
- * @version 	2016-11-02 AM 1.1
+ * @version 	2016-12-04 AM 1.1
  * @responsibilities 
  * 				This class contains filtering criteria.
  */

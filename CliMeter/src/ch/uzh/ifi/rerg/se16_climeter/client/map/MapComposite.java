@@ -69,7 +69,7 @@ public class MapComposite extends Composite implements Filterable {
 		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.panel = new DockLayoutPanel(Unit.EM);
 		// TODO
-		//		this.sql = new SQL();
+//		this.sql = new SQL();
 		this.temperatureOverlays = new HashMap<Filter, TemperatureOverlay>();
 
 		initWidget(this.panel);
@@ -196,8 +196,8 @@ public class MapComposite extends Composite implements Filterable {
 	@Override
 	public void apply(Filter filter) {
 		// TODO
-		//		addTemperatureOverlay(this.sql.getData(filter));
-		//		addTemperatureOverlay(filter, this.sql.getData(filter));
+//		addTemperatureOverlay(this.sql.getData(filter));
+//		addTemperatureOverlay(filter, this.sql.getData(filter));
 	}
 
 }
