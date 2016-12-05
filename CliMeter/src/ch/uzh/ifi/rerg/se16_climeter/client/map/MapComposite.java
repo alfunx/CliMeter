@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
@@ -178,7 +179,7 @@ public class MapComposite extends Composite implements Filterable {
 	 */
 	protected LayoutPanel addTimeLineToPanel(LayoutPanel timeLinePanel) {
 		timeLinePanel.setSize("100%", "100%");
-		TimeLine timeLine = new TimeLine(1895, 2015);
+		TimeLine timeLine = new TimeLine(1895, 2015, this);
 
 		timeLinePanel.add(timeLine);
 		return timeLinePanel;
@@ -195,6 +196,8 @@ public class MapComposite extends Composite implements Filterable {
 
 	@Override
 	public void apply(Filter filter) {
+		Console.log("MapComposite: Begin Date:" + filter.getBeginDate().toString()
+						+ ", End Date:" + filter.getEndDate().toString());
 		// TODO
 //		addTemperatureOverlay(this.sql.getData(filter));
 //		addTemperatureOverlay(filter, this.sql.getData(filter));
