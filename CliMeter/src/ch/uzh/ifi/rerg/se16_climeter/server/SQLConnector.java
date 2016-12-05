@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.GreetingService;
 
 import com.google.appengine.api.utils.SystemProperty;
@@ -33,16 +34,17 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	private static Connection ConnectionDB(){
 		String url = null;
 		Connection connection = null;
-		try{	
+		try{
 			if(SystemProperty.environment.value() == SystemProperty.Environment.Value.Production){
 				Class.forName("com.mysql.jdbc.GoogleDriver");
 				url = "jdbc:google:mysql://climeter-150120:us-central1:myinstance/cliMeter?user=root&password=3Vy;Jf/X#Hey";
 				log.info("Connection to Google SQL ready");
 				return DriverManager.getConnection(url);
-		}else{
-			 	Class.forName("com.mysql.jdbc.Driver");
-			 	url = "jdbc:mysql://127.0.0.1:3306/cliMeter?user=root&password=NewPassword";	
-			  return DriverManager.getConnection(url);
+			}else{
+				Class.forName("com.mysql.jdbc.Driver");
+				url = "jdbc:mysql://127.0.0.1:3306/cliMeter?user=root&password=NewPassword";
+				url = "jdbc:mysql://sql7.freesqldatabase.com:3306/sql7147888?user=sql7147888&password=fRyBV2ZPHE";
+				return DriverManager.getConnection(url);
 			}
 		}
 		catch (SQLException sqle){
@@ -67,7 +69,8 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @param query sends a mySQL query to the database
 	 * @return return the resulted database query as a LinkedList<LinkedList<String>>()
 	 */
-	public LinkedList<LinkedList<String>> getData (String query){
+	public LinkedList<LinkedList<String>> getData(String query){
+		Console.log("XXXXXXXXXXXXXXXXXXXX");
 		LinkedList<LinkedList<String>> list = new LinkedList<LinkedList<String>>();
 		Connection connection = null;
 		Statement statement = null;
