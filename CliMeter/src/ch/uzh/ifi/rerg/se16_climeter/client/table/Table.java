@@ -404,7 +404,7 @@ public class Table extends Visualisation implements Exportable, Filterable{
 		// add aveTemps
 		avgTempColumn = new Column<Data, Number>(new NumberCell()) {
 			@Override
-			public Double getValue(Data object) {
+			public Float getValue(Data object) {
 				return object.getAverageTemperature();
 			}
 			

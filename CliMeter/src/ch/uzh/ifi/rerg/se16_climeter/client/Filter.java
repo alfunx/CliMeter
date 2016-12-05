@@ -1,4 +1,3 @@
-
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.Date;
@@ -9,7 +8,7 @@ import java.util.Date;
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-02 AM Initial Commit
  * 				2016-12-04 AM Adjustments and added equals()
- * @version 	2016-11-02 AM 1.1
+ * @version 	2016-12-04 AM 1.1
  * @responsibilities 
  * 				This class contains filtering criteria.
  */
@@ -17,7 +16,7 @@ public class Filter {
 
 	private Date beginDate;
 	private Date endDate;
-	private double maxUncertainty;
+	private float maxUncertainty = Float.POSITIVE_INFINITY;
 	private String country;
 	private String city;
 
@@ -80,7 +79,7 @@ public class Filter {
 	 * @post -
 	 * @param maxCertainty the maxCertainty to set
 	 */
-	public void setMaxUncertainty(double maxCertainty) {
+	public void setMaxUncertainty(float maxCertainty) {
 		this.maxUncertainty = maxCertainty;
 	}
 
