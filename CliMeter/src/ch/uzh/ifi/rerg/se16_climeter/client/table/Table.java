@@ -81,8 +81,6 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	private DockLayoutPanel footerPanel;
 	private DockLayoutPanel dockLayoutPanel;
 	
-	private SQL sql;
-	
  
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
@@ -90,8 +88,8 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	 * @post table initialized
 	 * @param data
 	 */
-	public Table(ArrayList<Data> data){
-		initTable(data);
+	public Table(){
+		initTable();
 	}
 	
 	/**
@@ -101,7 +99,7 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	 * @param data, An ArraList which contains all data added to the table
 	 * @returns the initialized table
 	 */
-	private DataGrid<Data> initTable(ArrayList<Data> data) {
+	private DataGrid<Data> initTable() {
 		table  = new DataGrid<Data>();
 		dataProvider = new ListDataProvider<Data>();
 		
@@ -128,8 +126,8 @@ public class Table extends Visualisation implements Exportable, Filterable{
 		// create columns with header cells
 		initColumns();
 		
-		// add TEST DATA!
-		addData(data);
+		// add raw data
+		addData();
 		
 		// Create sortHandler
 		initSortHandler();
@@ -163,7 +161,7 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	 * @post filtermenu =! null
 	 */
 	private void initFilterMenu() {
-		filterMenu = new FilterMenu(Data.getRandomData(100), this);
+		filterMenu = new FilterMenu(this);
 		
 		// create button to toggle filter visibility
 		filterHidden = true;
@@ -502,18 +500,29 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	}
 	
 	public void addData(){
-		ArrayList<Data> rawData = new ArrayList<Data>();
-		//rawData = sql.getData();
-		
-		dataProvider.getList().clear();
-	    dataProvider.getList().addAll(rawData);
-	    dataProvider.flush();
-	    dataProvider.refresh();
-	    table.redraw();
+		SQL sql = new SQL();
+
+		sql.getData(new Filter(), new AsyncCallback<ArrayList<Data>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Data> result) {
+				dataProvider.getList().clear();
+			    dataProvider.getList().addAll(result);
+			    dataProvider.flush();
+			    dataProvider.refresh();
+			    table.redraw();
+			    Console.log("Raw data loaded");
+			}
+		});
 	}
 	
 	@Override
 	public void apply(Filter filter) {
+		SQL sql = new SQL();
 		sql.getData(filter, new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -522,15 +531,15 @@ public class Table extends Visualisation implements Exportable, Filterable{
 
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
-;				Console.log("GUUUD");
 				dataProvider.getList().clear();
 			    dataProvider.getList().addAll(result);
 			    dataProvider.flush();
 			    dataProvider.refresh();
 			    table.redraw();
+			    Console.log("Filter applied.");
 			}
 		});
-		
+	
 	}	
 
 	@Override

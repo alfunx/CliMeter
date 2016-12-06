@@ -31,7 +31,7 @@ public class TableTest extends GWTTestCase {
 
 	@Test
 	public void testTableConstructor() {
-		Table table = new Table(Data.getRandomData(100));
+		Table table = new Table();
 		Table table1 = null;
 		
 		// tests if table is initialized
@@ -41,16 +41,7 @@ public class TableTest extends GWTTestCase {
 	
 	@Test
 	public void testAddData() {
-		ArrayList<Data> data = new ArrayList<Data>();
-		Table gridTable = new Table(data);
 		
-		// tests if data is added to table
-		assertTrue(gridTable.table.getRowCount() == 0);
-		
-		data = Data.getRandomData(1);
-		gridTable.addData(data);
-		
-		assertFalse(gridTable.table.getRowCount() == 0);
 		
 	}
 

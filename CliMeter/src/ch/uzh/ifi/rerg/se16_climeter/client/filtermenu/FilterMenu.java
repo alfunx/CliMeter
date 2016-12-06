@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -18,6 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
+import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
@@ -37,8 +39,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
 public class FilterMenu extends Visualisation {
 
-	String[] countryArray = {"Schweiz","Deutschland","Frankreich","Schweiz1","Schweiz2"};
-	String[] cityArray = {"Zürich1","Zürich2","Zürich3","Winterthur","Winterthur1"};
+	String[] countryArray;
+	String[] cityArray;
 	
 	private Table table;
 	
@@ -52,16 +54,17 @@ public class FilterMenu extends Visualisation {
 	private TextBox inaccuracyBox;
 	
 
-	public FilterMenu(ArrayList<Data> data, Table table){
+	public FilterMenu(Table table){
 
 		VerticalPanel filterMenuPanel = new VerticalPanel();
 		this.table = table;
 		
+		
 		filterMenuPanel.setSpacing(10);
 		
 		filterMenuPanel.add(addFilterTitle());
-		filterMenuPanel.add(countryBox(data));
-		filterMenuPanel.add(cityBox(data));
+		filterMenuPanel.add(countryBox());
+		filterMenuPanel.add(cityBox());
 		filterMenuPanel.add(addDateFilterPanel());	
 		filterMenuPanel.add(addInaccuracyPanel());	
 		filterMenuPanel.add(addButtons());
@@ -80,16 +83,28 @@ public class FilterMenu extends Visualisation {
 
 
 
-	public Widget countryBox(ArrayList<Data> data) {
+	public Widget countryBox() {
 		// Define the oracle that finds suggestions
-		MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
+		final MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
+		
+		SQL sql = new SQL();
+		sql.getDistinctList("Country", new AsyncCallback<ArrayList<String>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
 
-		// add strings which are displayed when typing character(s)
-		String[] countries = countryArray;
-		for (int i = 0; i < countries.length; ++i) {
-			oracle.add(countries[i]);
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				countryArray = new String[result.size()];
+				countryArray = result.toArray(countryArray);
+				// add strings which are displayed when typing character(s)
+				for (int i = 0; i < countryArray.length; ++i) {
+				oracle.add(countryArray[i]);
 		}
-
+			}
+		});
+	
 		// Create the suggest box
 		countrySuggestBox = new SuggestBox(oracle);
 		countrySuggestBox.setStyleName("suggestBox");
@@ -101,14 +116,28 @@ public class FilterMenu extends Visualisation {
 	}
 
 
-	public Widget cityBox(ArrayList<Data> data) {
+	public Widget cityBox() {
 		// Define the oracle that finds suggestions
-		MultiWordSuggestOracle cityOracle = new MultiWordSuggestOracle();
-		// add strings which are displayed when typing character(s)
-		String[] cities = 	cityArray;
-		for (int i = 0; i < cities.length; ++i) {
-			cityOracle.add(cities[i]);
+		final MultiWordSuggestOracle cityOracle = new MultiWordSuggestOracle();
+		
+		SQL sql = new SQL();
+		sql.getDistinctList("City", new AsyncCallback<ArrayList<String>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				cityArray = new String[result.size()];
+				cityArray = result.toArray(cityArray);
+				
+				// add strings which are displayed when typing character(s)
+				for (int i = 0; i < cityArray.length; ++i) {
+				cityOracle.add(cityArray[i]);
 		}
+			}
+		});
 
 		// Create the suggest box
 		citySuggestBox = new SuggestBox(cityOracle);		
@@ -191,9 +220,9 @@ public class FilterMenu extends Visualisation {
 		
 		String country = null;
 		String city = null;
-		Date beginDate = new Date(15, 0, 1); // TODO!
-		Date endDate = new Date(100, 0, 1); //TODO!
-		float maxUncertainty = 0.0F;
+		Date beginDate = new Date(0, 0, 1); // TODO!
+		Date endDate = new Date(115, 0, 1); //TODO!
+		float maxUncertainty = Float.MAX_VALUE;
 		
 		if (countrySuggestBox.getValue() != ""){
 			country = countrySuggestBox.getValue();
