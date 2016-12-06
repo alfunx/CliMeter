@@ -53,9 +53,10 @@ public class MapComposite extends Composite implements Filterable {
 	private final double DATASET_MIN = 39.0;
 	private final double DATASET_MAX = -27.0;
 
-	private ColorTransition colorTransition;
+	private Filter filter;
 	private DockLayoutPanel panel;
 	private MapWidget mapWidget;
+	private ColorTransition colorTransition;
 
 	private TemperatureOverlay activeTemperatureOverlay;
 	private HashMap<Filter, TemperatureOverlay> temperatureOverlays;
@@ -67,8 +68,9 @@ public class MapComposite extends Composite implements Filterable {
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public MapComposite() {
-		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
+		this.filter = new Filter();
 		this.panel = new DockLayoutPanel(Unit.EM);
+		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.temperatureOverlays = new HashMap<Filter, TemperatureOverlay>();
 
 		initWidget(this.panel);
@@ -203,6 +205,11 @@ public class MapComposite extends Composite implements Filterable {
 				addTemperatureOverlay(filter, result);
 			}
 		});
+	}
+
+	@Override
+	public Filter getOldFilter() {
+		return this.filter;
 	}
 
 }

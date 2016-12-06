@@ -46,7 +46,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
  * 				data from an ArrayList and wraps it in a panel.
  * 					  
  */
-public class Table extends Visualisation implements Filterable{
+public class Table extends Visualisation implements Filterable {
 	
 	private static final int PAGE_SIZE = 200;
 	
@@ -518,6 +518,12 @@ public class Table extends Visualisation implements Filterable{
 	    dataProvider.flush();
 	    dataProvider.refresh();
 	    table.redraw();
+	}
+
+	@Override
+	public Filter getOldFilter() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

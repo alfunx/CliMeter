@@ -39,8 +39,9 @@ public class Filter implements IsSerializable {
 	 * @post -
 	 * @return the beginDateString
 	 */
-	public String getYear() {
-		return beginDateString.split("-")[0];
+	@SuppressWarnings("deprecation")
+	public int getYear() {
+		return beginDate.getYear() + 1900;
 	}
 
 	/**
