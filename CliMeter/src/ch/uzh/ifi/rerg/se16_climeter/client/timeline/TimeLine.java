@@ -73,6 +73,8 @@ public class TimeLine extends SliderBar {
 				
 			}
 		});
+		
+		updateValue(this.getCurrentValue());
 	}
 	
 	/**
