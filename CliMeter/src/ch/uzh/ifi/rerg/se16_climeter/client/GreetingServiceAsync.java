@@ -1,6 +1,7 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -8,5 +9,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface GreetingServiceAsync {
 	// Mit String string, am Anfang wenn mit Argumenten gearbeitet wird.
-	void getData(String string, AsyncCallback<LinkedList<LinkedList<String>>> callback);
+	public void getData(Filter filter, AsyncCallback<ArrayList<Data>> callback);
 }

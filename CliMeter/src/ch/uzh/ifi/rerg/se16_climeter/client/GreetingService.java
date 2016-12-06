@@ -1,6 +1,6 @@
 package ch.uzh.ifi.rerg.se16_climeter.client;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -11,5 +11,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
 	// Oder mit get Data(String string) wenn mit query gearbeitet wird.
-	LinkedList<LinkedList<String>> getData(String string);
+	public ArrayList<Data> getData(Filter filter);
 }
