@@ -12,7 +12,8 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
  * @author Christian Himmel
  * @history 2016-12-3 CH initial commit
  * @version 2016-12-3 CH 1
- * @responsibilities This class gets an input and gives the corresponding query to the database which results in a List of the formLinkedList<LinkedList<String>>
+ * @responsibilities This class gets an input and gives the corresponding query to the database 
+ * 						which results in a List of the formLinkedList<LinkedList<String>>
  */
 public class SQL {
 
@@ -29,6 +30,24 @@ public class SQL {
 		target.setServiceEntryPoint(moduleRelativeURL);
 
 		rpcService.getData(filter, asyncCallback);
+	}
+
+	public void getMapData(Filter filter, AsyncCallback<ArrayList<Data>> asyncCallback) {
+		GreetingServiceAsync rpcService = (GreetingServiceAsync) GWT.create(GreetingService.class);
+		ServiceDefTarget target = (ServiceDefTarget) rpcService;
+		String moduleRelativeURL = GWT.getModuleBaseURL() + "greet";
+		target.setServiceEntryPoint(moduleRelativeURL);
+
+		rpcService.getMapData(filter, asyncCallback);
+	}
+
+	public void getDistinctList(String column, AsyncCallback<ArrayList<String>> asyncCallback) {
+		GreetingServiceAsync rpcService = (GreetingServiceAsync) GWT.create(GreetingService.class);
+		ServiceDefTarget target = (ServiceDefTarget) rpcService;
+		String moduleRelativeURL = GWT.getModuleBaseURL() + "greet";
+		target.setServiceEntryPoint(moduleRelativeURL);
+
+		rpcService.getDistinctList(column, asyncCallback);
 	}
 
 }

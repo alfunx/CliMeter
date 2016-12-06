@@ -4,7 +4,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,7 +21,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * @history 2016-11-22 	CH initial commit
  * @version 2016-11-22 	CH 1
  * 			2016-12-2	CH 2
- * @responsibilities This class creates a connection between the project and the database
+ * @responsibilities This class creates a connection between the project and the database 
  * 						and converts the results into a LinkedList
  */
 @SuppressWarnings("serial")
@@ -36,9 +35,8 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 
 	/**
 	 * Tries to connect to the database.
-	 * @return Returns,if successful, the connection to the database.
-	 * @throws ClassNotFoundException 
-	 * @throws SQLException 
+	 * @return Returns the connection to the database.
+	 * @throws Exception
 	 */
 	private static Connection getConnection() throws Exception {
 		String url;
@@ -63,9 +61,9 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	}
 
 	/**
-	 * Sends the SELECT * from table to Google SQL and converts it into a LinkedList<LinkedList<String>>
-	 * @param query sends a mySQL query to the database
-	 * @return return the resulted database query as a LinkedList<LinkedList<String>>()
+	 * Returns list of Data, selected using the filter.
+	 * @param filter the filter
+	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getData(Filter filter) {
 		ArrayList<Data> dataList = new ArrayList<Data>();
@@ -73,12 +71,27 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 		Statement statement = null;
 		ResultSet result = null;
 
+		String query = "SELECT * FROM primaryTable";
+		query += " WHERE AverageTemperatureUncertainty<='" + filter.getMaxUncertaintyFloat() + "'";
+		if (filter.getBeginDate() != null) {
+			query += " AND dt>='" + filter.getBeginDateString() + "'";
+		}
+		if (filter.getEndDate() != null) {
+			query += " AND dt<='" + filter.getEndDateString() + "'";
+		}
+		if (filter.getCountry() != null) {
+			query += " AND Country='" + filter.getCountry() + "'";
+		}
+		if (filter.getCity() != null) {
+			query += " AND City='" + filter.getCity() + "'";
+		}
+		query += ";";
+
 		try {
 			connection = getConnection();
 			try {
 				statement = connection.createStatement();
-				// query = "select * from primaryTable" oder mit query (in Argumente der Funktion einfügen)
-				result = statement.executeQuery(getQuery(filter));
+				result = statement.executeQuery(query);
 				while (result.next()) {
 					Data data = new Data();
 					data.setDate(result.getDate("dt"));
@@ -102,22 +115,81 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 		return dataList;
 	}
 
-	public String getQuery(Filter filter) {
-		String query = "SELECT * FROM primaryTable";
-		query += " WHERE AverageTemperatureUncertainty<='" + filter.getMaxUncertaintyFloat() + "'";
-		if (filter.getBeginDate() != null && filter.getEndDate() != null) {
-			query += " AND dt>='" + filter.getBeginDateString() + 
-					"' AND dt<='" + filter.getEndDateString() + "'";
-		}
-		if (filter.getCountry() != null) {
-			query += " AND Country='" + filter.getCountry() + "'";
-		}
-		if (filter.getCity() != null) {
-			query += " AND City='" + filter.getCity() + "'";
-		}
-		query += ";";
+	/**
+	 * Returns list of Data for the map, selected using the filter.
+	 * @param filter the filter
+	 * @return the resulted database query as a ArrayList of Data
+	 */
+	public ArrayList<Data> getMapData(Filter filter) {
+		ArrayList<Data> dataList = new ArrayList<Data>();
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet result = null;
 
-		return query;
+		String query = "SELECT dt, City, Country, Latitude, Longitude, "
+				 + "AVG(AverageTemperatureUncertainty) AS u, AVG(AverageTemperature) AS t FROM primaryTable ";
+		query += " WHERE YEAR(dt)='" + filter.getYear() + "'";
+		query += " AND AverageTemperatureUncertainty<='" + filter.getMaxUncertaintyFloat() + "'";
+		query += " GROUP BY City;";
+
+		try {
+			connection = getConnection();
+			try {
+				statement = connection.createStatement();
+				result = statement.executeQuery(query);
+				while (result.next()) {
+					Data data = new Data();
+					data.setDate(result.getDate("dt"));
+					data.setAverageTemperature(result.getFloat("t"));
+					data.setUncertainty(result.getFloat("u"));
+					data.setCity(result.getString("City"));
+					data.setCountry(result.getString("Country"));
+					data.setLatitude(result.getString("Latitude"));
+					data.setLongitude(result.getString("Longitude"));
+					dataList.add(data);
+				}
+			} finally {
+				connection.close();
+				statement.close();
+				result.close();
+			}
+		} catch (Exception e) {
+			log.log(Level.WARNING, "Exception: " + e.getMessage());
+		}
+
+		return dataList;
+	}
+
+	/**
+	 * Returns list of strings, containing a distinct list of a column.
+	 * @param filter the filter
+	 * @return the resulted database query as a ArrayList of Data
+	 */
+	public ArrayList<String> getDistinctList(String column) {
+		ArrayList<String> dataList = new ArrayList<String>();
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet result = null;
+
+		try {
+			connection = getConnection();
+			try {
+				statement = connection.createStatement();
+				// query = "select * from primaryTable" oder mit query (in Argumente der Funktion einfügen)
+				result = statement.executeQuery("SELECT DISTINCT " + column + " FROM primaryTable");
+				while (result.next()) {
+					dataList.add(result.getString(column));
+				}
+			} finally {
+				connection.close();
+				statement.close();
+				result.close();
+			}
+		} catch (Exception e) {
+			log.log(Level.WARNING, "Exception: " + e.getMessage());
+		}
+
+		return dataList;
 	}
 
 }

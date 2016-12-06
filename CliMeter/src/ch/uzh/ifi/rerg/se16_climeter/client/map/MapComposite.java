@@ -50,8 +50,8 @@ public class MapComposite extends Composite implements Filterable {
 	private final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
 	private final double SOUTHPANEL_HEIGHT = 3.6;
 
-	private final double DATASET_MIN = -30.0;
-	private final double DATASET_MAX = 30.0;
+	private final double DATASET_MIN = 39.0;
+	private final double DATASET_MAX = -27.0;
 
 	private ColorTransition colorTransition;
 	private DockLayoutPanel panel;
@@ -69,8 +69,6 @@ public class MapComposite extends Composite implements Filterable {
 	public MapComposite() {
 		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.panel = new DockLayoutPanel(Unit.EM);
-		// TODO
-//		this.sql = new SQL();
 		this.temperatureOverlays = new HashMap<Filter, TemperatureOverlay>();
 
 		initWidget(this.panel);
@@ -197,7 +195,7 @@ public class MapComposite extends Composite implements Filterable {
 						+ ", End Date:" + filter.getEndDate().toString());
 
 		SQL sql = new SQL();
-		sql.getData(filter, new AsyncCallback<ArrayList<Data>>() {
+		sql.getMapData(filter, new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				Console.log("SQL Error.");
@@ -206,6 +204,19 @@ public class MapComposite extends Composite implements Filterable {
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
 				addTemperatureOverlay(filter, result);
+			}
+		});
+		sql.getDistinctList("Country", new AsyncCallback<ArrayList<String>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				for (String s : result) {
+					Console.log(s);
+				}
 			}
 		});
 	}
