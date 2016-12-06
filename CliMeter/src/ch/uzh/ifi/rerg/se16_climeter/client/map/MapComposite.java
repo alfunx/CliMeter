@@ -191,9 +191,6 @@ public class MapComposite extends Composite implements Filterable {
 
 	@Override
 	public void apply(final Filter filter) {
-		Console.log("MapComposite: Begin Date:" + filter.getBeginDate().toString()
-						+ ", End Date:" + filter.getEndDate().toString());
-
 		SQL sql = new SQL();
 		sql.getMapData(filter, new AsyncCallback<ArrayList<Data>>() {
 			@Override
@@ -204,19 +201,6 @@ public class MapComposite extends Composite implements Filterable {
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
 				addTemperatureOverlay(filter, result);
-			}
-		});
-		sql.getDistinctList("Country", new AsyncCallback<ArrayList<String>>() {
-			@Override
-			public void onFailure(Throwable caught) {
-				Console.log("SQL Error.");
-			}
-
-			@Override
-			public void onSuccess(ArrayList<String> result) {
-				for (String s : result) {
-					Console.log(s);
-				}
 			}
 		});
 	}

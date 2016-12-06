@@ -130,6 +130,12 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 				 + "AVG(AverageTemperatureUncertainty) AS u, AVG(AverageTemperature) AS t FROM primaryTable ";
 		query += " WHERE YEAR(dt)='" + filter.getYear() + "'";
 		query += " AND AverageTemperatureUncertainty<='" + filter.getMaxUncertaintyFloat() + "'";
+		if (filter.getCountry() != null) {
+			query += " AND Country='" + filter.getCountry() + "'";
+		}
+		if (filter.getCity() != null) {
+			query += " AND City='" + filter.getCity() + "'";
+		}
 		query += " GROUP BY City;";
 
 		try {
