@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.maps.client.base.LatLng;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * The class Data represents one data point of the measurements.
@@ -20,7 +21,7 @@ import com.google.gwt.maps.client.base.LatLng;
  * 				This class represents one data point. Offers method
  * 				getRandomData() for testing purposes.
  */
-public class Data {
+public class Data implements IsSerializable{
 
 	private Date date;
 	private float averageTemperature = Float.NaN;
@@ -36,7 +37,7 @@ public class Data {
 	 * @post -
 	 */
 	public Data() {
-		// do nothing
+		// GWT needs this
 	}
 
 	/**
