@@ -12,4 +12,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface GreetingService extends RemoteService {
 	// Oder mit get Data(String string) wenn mit query gearbeitet wird.
 	public ArrayList<Data> getData(Filter filter);
+	public ArrayList<Data> getMapData(Filter filter);
+	public ArrayList<String> getDistinctList(String column);
 }

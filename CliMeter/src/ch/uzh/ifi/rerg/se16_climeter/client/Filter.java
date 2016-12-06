@@ -37,6 +37,15 @@ public class Filter implements IsSerializable {
 	/**
 	 * @pre -
 	 * @post -
+	 * @return the beginDateString
+	 */
+	public String getYear() {
+		return beginDateString.split("-")[0];
+	}
+
+	/**
+	 * @pre -
+	 * @post -
 	 * @return the beginDate
 	 */
 	public Date getBeginDate() {

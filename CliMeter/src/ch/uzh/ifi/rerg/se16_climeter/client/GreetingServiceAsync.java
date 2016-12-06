@@ -10,4 +10,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface GreetingServiceAsync {
 	// Mit String string, am Anfang wenn mit Argumenten gearbeitet wird.
 	public void getData(Filter filter, AsyncCallback<ArrayList<Data>> callback);
+	public void getMapData(Filter filter, AsyncCallback<ArrayList<Data>> callback);
+	public void getDistinctList(String column, AsyncCallback<ArrayList<String>> callback);
 }
