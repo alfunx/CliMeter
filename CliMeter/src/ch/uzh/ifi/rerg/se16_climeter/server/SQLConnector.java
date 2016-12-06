@@ -17,12 +17,15 @@ import com.google.appengine.api.utils.SystemProperty;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * @author Christian Himmel
- * @history 2016-11-22 	CH initial commit
- * @version 2016-11-22 	CH 1
- * 			2016-12-2	CH 2
- * @responsibilities This class creates a connection between the project and the database 
- * 						and converts the results into a LinkedList
+ * The class MapComposite is a concrete Map, load into a Composite object.
+ * 
+ * @author 		Christian Himmel
+ * @history 	2016-11-22 CH Initial commit
+ * 				2016-12-06 AM Adjustments
+ * @version 	2016-12-06 AM 1.3
+ * @responsibilities 
+ * 				This class creates a connection between the project and the database 
+ * 				and converts the results into a LinkedList.
  */
 @SuppressWarnings("serial")
 public class SQLConnector extends RemoteServiceServlet implements GreetingService {

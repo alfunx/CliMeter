@@ -5,7 +5,7 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
  * between two colors for a given value in a set.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-16 AM Initial Commit
+ * @history 	2016-11-16 AM Initial commit
  * 				2016-11-26 AM Added more checks
  * @version 	2016-11-26 AM 1.1
  * @responsibilities 

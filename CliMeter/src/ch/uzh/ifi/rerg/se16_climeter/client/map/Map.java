@@ -12,7 +12,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
  * The class Map initializes a running map and returns it in a pane.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-02 AM Initial Commit
+ * @history 	2016-11-02 AM Initial commit
  * 				2016-11-03 AM Map runs in a thread
  * 				2016-11-07 AM Added parameter dataSet to constructor
  * 				2016-11-14 AM Gray-map glitch fixed

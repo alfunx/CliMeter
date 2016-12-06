@@ -26,7 +26,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
  * The class MapComposite is a concrete Map, load into a Composite object.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-03 AM Initial Commit
+ * @history 	2016-11-03 AM Initial commit
  * 				2016-11-04 AM Displays simple map
  * 				2016-11-06 AM Displays data points on the map
  * 				2016-11-07 AM Displays multiple data points

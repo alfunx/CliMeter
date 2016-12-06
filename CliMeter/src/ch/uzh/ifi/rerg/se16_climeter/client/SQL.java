@@ -8,12 +8,15 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
+ * The class MapComposite is a concrete Map, load into a Composite object.
  * 
- * @author Christian Himmel
- * @history 2016-12-3 CH initial commit
- * @version 2016-12-3 CH 1
- * @responsibilities This class gets an input and gives the corresponding query to the database 
- * 						which results in a List of the formLinkedList<LinkedList<String>>
+ * @author 		Christian Himmel
+ * @history 	2016-11-28 CH Initial commit
+ * 				2016-12-06 AM Adjustments
+ * @version 	2016-12-06 AM 1.1
+ * @responsibilities 
+ * 				This class gets an input and gives the corresponding query to the database 
+ * 				which results in a List of the formLinkedList<LinkedList<String>>.
  */
 public class SQL {
 

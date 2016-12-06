@@ -13,7 +13,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * The class Data represents one data point of the measurements.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-01 AM Initial Commit
+ * @history 	2016-11-01 AM Initial commit
  * 				2016-11-07 AM Added method getRandomData()
  * 				2016-12-04 AM Added constructor to import list of strings
  * @version 	2016-12-04 AM 1.1
