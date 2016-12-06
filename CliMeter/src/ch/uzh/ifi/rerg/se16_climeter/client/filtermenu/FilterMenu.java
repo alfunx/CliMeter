@@ -191,21 +191,29 @@ public class FilterMenu extends Visualisation {
 		
 		String country = null;
 		String city = null;
-		Date beginDate = null; // TODO!
-		Date endDate = null ; //TODO!
+		Date beginDate = new Date(15, 0, 1); // TODO!
+		Date endDate = new Date(100, 0, 1); //TODO!
 		float maxUncertainty = 0.0F;
 		
 		if (countrySuggestBox.getValue() != ""){
 			country = countrySuggestBox.getValue();
+			Console.log("Country Filter: " + country);
 		}
 		
 		if (citySuggestBox.getValue() != ""){
-			city = countrySuggestBox.getValue();
+			city = citySuggestBox.getValue();
+			Console.log("City Filter: " + city);
+			
 		}
 		
 		if (inaccuracyCheckBox.getValue() == true && inaccuracyBox.getValue() != ""){
 			maxUncertainty = Float.parseFloat(inaccuracyBox.getValue());
+			Console.log("MaxUncertainty: " + maxUncertainty);
 		}
+		
+		Console.log("BeginDate: " + beginDate.toString());
+		Console.log("EndDate: " + endDate.toString());
+		
 		
 		filter.setCountry(country);
 		filter.setCity(city);

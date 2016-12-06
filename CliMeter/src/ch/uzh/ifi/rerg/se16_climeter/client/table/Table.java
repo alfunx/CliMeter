@@ -16,15 +16,18 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.ListDataProvider;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Exportable;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
+import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
 
@@ -78,7 +81,7 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	private DockLayoutPanel footerPanel;
 	private DockLayoutPanel dockLayoutPanel;
 	
-	//private SQL sql;
+	private SQL sql;
 	
  
 	/**
@@ -511,14 +514,23 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	
 	@Override
 	public void apply(Filter filter) {
-		ArrayList<Data> newData = new ArrayList<Data>();
-		//newData = sql.getData(filter);
+		sql.getData(filter, new AsyncCallback<ArrayList<Data>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Data> result) {
+;				Console.log("GUUUD");
+				dataProvider.getList().clear();
+			    dataProvider.getList().addAll(result);
+			    dataProvider.flush();
+			    dataProvider.refresh();
+			    table.redraw();
+			}
+		});
 		
-		dataProvider.getList().clear();
-	    dataProvider.getList().addAll(newData);
-	    dataProvider.flush();
-	    dataProvider.refresh();
-	    table.redraw();
 	}	
 
 	@Override
