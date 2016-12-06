@@ -215,4 +215,8 @@ public class FilterMenu extends Visualisation {
 		
 		return filter;
 	}
+	
+	public void resetFilter() {
+		//TODO
+	}
 }
