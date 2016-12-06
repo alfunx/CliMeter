@@ -129,8 +129,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 		Statement statement = null;
 		ResultSet result = null;
 
-		String query = "SELECT dt, City, Country, Latitude, Longitude, "
-				 + "AVG(AverageTemperatureUncertainty) AS u, AVG(AverageTemperature) AS t FROM primaryTable ";
+		String query = "SELECT *, AVG(AverageTemperature) AS t, AVG(AverageTemperatureUncertainty) AS u FROM primaryTable ";
 		query += " WHERE YEAR(dt)='" + filter.getYear() + "'";
 		query += " AND AverageTemperatureUncertainty<='" + filter.getMaxUncertaintyFloat() + "'";
 		if (filter.getCountry() != null) {
