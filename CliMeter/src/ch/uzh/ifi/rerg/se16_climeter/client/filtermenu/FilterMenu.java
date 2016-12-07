@@ -73,15 +73,11 @@ public class FilterMenu extends Visualisation {
 		panel.add(filterMenuPanel);
 	}
 
-
-
 	private Widget addFilterTitle() {
 		Label title = new Label("Filter");
 		title.setStyleName("filterTitle");
 		return title;
 	}
-
-
 
 	public Widget countryBox() {
 		// Define the oracle that finds suggestions
@@ -163,13 +159,17 @@ public class FilterMenu extends Visualisation {
 		Button applyButton = new Button("Apply", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				table.apply(getFilterValues());
+				Console.log("Filter applied, wait for table to be updated...");
 			}
+			//TODO keyevent ENTER
 		});
 		applyButton.setStyleName("applyButton");
 		
 		Button resetButton = new Button("RESET", new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				table.addData(Data.getRandomData(200000));
+				table.apply(new Filter());
+				Console.log("Reset successful, wait for table to be updated...");
+				//TODO reset filterboxes
 			}
 		});
 		resetButton.setStyleName("resetButton");

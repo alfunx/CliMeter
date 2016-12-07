@@ -536,7 +536,7 @@ public class Table extends Visualisation implements Exportable, Filterable{
 			    dataProvider.flush();
 			    dataProvider.refresh();
 			    table.redraw();
-			    Console.log("Filter applied.");
+			    Console.log("Table updated.");
 			}
 		});
 	
