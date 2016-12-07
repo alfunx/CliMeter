@@ -90,10 +90,8 @@ public class DataPoint {
 				HTML uncertaintyText = new HTML("&plusmn;" + NumberFormat.getFormat("0.##").format(data.getUncertainty()));
 				uncertaintyText.addStyleName("uncertaintyText");
 
-				Button b = new Button("HELLO");
-
 				dataPointPanel.clear();
-				dataPointPanel.add(b);
+				dataPointPanel.add(paddingText);
 				dataPointPanel.add(avgTempText);
 				dataPointPanel.add(uncertaintyText);
 			}
