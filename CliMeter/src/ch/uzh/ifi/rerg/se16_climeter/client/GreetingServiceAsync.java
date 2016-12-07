@@ -10,5 +10,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface GreetingServiceAsync {
 	public void getData(Filter filter, AsyncCallback<ArrayList<Data>> callback);
 	public void getMapData(Filter filter, AsyncCallback<ArrayList<Data>> callback);
-	public void getDistinctList(String column, AsyncCallback<ArrayList<String>> callback);
+	public void getDistinctCity(AsyncCallback<ArrayList<String>> callback);
+	public void getDistinctCountry(AsyncCallback<ArrayList<String>> callback);
 }

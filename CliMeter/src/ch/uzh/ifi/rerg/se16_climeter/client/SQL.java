@@ -44,13 +44,22 @@ public class SQL {
 		rpcService.getMapData(filter, asyncCallback);
 	}
 
-	public void getDistinctList(String column, AsyncCallback<ArrayList<String>> asyncCallback) {
+	public void getDistinctCity(AsyncCallback<ArrayList<String>> asyncCallback) {
 		GreetingServiceAsync rpcService = (GreetingServiceAsync) GWT.create(GreetingService.class);
 		ServiceDefTarget target = (ServiceDefTarget) rpcService;
 		String moduleRelativeURL = GWT.getModuleBaseURL() + "greet";
 		target.setServiceEntryPoint(moduleRelativeURL);
 
-		rpcService.getDistinctList(column, asyncCallback);
+		rpcService.getDistinctCity(asyncCallback);
+	}
+
+	public void getDistinctCountry(AsyncCallback<ArrayList<String>> asyncCallback) {
+		GreetingServiceAsync rpcService = (GreetingServiceAsync) GWT.create(GreetingService.class);
+		ServiceDefTarget target = (ServiceDefTarget) rpcService;
+		String moduleRelativeURL = GWT.getModuleBaseURL() + "greet";
+		target.setServiceEntryPoint(moduleRelativeURL);
+
+		rpcService.getDistinctCountry(asyncCallback);
 	}
 
 }
