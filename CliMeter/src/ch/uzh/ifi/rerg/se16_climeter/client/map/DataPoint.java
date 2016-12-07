@@ -5,15 +5,19 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.Point;
+import com.google.gwt.maps.client.events.click.ClickMapEvent;
+import com.google.gwt.maps.client.events.click.ClickMapHandler;
 import com.google.gwt.maps.client.overlays.MapCanvasProjection;
 import com.google.gwt.maps.client.overlays.OverlayView;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewMethods;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnAddHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnRemoveHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
 /**
@@ -34,7 +38,7 @@ public class DataPoint {
 	private OverlayViewOnDrawHandler onDrawHandler;
 	private OverlayViewOnAddHandler onAddHandler;
 	private OverlayViewOnRemoveHandler onRemoveHandler;
-	private OverlayView dataPoint;
+	private DataOverlay dataPoint;
 
 	/**
 	 * Generate DataPoint object for a Data object.
@@ -85,9 +89,11 @@ public class DataPoint {
 				avgTempText.addStyleName("avgTempText");
 				HTML uncertaintyText = new HTML("&plusmn;" + NumberFormat.getFormat("0.##").format(data.getUncertainty()));
 				uncertaintyText.addStyleName("uncertaintyText");
-				
+
+				Button b = new Button("HELLO");
+
 				dataPointPanel.clear();
-				dataPointPanel.add(paddingText);
+				dataPointPanel.add(b);
 				dataPointPanel.add(avgTempText);
 				dataPointPanel.add(uncertaintyText);
 			}
@@ -96,6 +102,7 @@ public class DataPoint {
 		onAddHandler = new OverlayViewOnAddHandler() {
 			@Override
 			public void onAdd(OverlayViewMethods methods) {
+//				methods.getPanes().getOverlayMouseTarget().appendChild(dataPointPanel.getElement());
 				methods.getPanes().getFloatPane().appendChild(dataPointPanel.getElement());
 			}
 		};
@@ -107,7 +114,13 @@ public class DataPoint {
 			}
 		};
 
-		this.dataPoint = OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler);
+		this.dataPoint = (DataOverlay) OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler);
+		dataPoint.addClickHandler(new ClickMapHandler() {
+			@Override
+			public void onEvent(ClickMapEvent event) {
+				Console.log("test");
+			}
+		});
 	}
 
 	/**
