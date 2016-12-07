@@ -8,12 +8,10 @@ import com.google.gwt.maps.client.base.Point;
 import com.google.gwt.maps.client.events.click.ClickMapEvent;
 import com.google.gwt.maps.client.events.click.ClickMapHandler;
 import com.google.gwt.maps.client.overlays.MapCanvasProjection;
-import com.google.gwt.maps.client.overlays.OverlayView;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewMethods;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnAddHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnRemoveHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -112,7 +110,7 @@ public class DataPoint {
 			}
 		};
 
-		this.dataPoint = (DataOverlay) OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler);
+		this.dataPoint = DataOverlay.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler);
 		dataPoint.addClickHandler(new ClickMapHandler() {
 			@Override
 			public void onEvent(ClickMapEvent event) {
@@ -143,7 +141,7 @@ public class DataPoint {
 	 * @post -
 	 * @return the DataPoint as OverlayView
 	 */
-	public OverlayView getDataPointOverlayView() {
+	public DataOverlay getDataOverlay() {
 		return this.dataPoint;
 	}
 
