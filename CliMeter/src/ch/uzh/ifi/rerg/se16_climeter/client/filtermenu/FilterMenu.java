@@ -84,7 +84,7 @@ public class FilterMenu extends Visualisation {
 		final MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
 		
 		SQL sql = new SQL();
-		sql.getDistinctList("Country", new AsyncCallback<ArrayList<String>>() {
+		sql.getDistinctCountry(new AsyncCallback<ArrayList<String>>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				Console.log("SQL Error.");
@@ -117,7 +117,7 @@ public class FilterMenu extends Visualisation {
 		final MultiWordSuggestOracle cityOracle = new MultiWordSuggestOracle();
 		
 		SQL sql = new SQL();
-		sql.getDistinctList("City", new AsyncCallback<ArrayList<String>>() {
+		sql.getDistinctCity(new AsyncCallback<ArrayList<String>>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				Console.log("SQL Error.");

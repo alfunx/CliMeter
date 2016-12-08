@@ -24,7 +24,6 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
-import ch.uzh.ifi.rerg.se16_climeter.client.Exportable;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
@@ -50,7 +49,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
  * 				data from an ArrayList and wraps it in a panel.
  * 					  
  */
-public class Table extends Visualisation implements Exportable, Filterable{
+public class Table extends Visualisation implements Filterable {
 	
 	private static final int PAGE_SIZE = 200;
 	
@@ -543,8 +542,9 @@ public class Table extends Visualisation implements Exportable, Filterable{
 	}	
 
 	@Override
-	public void export() throws Exception {
-		// TODO 
+	public Filter getOldFilter() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

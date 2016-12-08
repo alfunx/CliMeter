@@ -30,11 +30,11 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
  * @responsibilities 
  */
 public class TimeLine extends SliderBar {
-	
+
 	// reference time value for change checking in updateValue(double value)
 	protected double value = this.getCurrentValue();
 	private MapComposite mapComposite = null;
-	
+
 	public TimeLine(double minValue, double maxValue, MapComposite mapComposite) {
 		super(minValue, maxValue, new LabelFormatter() {
 			@Override
@@ -42,22 +42,22 @@ public class TimeLine extends SliderBar {
 				return (int) (10 * value) / 10 + "";
 			}
 		});
-		
+
 		this.mapComposite = mapComposite;
-		
+
 		this.setStepSize(1);
 		this.setCurrentValue(minValue + ((maxValue-minValue)/2));
-		
+
 		this.setNumTicks((int)(maxValue - minValue));
 		this.setNumLabels((int)(maxValue - minValue)/10);
-		
+
 		this.setSize("100%", "100%");
-		
+
 		this.addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				updateValue(getCurrentValue());
-				
+
 			}
 		});
 
@@ -70,13 +70,13 @@ public class TimeLine extends SliderBar {
 				if(event.isLeftArrow() && getCurrentValue() > getMinValue()){
 					updateValue(getCurrentValue()-1);
 				}
-				
+
 			}
 		});
-		
+
 		updateValue(this.getCurrentValue());
 	}
-	
+
 	/**
 	 * Checks whether there has been an actual change on the currentValue.
 	 * If there was a change on value, the method creates a new filter
@@ -90,23 +90,20 @@ public class TimeLine extends SliderBar {
 	public void updateValue(double value){
 		if(this.value != value){
 			this.value = value;
-			
+
 			Console.log("TimeLine: Value changed, new year: " + value);
-			
-			Filter filter = new Filter();
+
+			Filter filter = this.mapComposite.getOldFilter();
 			Date chosenYear = new Date((int) value-1900, 0, 1);
-			
+
 			filter.setBeginDate(chosenYear);
 			filter.setEndDate(chosenYear);
-			
+
 			mapComposite.apply(filter);
-			
 		} else {
-			
 			Console.log("TimeLine: NO change on value, year: " + this.value);
-			
 		}
-		
+
 	}
-	
+
 }

@@ -16,7 +16,7 @@
     <url-pattern>/climeter/greet</url-pattern>
   </servlet-mapping>
   
-  <!-- Default page to server -->
+  <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>CliMeter.html</welcome-file>
   </welcome-file-list>

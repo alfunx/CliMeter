@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * The class Filter contains all filtering criteria.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-02 AM Initial Commit
+ * @history 	2016-11-02 AM Initial commit
  * 				2016-12-04 AM Adjustments and added equals()
  * @version 	2016-12-04 AM 1.1
  * @responsibilities 
@@ -39,8 +39,9 @@ public class Filter implements IsSerializable {
 	 * @post -
 	 * @return the beginDateString
 	 */
-	public String getYear() {
-		return beginDateString.split("-")[0];
+	@SuppressWarnings("deprecation")
+	public int getYear() {
+		return beginDate.getYear() + 1900;
 	}
 
 	/**
