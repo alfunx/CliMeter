@@ -184,7 +184,7 @@ public class FilterMenu extends Visualisation {
 	public Widget addInaccuracyPanel() {
 
 		VerticalPanel inaccuracyPanel = new VerticalPanel();
-		inaccuracyCheckBox = new CheckBox("Hide inaccurate data");
+		inaccuracyCheckBox = new CheckBox("Set max. uncertainity");
 		inaccuracyBox = new TextBox();
 		inaccuracyBox.setStyleName("inaccuracyBox");
 		inaccuracyPanel.add(inaccuracyCheckBox);
