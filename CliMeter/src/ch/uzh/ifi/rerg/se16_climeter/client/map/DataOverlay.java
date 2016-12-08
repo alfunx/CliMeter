@@ -1,14 +1,11 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.maps.client.MapImpl;
 import com.google.gwt.maps.client.MapWidget;
-import com.google.gwt.maps.client.events.MapEventType;
-import com.google.gwt.maps.client.events.MapHandlerRegistration;
-import com.google.gwt.maps.client.events.click.ClickEventFormatter;
-import com.google.gwt.maps.client.events.click.ClickMapHandler;
 import com.google.gwt.maps.client.mvc.MVCObject;
+import com.google.gwt.maps.client.overlays.InfoWindow;
 import com.google.gwt.maps.client.overlays.MapCanvasProjection;
 import com.google.gwt.maps.client.overlays.OverlayView;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewMethods;
@@ -16,6 +13,19 @@ import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnAddHandl
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnRemoveHandler;
 
+/**
+ * This class is a copy of OverlayView, to make a small adjustment on 
+ * row 84. InfoWindow will be shown on click on passed panel.
+ * 
+ * @author 		Alphonse Mariyagnanaseelan
+ * @history 	2016-12-08 AM Initial commit
+ * @version 	2016-12-08 AM 1.0
+ * @responsibilities 
+ * 				This class displays one data object on the map.
+ * 
+ * @see 		{@link OverlayView}
+ * @see			com.google.gwt.maps.client.overlays.OverlayView
+ */
 public class DataOverlay extends MVCObject<DataOverlay> {
 
 	/**
@@ -47,8 +57,8 @@ public class DataOverlay extends MVCObject<DataOverlay> {
 	 * @return {@link OverlayView}
 	 */
 	public final static DataOverlay newInstance(MapWidget mapWidget, OverlayViewOnDrawHandler onDrawHandler,
-			OverlayViewOnAddHandler onAddDandler, OverlayViewOnRemoveHandler onRemoveHandler) {
-		return createJso(mapWidget.getJso(), onDrawHandler, onAddDandler, onRemoveHandler).cast();
+			OverlayViewOnAddHandler onAddDandler, OverlayViewOnRemoveHandler onRemoveHandler, Element panel, InfoWindow infoWindow) {
+		return createJso(mapWidget.getJso(), onDrawHandler, onAddDandler, onRemoveHandler, panel, infoWindow).cast();
 	}
 
 	private final static native JavaScriptObject createJso() /*-{
@@ -56,25 +66,30 @@ public class DataOverlay extends MVCObject<DataOverlay> {
 	}-*/;
 
 	private final static native JavaScriptObject createJso(MapImpl map, OverlayViewOnDrawHandler onDrawHandler,
-			OverlayViewOnAddHandler onAddHandler, OverlayViewOnRemoveHandler onRemoveHandler) /*-{
+			OverlayViewOnAddHandler onAddHandler, OverlayViewOnRemoveHandler onRemoveHandler, Element panel, InfoWindow infoWindow) /*-{
 		function MapOverlay(map) {
 			this.setMap(map);
 		}
-	
+
 		MapOverlay.prototype = new $wnd.google.maps.OverlayView();
-	
+
 		MapOverlay.prototype.onAdd = function() {
 			$entry(@com.google.gwt.maps.client.overlays.OverlayView::onAddCallback(Lcom/google/gwt/maps/client/overlays/overlayhandlers/OverlayViewOnAddHandler;Lcom/google/gwt/maps/client/overlays/overlayhandlers/OverlayViewMethods;)(onAddHandler, this));
 		};
-	
+
 		MapOverlay.prototype.onRemove = function() {
 			$entry(@com.google.gwt.maps.client.overlays.OverlayView::onRemoveCallback(Lcom/google/gwt/maps/client/overlays/overlayhandlers/OverlayViewOnRemoveHandler;Lcom/google/gwt/maps/client/overlays/overlayhandlers/OverlayViewMethods;)(onRemoveHandler, this));
 		};
-	
+
 		MapOverlay.prototype.draw = function() {
-			$entry(@com.google.gwt.maps.client.overlays.OverlayView::onDrawCallback(Lcom/google/gwt/maps/client/overlays/overlayhandlers/OverlayViewOnDrawHandler;Lcom/google/gwt/maps/client/overlays/overlayhandlers/OverlayViewMethods;)(onDrawHandler, this));
+			$entry(@com.google.gwt.maps.client.overlays.OverlayView::onDrawCallback(Lcom/google/gwt/maps/client/overlays/overlayhandlers/OverlayViewOnDrawHandler;Lcom/google/gwt/maps/client/overlays/overlayhandlers/OverlayViewMethods;)(onDrawHandler, this));			
 		};
-	
+
+		// add click handler with info window
+		$wnd.google.maps.event.addDomListener(panel, 'click', function() {
+			infoWindow.open(map);
+		});
+
 		var jso = new MapOverlay(map);
 		return jso;
 	}-*/;
@@ -125,18 +140,9 @@ public class DataOverlay extends MVCObject<DataOverlay> {
 	public final native MapCanvasProjection getProjection() /*-{
 		return this.getProjection();
 	}-*/;
-	
+
 	private final native void setMapImpl(MapImpl map) /*-{
 		this.setMap(map);
 	}-*/;
-
-	/**
-	 * This event is fired when the marker icon was clicked.
-	 * 
-	 * @param handler
-	 */
-	public final HandlerRegistration addClickHandler(ClickMapHandler handler) {
-		return MapHandlerRegistration.addHandler(this, MapEventType.CLICK, handler, new ClickEventFormatter());
-	}
 
 }
