@@ -1,5 +1,6 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -17,13 +19,14 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
+import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
 
 /**
  * The class MapComposite is a concrete Map, load into a Composite object.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-03 AM Initial Commit
+ * @history 	2016-11-03 AM Initial commit
  * 				2016-11-04 AM Displays simple map
  * 				2016-11-06 AM Displays data points on the map
  * 				2016-11-07 AM Displays multiple data points
@@ -47,15 +50,13 @@ public class MapComposite extends Composite implements Filterable {
 	private final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
 	private final double SOUTHPANEL_HEIGHT = 3.6;
 
-	private final double DATASET_MIN = -30.0;
-	private final double DATASET_MAX = 30.0;
-	private final int RANDOM_DATA_AMOUNT = 140;
+	private final double DATASET_MIN = 39.0;
+	private final double DATASET_MAX = -27.0;
 
-	private ColorTransition colorTransition;
+	private Filter filter;
 	private DockLayoutPanel panel;
 	private MapWidget mapWidget;
-	// TODO
-	//	private SQL sql;
+	private ColorTransition colorTransition;
 
 	private TemperatureOverlay activeTemperatureOverlay;
 	private HashMap<Filter, TemperatureOverlay> temperatureOverlays;
@@ -67,10 +68,9 @@ public class MapComposite extends Composite implements Filterable {
 	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public MapComposite() {
-		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
+		this.filter = new Filter();
 		this.panel = new DockLayoutPanel(Unit.EM);
-		// TODO
-//		this.sql = new SQL();
+		this.colorTransition = new ColorTransition(DATASET_MIN, DATASET_MAX);
 		this.temperatureOverlays = new HashMap<Filter, TemperatureOverlay>();
 
 		initWidget(this.panel);
@@ -104,9 +104,6 @@ public class MapComposite extends Composite implements Filterable {
 		// add to composite panel
 		this.panel.addSouth(timeLinePanel, SOUTHPANEL_HEIGHT);
 		this.panel.add(mapPanel);
-
-		// TODO: remove
-		addTemperatureOverlay(Data.getRandomData(RANDOM_DATA_AMOUNT));
 	}
 
 	@Override
@@ -195,12 +192,24 @@ public class MapComposite extends Composite implements Filterable {
 	}
 
 	@Override
-	public void apply(Filter filter) {
-		Console.log("MapComposite: Begin Date:" + filter.getBeginDate().toString()
-						+ ", End Date:" + filter.getEndDate().toString());
-		// TODO
-//		addTemperatureOverlay(this.sql.getData(filter));
-//		addTemperatureOverlay(filter, this.sql.getData(filter));
+	public void apply(final Filter filter) {
+		SQL sql = new SQL();
+		sql.getMapData(filter, new AsyncCallback<ArrayList<Data>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Data> result) {
+				addTemperatureOverlay(filter, result);
+			}
+		});
+	}
+
+	@Override
+	public Filter getOldFilter() {
+		return this.filter;
 	}
 
 }

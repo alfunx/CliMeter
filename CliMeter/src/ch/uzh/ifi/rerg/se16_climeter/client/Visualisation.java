@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
  * in the class UserInterface. It has to be extended in order to be visualised.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-02 AM Initial Commit
+ * @history 	2016-11-02 AM Initial commit
  * @version 	2016-11-02 AM 1.0
  * @responsibilities 
  * 				This class makes sure visualisations offer a method 

@@ -4,7 +4,7 @@ package ch.uzh.ifi.rerg.se16_climeter.client.map;
  * The class Color represents one RGB color.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-16 AM Initial Commit
+ * @history 	2016-11-16 AM Initial commit
  * @version 	2016-11-16 AM 1.0
  * @responsibilities 
  * 				This class represents a color. Can convert an RGB color to 

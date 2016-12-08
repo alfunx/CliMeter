@@ -2,17 +2,17 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.maps.client.base.LatLng;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * The class Data represents one data point of the measurements.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-01 AM Initial Commit
+ * @history 	2016-11-01 AM Initial commit
  * 				2016-11-07 AM Added method getRandomData()
  * 				2016-12-04 AM Added constructor to import list of strings
  * @version 	2016-12-04 AM 1.1
@@ -20,7 +20,7 @@ import com.google.gwt.maps.client.base.LatLng;
  * 				This class represents one data point. Offers method
  * 				getRandomData() for testing purposes.
  */
-public class Data {
+public class Data implements IsSerializable{
 
 	private Date date;
 	private float averageTemperature = Float.NaN;
@@ -36,25 +36,7 @@ public class Data {
 	 * @post -
 	 */
 	public Data() {
-		// do nothing
-	}
-
-	/**
-	 * Load a Data object from a list of string.
-	 * @pre dataAsList != null && dataAsList.size >= 7
-	 * @post -
-	 * @param dataAsList the list containing data as strings
-	 */
-	public Data(List<String> dataAsList) {
-		if (dataAsList != null && dataAsList.size() >= 7) {
-			setDate(dataAsList.get(0));
-			setAverageTemperature(dataAsList.get(1));
-			setUncertainty(dataAsList.get(2));
-			setCity(dataAsList.get(3));
-			setCountry(dataAsList.get(4));
-			setLatitude(dataAsList.get(5));
-			setLongitude(dataAsList.get(6));
-		}
+		// GWT needs this
 	}
 
 	/**
@@ -63,6 +45,7 @@ public class Data {
 	 * @post dataSet.size() = quantity
 	 * @return an ArrayList of Data with random data
 	 */
+	@Deprecated
 	public static ArrayList<Data> getRandomData(int quantity) {
 		ArrayList<Data> dataSet = new ArrayList<Data>();
 

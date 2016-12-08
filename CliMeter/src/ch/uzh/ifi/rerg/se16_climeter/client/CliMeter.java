@@ -14,11 +14,9 @@ import com.google.gwt.core.client.EntryPoint;
  */
 public class CliMeter implements EntryPoint {
 
-	
 	private UserInterface ui;
 	
 	@Override
-
 	/**
 	 * Calls the createGUI method in ui (class UserInterface)
 	 * @pre	-
@@ -33,5 +31,4 @@ public class CliMeter implements EntryPoint {
 		ui.createGUI();
 		
 	}
-	
 }

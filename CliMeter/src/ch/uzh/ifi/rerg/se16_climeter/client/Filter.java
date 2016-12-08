@@ -2,23 +2,47 @@ package ch.uzh.ifi.rerg.se16_climeter.client;
 
 import java.util.Date;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * The class Filter contains all filtering criteria.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-02 AM Initial Commit
+ * @history 	2016-11-02 AM Initial commit
  * 				2016-12-04 AM Adjustments and added equals()
  * @version 	2016-12-04 AM 1.1
  * @responsibilities 
  * 				This class contains filtering criteria.
  */
-public class Filter {
+public class Filter implements IsSerializable {
 
 	private Date beginDate;
+	private String beginDateString;
 	private Date endDate;
-	private float maxUncertainty = Float.POSITIVE_INFINITY;
+	private String endDateString;
+	private float maxUncertainty = Float.MAX_VALUE;
 	private String country;
 	private String city;
+
+	/**
+	 * Default constructor.
+	 * @pre -
+	 * @post -
+	 */
+	public Filter() {
+		// GWT needs this
+	}
+
+	/**
+	 * @pre -
+	 * @post -
+	 * @return the beginDateString
+	 */
+	@SuppressWarnings("deprecation")
+	public int getYear() {
+		return beginDate.getYear() + 1900;
+	}
 
 	/**
 	 * @pre -
@@ -36,6 +60,16 @@ public class Filter {
 	 */
 	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
+		beginDateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(beginDate);
+	}
+
+	/**
+	 * @pre -
+	 * @post -
+	 * @return the beginDateString
+	 */
+	public String getBeginDateString() {
+		return beginDateString;
 	}
 
 	/**
@@ -54,6 +88,16 @@ public class Filter {
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+		endDateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(endDate);
+	}
+
+	/**
+	 * @pre -
+	 * @post -
+	 * @return the endDate
+	 */
+	public String getEndDateString() {
+		return endDateString;
 	}
 
 	/**

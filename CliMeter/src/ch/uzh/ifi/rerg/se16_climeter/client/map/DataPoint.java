@@ -20,7 +20,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * The class DataPoint is one Data object displayed on the map.
  * 
  * @author 		Alphonse Mariyagnanaseelan
- * @history 	2016-11-20 AM Initial Commit
+ * @history 	2016-11-20 AM Initial commit
  * @version 	2016-11-20 AM 1.0
  * @responsibilities 
  * 				This class displays one data object on the map.
