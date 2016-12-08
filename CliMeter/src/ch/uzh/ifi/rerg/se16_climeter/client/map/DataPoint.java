@@ -63,6 +63,7 @@ public class DataPoint {
 	protected void initDataPoint() {
 		final VerticalPanel dataPointPanel = new VerticalPanel();
 		dataPointPanel.addStyleName("temperatureOverlay");
+		dataPointPanel.getElement().setId("temperatureOverlay");
 
 		onDrawHandler = new OverlayViewOnDrawHandler() {
 			@Override
@@ -98,8 +99,7 @@ public class DataPoint {
 		onAddHandler = new OverlayViewOnAddHandler() {
 			@Override
 			public void onAdd(OverlayViewMethods methods) {
-//				methods.getPanes().getOverlayMouseTarget().appendChild(dataPointPanel.getElement());
-				methods.getPanes().getFloatPane().appendChild(dataPointPanel.getElement());
+				methods.getPanes().getOverlayMouseTarget().appendChild(dataPointPanel.getElement());
 			}
 		};
 
