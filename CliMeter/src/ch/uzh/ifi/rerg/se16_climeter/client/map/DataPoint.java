@@ -135,7 +135,9 @@ public class DataPoint {
 	public InfoWindow getInfoWindow() {
 		VerticalPanel infoWindowPanel = new VerticalPanel();
 		infoWindowPanel.clear();
-		infoWindowPanel.add(new HTML(data.getCity() + ", " + data.getCountry()));
+		infoWindowPanel.add(new HTML("<b>" + data.getCity() + ", " + data.getCountry() + "</b>"));
+		infoWindowPanel.add(new HTML("Avg. temperature: " + NumberFormat.getFormat("0.#####").format(this.data.getAverageTemperature())));
+		infoWindowPanel.add(new HTML("Avg. uncertainty: &plusmn;" + NumberFormat.getFormat("0.#####").format(this.data.getUncertainty())));
 
 		InfoWindowOptions infoWindowOptions = InfoWindowOptions.newInstance();
 		infoWindowOptions.setContent(infoWindowPanel);
