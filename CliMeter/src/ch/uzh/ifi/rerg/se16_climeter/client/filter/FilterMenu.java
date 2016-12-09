@@ -1,4 +1,4 @@
-package ch.uzh.ifi.rerg.se16_climeter.client.filtermenu;
+package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,8 +17,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 

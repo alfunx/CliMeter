@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
+
 /**
  * The client-side stub for the RPC service.
  */

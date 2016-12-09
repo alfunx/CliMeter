@@ -10,8 +10,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.GreetingService;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;

@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterMenu;
 import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
 /**

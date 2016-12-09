@@ -1,10 +1,8 @@
-package ch.uzh.ifi.rerg.se16_climeter.client.timeline;
+package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 
 import com.google.gwt.widgetideas.client.SliderBar;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
 
 import java.util.Date;
 

@@ -17,10 +17,10 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
-import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filterable;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.TimeLine;
 
 /**
  * The class MapComposite is a concrete Map, load into a Composite object.

@@ -7,6 +7,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
+
 /**
  * The class MapComposite is a concrete Map, load into a Composite object.
  * 
