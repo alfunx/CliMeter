@@ -177,8 +177,14 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the complete query string
 	 */
 	private String getQuery(Filter filter, String select, String groupBy) {
-		if (!isQuerySafe(select) || !isQuerySafe(groupBy) || 
-				(filter != null && (!isQuerySafe(filter.getCity()) || !isQuerySafe(filter.getCountry())))) {
+		// check if query contains illegal chars
+		if (isQueryDangerous(select) || 
+				isQueryDangerous(groupBy)) {
+			throw new IllegalArgumentException("Query contains invalid symbols.");
+		}
+		if (filter != null && 
+				(isQueryDangerous(filter.getCity()) || 
+						isQueryDangerous(filter.getCountry()))) {
 			throw new IllegalArgumentException("Query contains invalid symbols.");
 		}
 
@@ -215,14 +221,14 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 		return query;
 	}
 
-	private boolean isQuerySafe(String string) {
+	private boolean isQueryDangerous(String string) {
 		if (string == null) {
-			return true;
-		}
-		if (string.contains("'") || string.contains(";")) {
 			return false;
 		}
-		return true;
+		if (string.contains("'") || string.contains(";")) {
+			return true;
+		}
+		return false;
 	}
 
 }
