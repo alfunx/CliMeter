@@ -44,14 +44,14 @@ import ch.uzh.ifi.rerg.se16_climeter.client.timeline.TimeLine;
  */
 public class MapComposite extends Composite implements Filterable {
 
-	private final int MAP_ZOOM = 5;
-	private final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
-	private final boolean MAP_STREETVIEW = false;
-	private final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
-	private final double SOUTHPANEL_HEIGHT = 3.6;
+	private static final int MAP_ZOOM = 5;
+	private static final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
+	private static final boolean MAP_STREETVIEW = false;
+	private static final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
+	private static final double SOUTHPANEL_HEIGHT = 3.6;
 
-	private final double DATASET_MIN = 39.0;
-	private final double DATASET_MAX = -27.0;
+	private static final double DATASET_MIN = 39.0;
+	private static final double DATASET_MAX = -27.0;
 
 	private Filter filter;
 	private DockLayoutPanel panel;

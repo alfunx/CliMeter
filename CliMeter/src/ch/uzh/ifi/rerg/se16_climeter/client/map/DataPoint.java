@@ -29,6 +29,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  */
 public class DataPoint {
 
+	private static final int INFOWINDOW_OFFSET = -15;
+
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
 	private Data data;
@@ -111,17 +113,11 @@ public class DataPoint {
 		dataPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
 
 		// setting text and style
-		HTML paddingText = new HTML("<br>");
-		paddingText.addStyleName("uncertaintyText");
 		HTML avgTempText = new HTML(NumberFormat.getFormat("0.##").format(this.data.getAverageTemperature()));
 		avgTempText.addStyleName("avgTempText");
-		HTML uncertaintyText = new HTML("&plusmn;" + NumberFormat.getFormat("0.##").format(this.data.getUncertainty()));
-		uncertaintyText.addStyleName("uncertaintyText");
 
 		dataPanel.clear();
-		dataPanel.add(paddingText);
 		dataPanel.add(avgTempText);
-		dataPanel.add(uncertaintyText);
 
 		return dataPanel;
 	}
@@ -142,9 +138,15 @@ public class DataPoint {
 		InfoWindowOptions infoWindowOptions = InfoWindowOptions.newInstance();
 		infoWindowOptions.setContent(infoWindowPanel);
 		infoWindowOptions.setPosition(data.getLatLng());
+		infoWindowOptions = setPixelOffset(infoWindowOptions, INFOWINDOW_OFFSET);
 
 		return InfoWindow.newInstance(infoWindowOptions);
 	}
+
+	public native InfoWindowOptions setPixelOffset(InfoWindowOptions infoWindowOptions, int offset) /*-{
+		infoWindowOptions.pixelOffset = new $wnd.google.maps.Size(0, offset);
+		return infoWindowOptions;
+	}-*/;
 
 	/**
 	 * Set visibility of DataPoint.

@@ -86,8 +86,11 @@ public class DataOverlay extends MVCObject<DataOverlay> {
 		};
 
 		// add click handler with info window
-		$wnd.google.maps.event.addDomListener(panel, 'click', function() {
+		$wnd.google.maps.event.addDomListener(panel, 'mouseover', function() {
 			infoWindow.open(map);
+		});
+		$wnd.google.maps.event.addDomListener(panel, 'mouseout', function() {
+			infoWindow.close();
 		});
 
 		var jso = new MapOverlay(map);
