@@ -44,4 +44,14 @@
 /*   	background-size: auto auto; */
 }
 
+.statusBoxReady {
+	background: #1fc81d;
+	color: black;
+}
+
+.statusBoxLoading {
+	background: #ffe600;
+	color: black;
+}
+
 

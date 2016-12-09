@@ -101,7 +101,11 @@ public class Table extends Visualisation implements Filterable {
 	 */
 	private DataGrid<Data> initTable() {
 		table  = new DataGrid<Data>();
+		
 		dataProvider = new ListDataProvider<Data>();
+		
+		// create filterMenu
+		initFilterMenu();
 		
 		// Do not refresh the headers every time the data is updated.
 		table.setAutoHeaderRefreshDisabled(true);
@@ -113,7 +117,6 @@ public class Table extends Visualisation implements Filterable {
 	    pager = new SimplePager();
 	    pager.addStyleName("pager");
 	    pager.setDisplay(table);
-	    
 	    
 	    // set how many rows per page
 		pager.setPageSize(PAGE_SIZE);
@@ -131,11 +134,6 @@ public class Table extends Visualisation implements Filterable {
 		
 		// Create sortHandler
 		initSortHandler();
-		
-		// create filterMenu
-		initFilterMenu();
-		
-		
 				
 		// create footerpanel for pager and toggleButton
 		footerPanel = new DockLayoutPanel(Unit.EM);
@@ -145,7 +143,7 @@ public class Table extends Visualisation implements Filterable {
 		// create docklayoutPanel to organize the view of table, filter and pager
 		dockLayoutPanel = new DockLayoutPanel(Unit.EM);
 		dockLayoutPanel.addEast(filterMenu.getPanel(), 18);
-		dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
+		//dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
 		dockLayoutPanel.addSouth(footerPanel, 3);
 		dockLayoutPanel.add(table);
 		
@@ -164,7 +162,7 @@ public class Table extends Visualisation implements Filterable {
 		filterMenu = new FilterMenu(this);
 		
 		// create button to toggle filter visibility
-		filterHidden = true;
+		filterHidden = false;
 		toggleFilterButton = new Button();
 		toggleFilterButton.removeStyleName("gwt-Button");
 		toggleFilterButton.addClickHandler(new ClickHandler() {
@@ -490,6 +488,9 @@ public class Table extends Visualisation implements Filterable {
 	public void addRawData(){
 		SQL sql = new SQL();
 		
+		filterMenu.getStatusBox().setText("Loading raw data...");
+		filterMenu.getStatusBox().setStyleName("statusBoxLoading");
+		
 		sql.getData(new Filter(), new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -504,6 +505,8 @@ public class Table extends Visualisation implements Filterable {
 			    dataProvider.refresh();
 			    table.redraw();
 			    Console.log("Raw data loaded");
+			    filterMenu.getStatusBox().setText("Table ready");
+			    filterMenu.getStatusBox().setStyleName("statusBoxReady");
 			}
 		});
 	}
@@ -511,6 +514,8 @@ public class Table extends Visualisation implements Filterable {
 	@Override
 	public void apply(Filter filter) {
 		SQL sql = new SQL();
+		
+		
 		sql.getData(filter, new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -525,6 +530,8 @@ public class Table extends Visualisation implements Filterable {
 			    dataProvider.refresh();
 			    table.redraw();
 			    Console.log("Table updated.");
+			    filterMenu.getStatusBox().setText("Table ready");
+			    filterMenu.getStatusBox().setStyleName("statusBoxReady");
 			}
 		});
 	

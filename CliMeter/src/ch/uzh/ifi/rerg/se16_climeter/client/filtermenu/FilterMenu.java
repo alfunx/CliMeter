@@ -3,8 +3,10 @@ package ch.uzh.ifi.rerg.se16_climeter.client.filtermenu;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -19,7 +21,6 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
-import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
@@ -40,6 +41,9 @@ import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
  */
 
 public class FilterMenu extends Visualisation {
+	
+	final static Date STANDARD_BEGIN_DATE = new Date(-200, 0, 1);
+	final static Date STANDARD_END_DATE = new Date(116, 11, 31);
 
 	String[] countryArray;
 	String[] cityArray;
@@ -55,6 +59,8 @@ public class FilterMenu extends Visualisation {
 	private CheckBox inaccuracyCheckBox;
 	private TextBox inaccuracyBox;
 	
+	private TextBox statusBox;
+	
 
 	public FilterMenu(Table table){
 
@@ -64,12 +70,13 @@ public class FilterMenu extends Visualisation {
 		
 		filterMenuPanel.setSpacing(10);
 		
-		filterMenuPanel.add(addFilterTitle());
+		filterMenuPanel.add(initFilterTitle());
 		filterMenuPanel.add(countryBox());
 		filterMenuPanel.add(cityBox());
 		filterMenuPanel.add(addDateFilterPanel());	
 		filterMenuPanel.add(addInaccuracyPanel());	
 		filterMenuPanel.add(addButtons());
+		filterMenuPanel.add(initStatusBox());
 
 		filterMenuPanel.setStyleName("filterMenuPanel");
 		panel.add(filterMenuPanel);
@@ -81,10 +88,22 @@ public class FilterMenu extends Visualisation {
 	 * 
 	 * @return title widget
 	 */
-	private Widget addFilterTitle() {
+	private Widget initFilterTitle() {
 		Label title = new Label("Filter");
 		title.setStyleName("filterTitle");
 		return title;
+	}
+	
+	/**
+	 * Creates text box to show table status
+	 */
+	
+	private Widget initStatusBox() {
+		statusBox = new TextBox();
+		statusBox.setEnabled(false);
+		statusBox.setText("");
+		
+		return statusBox;
 	}
 	
 	/** Creates a suggestion ox for countries
@@ -174,6 +193,8 @@ public class FilterMenu extends Visualisation {
 			public void onClick(ClickEvent event) {
 				table.apply(getFilterValues());
 				Console.log("Filter applied, wait for table to be updated...");
+				statusBox.setText("Updating table...");
+				statusBox.setStyleName("statusBoxLoading");
 			}
 			//TODO keyevent ENTER
 		});
@@ -184,6 +205,8 @@ public class FilterMenu extends Visualisation {
 				resetFilter();
 				table.apply(new Filter());
 				Console.log("Reset successful, wait for table to be updated...");
+				statusBox.setText("Reseting table...");
+				statusBox.setStyleName("statusBoxLoading");
 				countrySuggestBox.setFocus(true);
 			}
 		});
@@ -212,16 +235,19 @@ public class FilterMenu extends Visualisation {
 	}
 	
 	/**
-	 * Creates text boxes for date filtering
+	 * Creates date pickers with a box for date filtering
 	 * @return a panel with date filter option
 	 */
 	public Widget addDateFilterPanel() {
 
 		VerticalPanel dateFilterPanel = new VerticalPanel();
+		DateTimeFormat dateTimeFormat = DateTimeFormat.getLongDateFormat();
 		
-		dateFilterPanel.add(new Label("Filter dates from: "));
+		dateFilterPanel.add(new Label("Dates from: "));
 		beginDateBox = new DateBox();
+		beginDateBox.setFormat(new DateBox.DefaultFormat(dateTimeFormat));
 		DatePicker beginDatePicker = beginDateBox.getDatePicker();
+		beginDatePicker.setValue(STANDARD_BEGIN_DATE, true);
 		beginDatePicker.setYearAndMonthDropdownVisible(true);
 		beginDatePicker.setVisibleYearCount(600);
 		beginDateBox.setStyleName("beginDateBox");
@@ -229,7 +255,9 @@ public class FilterMenu extends Visualisation {
 		
 		dateFilterPanel.add(new Label("To: "));
 		endDateBox = new DateBox();
+		endDateBox.setFormat(new DateBox.DefaultFormat(dateTimeFormat));
 		DatePicker endDatePicker = endDateBox.getDatePicker();
+		endDatePicker.setValue(STANDARD_END_DATE, true);
 		endDatePicker.setYearAndMonthDropdownVisible(true);
 		endDatePicker.setVisibleYearCount(600);
 		endDateBox.setStyleName("endDateBox");
@@ -247,38 +275,42 @@ public class FilterMenu extends Visualisation {
 	public Filter getFilterValues(){
 		Filter filter = new Filter();
 		
-		String country;
-		String city;
-		Date beginDate; // TODO!
-		Date endDate;//TODO!
+		String country = null;
+		String city = null;
+		Date beginDate = STANDARD_BEGIN_DATE;
+		Date endDate = STANDARD_END_DATE;
 		float maxUncertainty = Float.MAX_VALUE;
 		
 		if (countrySuggestBox.getValue() != "") {
 			country = countrySuggestBox.getValue();
-			filter.setCountry(country);
 			Console.log("Country Filter: " + country);
 		}
 		
 		if (citySuggestBox.getValue() != "") {
 			city = citySuggestBox.getValue();
-			filter.setCity(city);
 			Console.log("City Filter: " + city);
-			
 		}
 		
 		if (inaccuracyCheckBox.getValue() == true && inaccuracyBox.getValue() != "") {
 			maxUncertainty = Float.parseFloat(inaccuracyBox.getValue());
-			filter.setMaxUncertainty(maxUncertainty);
 			Console.log("MaxUncertainty: " + maxUncertainty);
 		}
 		
+		if (beginDateBox.getValue() != null) {
+			beginDate = beginDateBox.getValue();
+			Console.log("Start date: " + beginDate);
+		}
 		
+		if (endDateBox.getValue() != null) {
+			endDate = endDateBox.getValue();
+			Console.log("End date: " + endDate);
+		}
 		
-		
-		
-//		filter.setBeginDate(beginDate);
-//		filter.setEndDate(endDate);
-		
+		filter.setCountry(country);
+		filter.setCity(city);
+		filter.setMaxUncertainty(maxUncertainty);
+		filter.setBeginDate(beginDate);
+		filter.setEndDate(endDate);
 		
 		return filter;
 	}
@@ -289,13 +321,17 @@ public class FilterMenu extends Visualisation {
 	public void resetFilter() {
 		countrySuggestBox.setValue("");
 		citySuggestBox.setValue("");
-		
-		
+		beginDateBox.setValue(STANDARD_BEGIN_DATE);
+		endDateBox.setValue(STANDARD_END_DATE);
 		inaccuracyBox.setValue("");
 		inaccuracyCheckBox.setValue(false);
 	}
 	
 	public SuggestBox getCountrySuggestBox() {
 		return countrySuggestBox;
+	}
+	
+	public TextBox getStatusBox() {
+		return statusBox;
 	}
 }
