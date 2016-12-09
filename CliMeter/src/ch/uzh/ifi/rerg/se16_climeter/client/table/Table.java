@@ -25,11 +25,11 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
-import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterMenu;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filterable;
 
 /**
  * The class Table initializes a table and returns it in a panel.

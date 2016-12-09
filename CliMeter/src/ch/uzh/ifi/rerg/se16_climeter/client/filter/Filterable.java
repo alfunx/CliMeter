@@ -1,4 +1,4 @@
-package ch.uzh.ifi.rerg.se16_climeter.client;
+package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 
 /**
  * The interface Filterable allows a filtering object to select which 

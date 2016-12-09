@@ -1,10 +1,8 @@
-package ch.uzh.ifi.rerg.se16_climeter.client.timeline;
+package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 
 import com.google.gwt.widgetideas.client.SliderBar;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
-import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
-import ch.uzh.ifi.rerg.se16_climeter.client.map.MapComposite;
 
 import java.util.Date;
 
@@ -33,9 +31,9 @@ public class TimeLine extends SliderBar {
 
 	// reference time value for change checking in updateValue(double value)
 	protected double value = this.getCurrentValue();
-	private MapComposite mapComposite = null;
+	private Filterable filterable = null;
 
-	public TimeLine(double minValue, double maxValue, MapComposite mapComposite) {
+	public TimeLine(double minValue, double maxValue, Filterable filterable) {
 		super(minValue, maxValue, new LabelFormatter() {
 			@Override
 			public String formatLabel(SliderBar slider, double value) {
@@ -43,7 +41,7 @@ public class TimeLine extends SliderBar {
 			}
 		});
 
-		this.mapComposite = mapComposite;
+		this.filterable = filterable;
 
 		this.setStepSize(1);
 		this.setCurrentValue(minValue + ((maxValue-minValue)/2));
@@ -93,13 +91,13 @@ public class TimeLine extends SliderBar {
 
 			Console.log("TimeLine: Value changed, new year: " + value);
 
-			Filter filter = this.mapComposite.getOldFilter();
+			Filter filter = this.filterable.getOldFilter();
 			Date chosenYear = new Date((int) value-1900, 0, 1);
 
 			filter.setBeginDate(chosenYear);
 			filter.setEndDate(chosenYear);
 
-			mapComposite.apply(filter);
+			filterable.apply(filter);
 		} else {
 			Console.log("TimeLine: NO change on value, year: " + this.value);
 		}
