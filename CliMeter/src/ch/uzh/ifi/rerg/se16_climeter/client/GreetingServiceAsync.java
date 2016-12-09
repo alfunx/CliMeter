@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
+
 /**
  * The async counterpart of <code>GreetingService</code>.
  */

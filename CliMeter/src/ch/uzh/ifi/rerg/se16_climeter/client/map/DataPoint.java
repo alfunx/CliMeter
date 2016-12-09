@@ -5,8 +5,9 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.Point;
+import com.google.gwt.maps.client.overlays.InfoWindow;
+import com.google.gwt.maps.client.overlays.InfoWindowOptions;
 import com.google.gwt.maps.client.overlays.MapCanvasProjection;
-import com.google.gwt.maps.client.overlays.OverlayView;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewMethods;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnAddHandler;
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHandler;
@@ -21,11 +22,14 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-20 AM Initial commit
- * @version 	2016-11-20 AM 1.0
+ * 				2016-12-08 AM Restructured and added InfoWindow
+ * @version 	2016-11-20 AM 1.1
  * @responsibilities 
  * 				This class displays one data object on the map.
  */
 public class DataPoint {
+
+	private static final int INFOWINDOW_OFFSET = -15;
 
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
@@ -34,7 +38,7 @@ public class DataPoint {
 	private OverlayViewOnDrawHandler onDrawHandler;
 	private OverlayViewOnAddHandler onAddHandler;
 	private OverlayViewOnRemoveHandler onRemoveHandler;
-	private OverlayView dataPoint;
+	private DataOverlay dataPoint;
 
 	/**
 	 * Generate DataPoint object for a Data object.
@@ -59,56 +63,90 @@ public class DataPoint {
 	 * @param data Data object to visualise on the map
 	 */
 	protected void initDataPoint() {
-		final VerticalPanel dataPointPanel = new VerticalPanel();
-		dataPointPanel.addStyleName("temperatureOverlay");
+		final VerticalPanel dataPanel = getDataPanel();
+		InfoWindow infoWindow = getInfoWindow();
 
 		onDrawHandler = new OverlayViewOnDrawHandler() {
 			@Override
 			public void onDraw(OverlayViewMethods methods) {
-				// positioning of a data point
+				// positioning of a dataPanel on map
 				MapCanvasProjection projection = methods.getProjection();
 				Point point = projection.fromLatLngToDivPixel(data.getLatLng());
-				dataPointPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
-				dataPointPanel.getElement().getStyle().setLeft(point.getX()
-						- dataPointPanel.getElement().getClientWidth() / 2, Unit.PX);
-				dataPointPanel.getElement().getStyle().setTop(point.getY()
-						- dataPointPanel.getElement().getClientHeight() / 2, Unit.PX);
-
-				// calculate corresponding color for a data object
-				Color color = colorTransition.getPercentageColor(data.getAverageTemperature());
-				dataPointPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
-
-				// setting text and style
-				HTML paddingText = new HTML("<br>");
-				paddingText.addStyleName("uncertaintyText");
-				HTML avgTempText = new HTML(NumberFormat.getFormat("0.##").format(data.getAverageTemperature()));
-				avgTempText.addStyleName("avgTempText");
-				HTML uncertaintyText = new HTML("&plusmn;" + NumberFormat.getFormat("0.##").format(data.getUncertainty()));
-				uncertaintyText.addStyleName("uncertaintyText");
-				
-				dataPointPanel.clear();
-				dataPointPanel.add(paddingText);
-				dataPointPanel.add(avgTempText);
-				dataPointPanel.add(uncertaintyText);
+				dataPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
+				dataPanel.getElement().getStyle().setLeft(point.getX()
+						- dataPanel.getElement().getClientWidth() / 2, Unit.PX);
+				dataPanel.getElement().getStyle().setTop(point.getY()
+						- dataPanel.getElement().getClientHeight() / 2, Unit.PX);
 			}
 		};
 
 		onAddHandler = new OverlayViewOnAddHandler() {
 			@Override
 			public void onAdd(OverlayViewMethods methods) {
-				methods.getPanes().getFloatPane().appendChild(dataPointPanel.getElement());
+				methods.getPanes().getOverlayMouseTarget().appendChild(dataPanel.getElement());
 			}
 		};
 
 		onRemoveHandler = new OverlayViewOnRemoveHandler() {
 			@Override
 			public void onRemove(OverlayViewMethods methods) {
-				dataPointPanel.getElement().removeFromParent();
+				dataPanel.getElement().removeFromParent();
 			}
 		};
 
-		this.dataPoint = OverlayView.newInstance(this.mapWidget, onDrawHandler, onAddHandler, onRemoveHandler);
+		this.dataPoint = DataOverlay.newInstance(this.mapWidget, 
+				onDrawHandler, onAddHandler, onRemoveHandler, dataPanel.getElement(), infoWindow);
 	}
+
+	/**
+	 * Generates a panel for the given Data object.
+	 * @pre -
+	 * @post -
+	 * @return the DataPanel as VerticalPanel
+	 */
+	public VerticalPanel getDataPanel() {
+		VerticalPanel dataPanel = new VerticalPanel();
+		dataPanel.addStyleName("temperatureOverlay");
+
+		// calculate corresponding color for a data object
+		Color color = colorTransition.getPercentageColor(this.data.getAverageTemperature());
+		dataPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
+
+		// setting text and style
+		HTML avgTempText = new HTML(NumberFormat.getFormat("0.##").format(this.data.getAverageTemperature()));
+		avgTempText.addStyleName("avgTempText");
+
+		dataPanel.clear();
+		dataPanel.add(avgTempText);
+
+		return dataPanel;
+	}
+
+	/**
+	 * Generates an info window for the given Data object.
+	 * @pre -
+	 * @post -
+	 * @return the InfoWindow
+	 */
+	public InfoWindow getInfoWindow() {
+		VerticalPanel infoWindowPanel = new VerticalPanel();
+		infoWindowPanel.clear();
+		infoWindowPanel.add(new HTML("<b>" + data.getCity() + ", " + data.getCountry() + "</b>"));
+		infoWindowPanel.add(new HTML("Avg. temperature: " + NumberFormat.getFormat("0.#####").format(this.data.getAverageTemperature())));
+		infoWindowPanel.add(new HTML("Avg. uncertainty: &plusmn;" + NumberFormat.getFormat("0.#####").format(this.data.getUncertainty())));
+
+		InfoWindowOptions infoWindowOptions = InfoWindowOptions.newInstance();
+		infoWindowOptions.setContent(infoWindowPanel);
+		infoWindowOptions.setPosition(data.getLatLng());
+		infoWindowOptions = setPixelOffset(infoWindowOptions, INFOWINDOW_OFFSET);
+
+		return InfoWindow.newInstance(infoWindowOptions);
+	}
+
+	public native InfoWindowOptions setPixelOffset(InfoWindowOptions infoWindowOptions, int offset) /*-{
+		infoWindowOptions.pixelOffset = new $wnd.google.maps.Size(0, offset);
+		return infoWindowOptions;
+	}-*/;
 
 	/**
 	 * Set visibility of DataPoint.
@@ -132,7 +170,7 @@ public class DataPoint {
 	 * @post -
 	 * @return the DataPoint as OverlayView
 	 */
-	public OverlayView getDataPointOverlayView() {
+	public DataOverlay getDataOverlay() {
 		return this.dataPoint;
 	}
 

@@ -35,7 +35,7 @@ public class UserInterface {
 	private final String SOURCE_URL = "http://www.berkeleyearth.org/";
 
 	private Visualisation map = new Map();
-	private Visualisation table = new Table(Data.getRandomData(300000));
+	private Visualisation table = new Table();
 	// private Visualisation filterMenu = new FilterMenu(Data.getRandomData(100));
 	
 	private TabLayoutPanel tabs;

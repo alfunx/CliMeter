@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.TimeLine;
 import ch.uzh.ifi.rerg.se16_climeter.client.map.MapComposite;
 
 public class TimeLineTest extends GWTTestCase {
