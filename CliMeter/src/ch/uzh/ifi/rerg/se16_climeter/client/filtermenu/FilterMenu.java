@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
+import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
@@ -40,7 +41,7 @@ public class FilterMenu extends Visualisation {
 	String[] countryArray = {"Schweiz","Deutschland","Frankreich","Schweiz1","Schweiz2"};
 	String[] cityArray = {"Zürich1","Zürich2","Zürich3","Winterthur","Winterthur1"};
 	
-	private Table table;
+	private Filterable filterable;
 	
 	private SuggestBox citySuggestBox;
 	private SuggestBox countrySuggestBox;
@@ -52,10 +53,10 @@ public class FilterMenu extends Visualisation {
 	private TextBox inaccuracyBox;
 	
 
-	public FilterMenu(ArrayList<Data> data, Table table){
+	public FilterMenu(ArrayList<Data> data, Filterable filterable){
 
 		VerticalPanel filterMenuPanel = new VerticalPanel();
-		this.table = table;
+		this.filterable = filterable;
 		
 		filterMenuPanel.setSpacing(10);
 
@@ -124,14 +125,14 @@ public class FilterMenu extends Visualisation {
 		
 		Button applyButton = new Button("Apply", new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				table.apply(getFilterValues());
+				filterable.apply(getFilterValues());
 			}
 		});
 		applyButton.setStyleName("applyButton");
 		
 		Button resetButton = new Button("RESET", new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				table.addData(Data.getRandomData(200000));
+				filterable.addData(Data.getRandomData(200000));
 			}
 		});
 		resetButton.setStyleName("resetButton");
