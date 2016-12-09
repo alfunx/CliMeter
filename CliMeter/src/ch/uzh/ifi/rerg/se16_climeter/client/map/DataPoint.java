@@ -35,6 +35,7 @@ public class DataPoint {
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
 	private Data data;
+	private boolean groupByCountry;
 
 	private OverlayViewOnDrawHandler onDrawHandler;
 	private OverlayViewOnAddHandler onAddHandler;
@@ -48,11 +49,13 @@ public class DataPoint {
 	 * @param mapWidget the MapWidget, on which the DataPoint should be displayed
 	 * @param colorTransition the ColorTransition to choose a color for a DataPoint object
 	 * @param data Data object that should be displayed
+	 * @param groupByCountry if data points are grouped by countries
 	 */
-	public DataPoint(MapWidget mapWidget, ColorTransition colorTransition, Data data) {
+	public DataPoint(MapWidget mapWidget, ColorTransition colorTransition, Data data, boolean groupByCountry) {
 		this.mapWidget = mapWidget;
 		this.colorTransition = colorTransition;
 		this.data = data;
+		this.groupByCountry = groupByCountry;
 
 		initDataPoint();
 	}
@@ -61,7 +64,6 @@ public class DataPoint {
 	 * Visualises one Data object on the map.
 	 * @pre data != null
 	 * @post temperatureOverlays.size() = temperatureOverlays.size()@pre + 1
-	 * @param data Data object to visualise on the map
 	 */
 	protected void initDataPoint() {
 		final VerticalPanel dataPanel = getDataPanel();
@@ -114,7 +116,7 @@ public class DataPoint {
 		dataPanel.getElement().getStyle().setBackgroundColor(color.getHexString());
 
 		// setting text and style
-		HTML avgTempText = new HTML(NumberFormat.getFormat("0.##").format(this.data.getAverageTemperature()));
+		HTML avgTempText = new HTML(NumberFormat.getFormat("0.00").format(this.data.getAverageTemperature()));
 		avgTempText.addStyleName("avgTempText");
 
 		dataPanel.clear();
@@ -130,11 +132,16 @@ public class DataPoint {
 	 * @return the InfoWindow
 	 */
 	public InfoWindow getInfoWindow() {
+		// content of info window
 		VerticalPanel infoWindowPanel = new VerticalPanel();
 		infoWindowPanel.clear();
-		infoWindowPanel.add(new HTML("<b>" + data.getCity() + ", " + data.getCountry() + "</b>"));
-		infoWindowPanel.add(new HTML("Avg. temperature: " + NumberFormat.getFormat("0.#####").format(this.data.getAverageTemperature())));
-		infoWindowPanel.add(new HTML("Avg. uncertainty: &plusmn;" + NumberFormat.getFormat("0.#####").format(this.data.getUncertainty())));
+		if (groupByCountry) {
+			infoWindowPanel.add(new HTML("<b>" + data.getCountry() + "</b>"));
+		} else {
+			infoWindowPanel.add(new HTML("<b>" + data.getCity() + ", " + data.getCountry() + "</b>"));
+		}
+		infoWindowPanel.add(new HTML("Avg. temperature: " + NumberFormat.getFormat("0.0000").format(this.data.getAverageTemperature())));
+		infoWindowPanel.add(new HTML("Avg. uncertainty: &plusmn;" + NumberFormat.getFormat("0.0000").format(this.data.getUncertainty())));
 
 		InfoWindowOptions infoWindowOptions = InfoWindowOptions.newInstance();
 		infoWindowOptions.setContent(infoWindowPanel);

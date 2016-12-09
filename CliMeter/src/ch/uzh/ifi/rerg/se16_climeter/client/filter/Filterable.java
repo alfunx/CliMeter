@@ -18,6 +18,7 @@ public interface Filterable {
 	 * Apply the given filter to the visualisation.
 	 * @pre -
 	 * @post -
+	 * @param filter the filter to apply on visualisation
 	 */
 	public void apply(Filter filter);
 

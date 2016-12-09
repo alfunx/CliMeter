@@ -20,9 +20,9 @@ public class Color {
 	 * Initialize Color object.
 	 * @pre -
 	 * @post -
-	 * @param red
-	 * @param green
-	 * @param blue
+	 * @param red red tone of RGB code
+	 * @param green green tone of RGB code
+	 * @param blue blue tone of RGB code
 	 */
 	public Color(int red, int green, int blue) {
 		this.red = intTo2Bytes(red);

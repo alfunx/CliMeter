@@ -24,6 +24,8 @@ public class ColorTransition {
 	 * @pre min != max
 	 * @post min < max
 	 * @param color array of colors for the color transition
+	 * @param min minimum value
+	 * @param max maximum value
 	 */
 	public ColorTransition(Color[] color, double min, double max) {
 		if (max == min) {
@@ -55,6 +57,8 @@ public class ColorTransition {
 	 * Initialize ColorTransition object with default colors.
 	 * @pre min != max
 	 * @post min < max
+	 * @param min minimum value
+	 * @param max maximum value
 	 */
 	public ColorTransition(double min, double max) {
 		this(null, min, max);
@@ -77,8 +81,6 @@ public class ColorTransition {
 	 * @pre max >= value >= min
 	 * @post -
 	 * @param value current value
-	 * @param min minimum value of dataset
-	 * @param max maximum value of dataset
 	 * @return the corresponding color
 	 */
 	public Color getPercentageColor(double value) {
@@ -107,8 +109,8 @@ public class ColorTransition {
 	 * @pre max != min
 	 * @post 0 >= value@return >= 1
 	 * @param value current value
-	 * @param min minimum value of dataset
-	 * @param max maximum value of dataset
+	 * @param min minimum value
+	 * @param max maximum value
 	 * @return the normalized value
 	 */
 	protected double normalize(double value, double min, double max) {

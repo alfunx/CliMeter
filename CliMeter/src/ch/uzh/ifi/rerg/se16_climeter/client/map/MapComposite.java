@@ -65,7 +65,6 @@ public class MapComposite extends Composite implements Filterable {
 	 * Initialize as Composite and add google map on it.
 	 * @pre -
 	 * @post panel != null, mapWidget != null
-	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public MapComposite() {
 		this.filter = new Filter();
@@ -136,7 +135,7 @@ public class MapComposite extends Composite implements Filterable {
 		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(filter);
 
 		if (newTemperatureOverlay == null) {
-			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet, filter.isGroupByCountry());
 			this.temperatureOverlays.put(filter, newTemperatureOverlay);
 		}
 
@@ -157,7 +156,8 @@ public class MapComposite extends Composite implements Filterable {
 	 * @param dataSet a list of Data to add on the map
 	 */
 	public void addTemperatureOverlay(List<Data> dataSet) {
-		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
+		// TODO
+		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet, false);
 		newTemperatureOverlay.setVisibility(true);
 
 		if (this.activeTemperatureOverlay != null) {

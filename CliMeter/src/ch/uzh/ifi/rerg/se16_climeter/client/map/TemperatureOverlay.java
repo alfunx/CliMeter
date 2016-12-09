@@ -22,6 +22,7 @@ public class TemperatureOverlay {
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
 	private List<Data> dataSet;
+	private boolean groupByCountry;
 
 	private List<DataPoint> dataPoints;
 
@@ -33,10 +34,12 @@ public class TemperatureOverlay {
 	 * @param colorTransition the ColorTransition to choose a color for a DataPoint object
 	 * @param dataSet list of all Data objects that should be displayed
 	 */
-	public TemperatureOverlay(MapWidget mapWidget, ColorTransition colorTransition, List<Data> dataSet) {
+	public TemperatureOverlay(MapWidget mapWidget, ColorTransition colorTransition, List<Data> dataSet, boolean groupByCountry) {
 		this.mapWidget = mapWidget;
 		this.colorTransition = colorTransition;
 		this.dataSet = dataSet;
+		this.groupByCountry = groupByCountry;
+
 		this.dataPoints = new ArrayList<DataPoint>();
 
 		initTemperatureOverlay();
@@ -50,7 +53,7 @@ public class TemperatureOverlay {
 	protected void initTemperatureOverlay() {
 		if (this.dataSet != null) {
 			for (Data data : this.dataSet) {
-				DataPoint dataPoint = new DataPoint(this.mapWidget, this.colorTransition, data);
+				DataPoint dataPoint = new DataPoint(this.mapWidget, this.colorTransition, data, this.groupByCountry);
 				this.dataPoints.add(dataPoint);
 			}
 		}

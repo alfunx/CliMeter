@@ -68,7 +68,7 @@ public class DataOverlay extends MVCObject<DataOverlay> {
 	private final static native JavaScriptObject createJso(MapImpl map, OverlayViewOnDrawHandler onDrawHandler,
 			OverlayViewOnAddHandler onAddHandler, OverlayViewOnRemoveHandler onRemoveHandler, Element panel, InfoWindow infoWindow) /*-{
 		function MapOverlay(map) {
-			this.setMap(map);
+			// this.setMap(map);
 		}
 
 		MapOverlay.prototype = new $wnd.google.maps.OverlayView();

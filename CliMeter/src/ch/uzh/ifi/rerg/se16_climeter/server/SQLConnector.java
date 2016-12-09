@@ -68,7 +68,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @param query the query
 	 * @return the resulted table as a ArrayList of Data
 	 */
-	private ArrayList<Data> getData(String query) {
+	private ArrayList<Data> getDataList(String query) {
 		ArrayList<Data> dataList = new ArrayList<Data>();
 		Connection connection = null;
 		Statement statement = null;
@@ -108,7 +108,13 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getData(Filter filter) {
-		return getData(getQuery(filter, "*", null));
+		if (filter.isGroupByYear()) {
+			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
+					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
+					"Latitude, Longitude", "YEAR(dt)"));
+		} else {
+			return getDataList(getQuery(filter, "*", null));
+		}
 	}
 
 	/**
@@ -117,7 +123,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getMapData(Filter filter) {
-		return getData(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
+		return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
 				"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
 				"Latitude, Longitude", "City"));
 	}
@@ -127,7 +133,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @param query the query
 	 * @return the resulted table as a ArrayList of String
 	 */
-	private ArrayList<String> getDistinctList(String query) {
+	private ArrayList<String> getStringList(String query) {
 		ArrayList<String> dataList = new ArrayList<String>();
 		Connection connection = null;
 		Statement statement = null;
@@ -158,7 +164,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the distinct list of cities
 	 */
 	public ArrayList<String> getDistinctCity() {
-		return getDistinctList(getQuery(null, "DISTINCT City", null));
+		return getStringList(getQuery(null, "DISTINCT City", null));
 	}
 
 	/**
@@ -166,7 +172,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the distinct list of countries
 	 */
 	public ArrayList<String> getDistinctCountry() {
-		return getDistinctList(getQuery(null, "DISTINCT Country", null));
+		return getStringList(getQuery(null, "DISTINCT Country", null));
 	}
 
 	/**
