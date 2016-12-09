@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
-
 import ch.uzh.ifi.rerg.se16_climeter.client.map.Map;
 import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
