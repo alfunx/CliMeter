@@ -30,7 +30,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  */
 public class DataPoint {
 
-	private static final int INFOWINDOW_OFFSET = -15;
+	private static final int INFOWINDOW_OFFSET = -18;
 
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
