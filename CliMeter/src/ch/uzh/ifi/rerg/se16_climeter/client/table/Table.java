@@ -59,7 +59,7 @@ public class Table extends Visualisation implements Filterable {
 	private ListDataProvider<Data> dataProvider;
 	private List<Data> dataList;  // needed for ListDataProvider
 	
-	private Visualisation filterMenu;
+	private FilterMenu filterMenu;
 	
 	private SimplePager pager;
 	
@@ -171,11 +171,13 @@ public class Table extends Visualisation implements Filterable {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (filterHidden == true){
+					toggleFilterButton.setFocus(false);
 					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
 					dockLayoutPanel.animate(300);
 					filterHidden = false;
 				}
 				else {
+					toggleFilterButton.setFocus(false);
 					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
 					dockLayoutPanel.animate(300);
 					filterHidden = true;

@@ -182,6 +182,7 @@ public class FilterMenu extends Visualisation {
 				resetFilter();
 				table.apply(new Filter());
 				Console.log("Reset successful, wait for table to be updated...");
+				countrySuggestBox.setFocus(true);
 			}
 		});
 		resetButton.setStyleName("resetButton");
@@ -260,6 +261,7 @@ public class FilterMenu extends Visualisation {
 			Console.log("MaxUncertainty: " + maxUncertainty);
 		}
 		
+		
 		Console.log("BeginDate: " + beginDate.toString());
 		Console.log("EndDate: " + endDate.toString());
 		
@@ -283,5 +285,9 @@ public class FilterMenu extends Visualisation {
 		endDateBox.setValue("");
 		inaccuracyBox.setValue("");
 		inaccuracyCheckBox.setValue(false);
+	}
+	
+	public SuggestBox getCountrySuggestBox() {
+		return countrySuggestBox;
 	}
 }
