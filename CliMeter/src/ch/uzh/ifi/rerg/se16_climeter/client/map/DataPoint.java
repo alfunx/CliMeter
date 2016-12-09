@@ -146,6 +146,7 @@ public class DataPoint {
 		InfoWindowOptions infoWindowOptions = InfoWindowOptions.newInstance();
 		infoWindowOptions.setContent(infoWindowPanel);
 		infoWindowOptions.setPosition(data.getLatLng());
+		infoWindowOptions.setDisableAutoPan(true);
 		infoWindowOptions = setPixelOffset(infoWindowOptions, INFOWINDOW_OFFSET);
 
 		return InfoWindow.newInstance(infoWindowOptions);
