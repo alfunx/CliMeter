@@ -23,7 +23,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-11-20 AM Initial commit
  * 				2016-12-08 AM Restructured and added InfoWindow
- * @version 	2016-11-20 AM 1.1
+ * 				2016-12-09 AM Flickering glitch fixed
+ * @version 	2016-11-20 AM 1.2
  * @responsibilities 
  * 				This class displays one data object on the map.
  */
