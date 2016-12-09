@@ -15,6 +15,8 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.datepicker.client.DatePicker;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
@@ -47,8 +49,8 @@ public class FilterMenu extends Visualisation {
 	private SuggestBox citySuggestBox;
 	private SuggestBox countrySuggestBox;
 	
-	private TextBox beginDateBox;
-	private TextBox endDateBox;
+	private DateBox beginDateBox;
+	private DateBox endDateBox;
 	
 	private CheckBox inaccuracyCheckBox;
 	private TextBox inaccuracyBox;
@@ -218,12 +220,18 @@ public class FilterMenu extends Visualisation {
 		VerticalPanel dateFilterPanel = new VerticalPanel();
 		
 		dateFilterPanel.add(new Label("Filter dates from: "));
-		beginDateBox = new TextBox();
+		beginDateBox = new DateBox();
+		DatePicker beginDatePicker = beginDateBox.getDatePicker();
+		beginDatePicker.setYearAndMonthDropdownVisible(true);
+		beginDatePicker.setVisibleYearCount(600);
 		beginDateBox.setStyleName("beginDateBox");
 		dateFilterPanel.add(beginDateBox);
 		
 		dateFilterPanel.add(new Label("To: "));
-		endDateBox = new TextBox();
+		endDateBox = new DateBox();
+		DatePicker endDatePicker = endDateBox.getDatePicker();
+		endDatePicker.setYearAndMonthDropdownVisible(true);
+		endDatePicker.setVisibleYearCount(600);
 		endDateBox.setStyleName("endDateBox");
 		dateFilterPanel.add(endDateBox);
 
@@ -239,38 +247,38 @@ public class FilterMenu extends Visualisation {
 	public Filter getFilterValues(){
 		Filter filter = new Filter();
 		
-		String country = null;
-		String city = null;
-		Date beginDate = new Date(0, 0, 1); // TODO!
-		Date endDate = new Date(115, 0, 1); //TODO!
+		String country;
+		String city;
+		Date beginDate; // TODO!
+		Date endDate;//TODO!
 		float maxUncertainty = Float.MAX_VALUE;
 		
-		if (countrySuggestBox.getValue() != ""){
+		if (countrySuggestBox.getValue() != "") {
 			country = countrySuggestBox.getValue();
+			filter.setCountry(country);
 			Console.log("Country Filter: " + country);
 		}
 		
-		if (citySuggestBox.getValue() != ""){
+		if (citySuggestBox.getValue() != "") {
 			city = citySuggestBox.getValue();
+			filter.setCity(city);
 			Console.log("City Filter: " + city);
 			
 		}
 		
-		if (inaccuracyCheckBox.getValue() == true && inaccuracyBox.getValue() != ""){
+		if (inaccuracyCheckBox.getValue() == true && inaccuracyBox.getValue() != "") {
 			maxUncertainty = Float.parseFloat(inaccuracyBox.getValue());
+			filter.setMaxUncertainty(maxUncertainty);
 			Console.log("MaxUncertainty: " + maxUncertainty);
 		}
 		
 		
-		Console.log("BeginDate: " + beginDate.toString());
-		Console.log("EndDate: " + endDate.toString());
 		
 		
-		filter.setCountry(country);
-		filter.setCity(city);
-		filter.setBeginDate(beginDate);
-		filter.setEndDate(endDate);
-		filter.setMaxUncertainty(maxUncertainty);
+		
+//		filter.setBeginDate(beginDate);
+//		filter.setEndDate(endDate);
+		
 		
 		return filter;
 	}
@@ -281,8 +289,8 @@ public class FilterMenu extends Visualisation {
 	public void resetFilter() {
 		countrySuggestBox.setValue("");
 		citySuggestBox.setValue("");
-		beginDateBox.setValue("");
-		endDateBox.setValue("");
+		
+		
 		inaccuracyBox.setValue("");
 		inaccuracyCheckBox.setValue(false);
 	}

@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
@@ -106,7 +107,7 @@ public class Table extends Visualisation implements Filterable {
 		table.setAutoHeaderRefreshDisabled(true);
 		
 		// Set the message to display when the table is empty.
-	    table.setEmptyTableWidget(new Label("Table does NOT contain any data! (SQL database not connected yet)"));
+	    table.setEmptyTableWidget(new Label("Table does not contain any data."));
 	    
 	    // create pager for page handling and set table as the display
 	    pager = new SimplePager();
@@ -126,7 +127,7 @@ public class Table extends Visualisation implements Filterable {
 		initColumns();
 		
 		// add raw data
-		addData();
+		addRawData();
 		
 		// Create sortHandler
 		initSortHandler();
@@ -483,26 +484,12 @@ public class Table extends Visualisation implements Filterable {
 	}
 	
 	/**
-	 * adds an arrayList with Data objects to a DataGrid
-	 * @pre table != null && dataProvider != null
-	 * @post table filled with Data objects if data != null
-	 * @param data
-	 * @param table
-	 * @param dataProvider
+	 * Requests raw data from database and adds them to the table
+	 * 
 	 */
-	public void addData(ArrayList<Data> data){
-		
-		dataProvider.getList().clear();
-	    dataProvider.getList().addAll(data);
-	    dataProvider.flush();
-	    dataProvider.refresh();
-	    //table.redraw();
-	    //table.setRowCount(dataList.size(), true);
-	}
-	
-	public void addData(){
+	public void addRawData(){
 		SQL sql = new SQL();
-
+		
 		sql.getData(new Filter(), new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
