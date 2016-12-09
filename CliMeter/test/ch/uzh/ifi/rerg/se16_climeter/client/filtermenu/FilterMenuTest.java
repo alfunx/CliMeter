@@ -27,7 +27,7 @@ public class FilterMenuTest extends GWTTestCase {
 	
 	@Test
 	public void testFilterMenu() {
-		FilterMenu menu = new FilterMenu(Data.getRandomData(10), new Table(Data.getRandomData(10)));
+		FilterMenu menu = new FilterMenu(new Table());
 		FilterMenu menu1 = null;
 		
 		assertNull(menu1);

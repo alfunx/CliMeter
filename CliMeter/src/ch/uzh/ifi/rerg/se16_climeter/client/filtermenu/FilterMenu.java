@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -16,11 +17,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
-import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
+import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
-import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
 /**
  * The class FilterMenu includes the different widgets with which the date can be filtered.
@@ -38,8 +38,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
 public class FilterMenu extends Visualisation {
 
-	String[] countryArray = {"Schweiz","Deutschland","Frankreich","Schweiz1","Schweiz2"};
-	String[] cityArray = {"Zürich1","Zürich2","Zürich3","Winterthur","Winterthur1"};
+	String[] countryArray;
+	String[] cityArray;
 	
 	private Filterable filterable;
 	
@@ -53,15 +53,17 @@ public class FilterMenu extends Visualisation {
 	private TextBox inaccuracyBox;
 	
 
-	public FilterMenu(ArrayList<Data> data, Filterable filterable){
+	public FilterMenu(Filterable filterable) {
 
 		VerticalPanel filterMenuPanel = new VerticalPanel();
 		this.filterable = filterable;
 		
+		
 		filterMenuPanel.setSpacing(10);
-
-		filterMenuPanel.add(countryBox(data));
-		filterMenuPanel.add(cityBox(data));
+		
+		filterMenuPanel.add(addFilterTitle());
+		filterMenuPanel.add(countryBox());
+		filterMenuPanel.add(cityBox());
 		filterMenuPanel.add(addDateFilterPanel());	
 		filterMenuPanel.add(addInaccuracyPanel());	
 		filterMenuPanel.add(addButtons());
@@ -69,19 +71,46 @@ public class FilterMenu extends Visualisation {
 		filterMenuPanel.setStyleName("filterMenuPanel");
 		panel.add(filterMenuPanel);
 	}
+	
+	
 
-
-
-	public Widget countryBox(ArrayList<Data> data) {
+	/** Creates a title for the FilterMenu
+	 * 
+	 * @return title widget
+	 */
+	private Widget addFilterTitle() {
+		Label title = new Label("Filter");
+		title.setStyleName("filterTitle");
+		return title;
+	}
+	
+	/** Creates a suggestion ox for countries
+	 * 
+	 * @return a panel with a suggestion box
+	 */
+	public Widget countryBox() {
 		// Define the oracle that finds suggestions
-		MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
+		final MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
+		
+		// load country suggestions
+		SQL sql = new SQL();
+		sql.getDistinctCountry(new AsyncCallback<ArrayList<String>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
 
-		// add strings which are displayed when typing character(s)
-		String[] countries = countryArray;
-		for (int i = 0; i < countries.length; ++i) {
-			oracle.add(countries[i]);
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				countryArray = new String[result.size()];
+				countryArray = result.toArray(countryArray);
+				// add strings which are displayed when typing character(s)
+				for (int i = 0; i < countryArray.length; ++i) {
+				oracle.add(countryArray[i]);
 		}
-
+			}
+		});
+	
 		// Create the suggest box
 		countrySuggestBox = new SuggestBox(oracle);
 		countrySuggestBox.setStyleName("suggestBox");
@@ -92,15 +121,33 @@ public class FilterMenu extends Visualisation {
 		return suggestPanel;
 	}
 
-
-	public Widget cityBox(ArrayList<Data> data) {
+	/** Creates a suggestion ox for cities
+	 * 
+	 * @return a panel with a suggestion box
+	 */
+	public Widget cityBox() {
 		// Define the oracle that finds suggestions
-		MultiWordSuggestOracle cityOracle = new MultiWordSuggestOracle();
-		// add strings which are displayed when typing character(s)
-		String[] cities = 	cityArray;
-		for (int i = 0; i < cities.length; ++i) {
-			cityOracle.add(cities[i]);
+		final MultiWordSuggestOracle cityOracle = new MultiWordSuggestOracle();
+		
+		// load city suggestions
+		SQL sql = new SQL();
+		sql.getDistinctCity(new AsyncCallback<ArrayList<String>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				cityArray = new String[result.size()];
+				cityArray = result.toArray(cityArray);
+				
+				// add strings which are displayed when typing character(s)
+				for (int i = 0; i < cityArray.length; ++i) {
+				cityOracle.add(cityArray[i]);
 		}
+			}
+		});
 
 		// Create the suggest box
 		citySuggestBox = new SuggestBox(cityOracle);		
@@ -111,14 +158,11 @@ public class FilterMenu extends Visualisation {
 		
 		return suggestPanel;
 	}
-
-	public Widget addFilterButton() {
-
-		Button filterButton = new Button("Filter");
-		filterButton.setStyleName("filterButton");
-		return filterButton;
-	}
-
+	
+	/**
+	 * Creates the apply and reset buttons for the filter
+	 * @return a horizontal panel with 2 buttons
+	 */
 	public Widget addButtons() {
 		
 		HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -126,13 +170,18 @@ public class FilterMenu extends Visualisation {
 		Button applyButton = new Button("Apply", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				filterable.apply(getFilterValues());
+				Console.log("Filter applied, wait for table to be updated...");
 			}
+			//TODO keyevent ENTER
 		});
 		applyButton.setStyleName("applyButton");
 		
 		Button resetButton = new Button("RESET", new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				filterable.addData(Data.getRandomData(200000));
+				resetFilter();
+				filterable.apply(new Filter());
+				Console.log("Reset successful, wait for table to be updated...");
+				countrySuggestBox.setFocus(true);
 			}
 		});
 		resetButton.setStyleName("resetButton");
@@ -144,17 +193,25 @@ public class FilterMenu extends Visualisation {
 		return buttonPanel;
 	}
 
+	/**
+	 * Creates the box to set max. uncertainty
+	 * @return panel with uncertainty option
+	 */
 	public Widget addInaccuracyPanel() {
 
 		VerticalPanel inaccuracyPanel = new VerticalPanel();
-		inaccuracyCheckBox = new CheckBox("Hide inaccurate data");
+		inaccuracyCheckBox = new CheckBox("Set max. uncertainty");
 		inaccuracyBox = new TextBox();
 		inaccuracyBox.setStyleName("inaccuracyBox");
 		inaccuracyPanel.add(inaccuracyCheckBox);
 		inaccuracyPanel.add(inaccuracyBox);
 		return inaccuracyPanel;
 	}
-
+	
+	/**
+	 * Creates text boxes for date filtering
+	 * @return a panel with date filter option
+	 */
 	public Widget addDateFilterPanel() {
 
 		VerticalPanel dateFilterPanel = new VerticalPanel();
@@ -172,32 +229,41 @@ public class FilterMenu extends Visualisation {
 		return dateFilterPanel;
 	}
 	
-	/** NOT fully implemented! 
+	/** 
+	 * Method collects all inputs set by the user for the filter and creates a Filter object
 	 * TODO: dates
 	 * 
-	 * @return filter
+	 * @return a Filter object
 	 */
-	
 	public Filter getFilterValues(){
 		Filter filter = new Filter();
 		
 		String country = null;
 		String city = null;
-		Date beginDate = null; // TODO!
-		Date endDate = null ; //TODO!
-		float maxUncertainty = 0.0F;
+		Date beginDate = new Date(0, 0, 1); // TODO!
+		Date endDate = new Date(115, 0, 1); //TODO!
+		float maxUncertainty = Float.MAX_VALUE;
 		
 		if (countrySuggestBox.getValue() != ""){
 			country = countrySuggestBox.getValue();
+			Console.log("Country Filter: " + country);
 		}
 		
 		if (citySuggestBox.getValue() != ""){
-			city = countrySuggestBox.getValue();
+			city = citySuggestBox.getValue();
+			Console.log("City Filter: " + city);
+			
 		}
 		
-		if (inaccuracyCheckBox.getValue() == true){
+		if (inaccuracyCheckBox.getValue() == true && inaccuracyBox.getValue() != ""){
 			maxUncertainty = Float.parseFloat(inaccuracyBox.getValue());
+			Console.log("MaxUncertainty: " + maxUncertainty);
 		}
+		
+		
+		Console.log("BeginDate: " + beginDate.toString());
+		Console.log("EndDate: " + endDate.toString());
+		
 		
 		filter.setCountry(country);
 		filter.setCity(city);
@@ -206,5 +272,21 @@ public class FilterMenu extends Visualisation {
 		filter.setMaxUncertainty(maxUncertainty);
 		
 		return filter;
+	}
+	
+	/**
+	 * Resets all text boxes of the filter
+	 */
+	public void resetFilter() {
+		countrySuggestBox.setValue("");
+		citySuggestBox.setValue("");
+		beginDateBox.setValue("");
+		endDateBox.setValue("");
+		inaccuracyBox.setValue("");
+		inaccuracyCheckBox.setValue(false);
+	}
+	
+	public SuggestBox getCountrySuggestBox() {
+		return countrySuggestBox;
 	}
 }

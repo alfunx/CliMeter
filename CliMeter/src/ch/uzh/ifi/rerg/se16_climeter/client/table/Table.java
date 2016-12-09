@@ -16,14 +16,17 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.ListDataProvider;
 
+import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.Filterable;
+import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 import ch.uzh.ifi.rerg.se16_climeter.client.filtermenu.FilterMenu;
 
@@ -56,7 +59,7 @@ public class Table extends Visualisation implements Filterable {
 	private ListDataProvider<Data> dataProvider;
 	private List<Data> dataList;  // needed for ListDataProvider
 	
-	private Visualisation filterMenu;
+	private FilterMenu filterMenu;
 	
 	private SimplePager pager;
 	
@@ -77,8 +80,6 @@ public class Table extends Visualisation implements Filterable {
 	private DockLayoutPanel footerPanel;
 	private DockLayoutPanel dockLayoutPanel;
 	
-	//private SQL sql;
-	
  
 	/**
 	 * Constructor which initializes a new table and adds it to a panel
@@ -86,8 +87,8 @@ public class Table extends Visualisation implements Filterable {
 	 * @post table initialized
 	 * @param data
 	 */
-	public Table(ArrayList<Data> data){
-		initTable(data);
+	public Table(){
+		initTable();
 	}
 	
 	/**
@@ -97,7 +98,7 @@ public class Table extends Visualisation implements Filterable {
 	 * @param data, An ArraList which contains all data added to the table
 	 * @returns the initialized table
 	 */
-	private DataGrid<Data> initTable(ArrayList<Data> data) {
+	private DataGrid<Data> initTable() {
 		table  = new DataGrid<Data>();
 		dataProvider = new ListDataProvider<Data>();
 		
@@ -124,8 +125,8 @@ public class Table extends Visualisation implements Filterable {
 		// create columns with header cells
 		initColumns();
 		
-		// add TEST DATA!
-		addData(data);
+		// add raw data
+		addData();
 		
 		// Create sortHandler
 		initSortHandler();
@@ -159,7 +160,7 @@ public class Table extends Visualisation implements Filterable {
 	 * @post filtermenu =! null
 	 */
 	private void initFilterMenu() {
-		filterMenu = new FilterMenu(Data.getRandomData(100), this);
+		filterMenu = new FilterMenu(this);
 		
 		// create button to toggle filter visibility
 		filterHidden = true;
@@ -170,11 +171,13 @@ public class Table extends Visualisation implements Filterable {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (filterHidden == true){
+					toggleFilterButton.setFocus(false);
 					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
 					dockLayoutPanel.animate(300);
 					filterHidden = false;
 				}
 				else {
+					toggleFilterButton.setFocus(false);
 					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
 					dockLayoutPanel.animate(300);
 					filterHidden = true;
@@ -198,9 +201,9 @@ public class Table extends Visualisation implements Filterable {
 	    	@Override
 			public int compare(Data o1, Data o2) {
 	    		/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -218,9 +221,9 @@ public class Table extends Visualisation implements Filterable {
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -249,9 +252,9 @@ public class Table extends Visualisation implements Filterable {
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -280,9 +283,9 @@ public class Table extends Visualisation implements Filterable {
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -300,9 +303,9 @@ public class Table extends Visualisation implements Filterable {
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -320,9 +323,9 @@ public class Table extends Visualisation implements Filterable {
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -351,9 +354,9 @@ public class Table extends Visualisation implements Filterable {
 			@Override
 			public int compare(Data o1, Data o2) {
 				/*
-				 * return 0 => o1 and o2 are equal
-				 * return 1 => o1 is greater than o2
-				 * return -1 => o1 is less than o2
+				 * return 0 -> o1 and o2 are equal
+				 * return 1 -> o1 is greater than o2
+				 * return -1 -> o1 is less than o2
 				 */
 				if (o1 == o2) {
 					return 0;
@@ -498,27 +501,47 @@ public class Table extends Visualisation implements Filterable {
 	}
 	
 	public void addData(){
-		ArrayList<Data> rawData = new ArrayList<Data>();
-		//rawData = sql.getData();
-		
-		dataProvider.getList().clear();
-	    dataProvider.getList().addAll(rawData);
-	    dataProvider.flush();
-	    dataProvider.refresh();
-	    table.redraw();
+		SQL sql = new SQL();
+
+		sql.getData(new Filter(), new AsyncCallback<ArrayList<Data>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Data> result) {
+				dataProvider.getList().clear();
+			    dataProvider.getList().addAll(result);
+			    dataProvider.flush();
+			    dataProvider.refresh();
+			    table.redraw();
+			    Console.log("Raw data loaded");
+			}
+		});
 	}
 	
 	@Override
 	public void apply(Filter filter) {
-		ArrayList<Data> newData = new ArrayList<Data>();
-		//newData = sql.getData(filter);
-		
-		dataProvider.getList().clear();
-	    dataProvider.getList().addAll(newData);
-	    dataProvider.flush();
-	    dataProvider.refresh();
-	    table.redraw();
-	}
+		SQL sql = new SQL();
+		sql.getData(filter, new AsyncCallback<ArrayList<Data>>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Console.log("SQL Error.");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Data> result) {
+				dataProvider.getList().clear();
+			    dataProvider.getList().addAll(result);
+			    dataProvider.flush();
+			    dataProvider.refresh();
+			    table.redraw();
+			    Console.log("Table updated.");
+			}
+		});
+	
+	}	
 
 	@Override
 	public Filter getOldFilter() {
