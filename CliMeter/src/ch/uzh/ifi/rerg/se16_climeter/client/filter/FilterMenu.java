@@ -32,7 +32,9 @@ import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
  * @history 	2016-11-09 JB Initial Commit
  * 				2016-11-09 JB Visual changes
  * 				2016-12-04 JS Prepared to apply filter on table
- * 				2016-12-04 JS Visual changes and filter now applicable on Table  				
+ * 				2016-12-04 JS Visual changes and filter now applicable on Table
+ * 				2016-12-09 JS Gets data from database
+ * 				2016-12-10 JS Visual changes				
  * 
  * @version 	2016-11-28 JB 1.2
  * @responsibilities 
@@ -83,8 +85,8 @@ public class FilterMenu extends Visualisation {
 	
 	
 
-	/** Creates a title for the FilterMenu
-	 * 
+	/** 
+	 * Creates a title for the FilterMenu
 	 * @return title widget
 	 */
 	private Widget initFilterTitle() {
@@ -96,7 +98,6 @@ public class FilterMenu extends Visualisation {
 	/**
 	 * Creates text box to show table status
 	 */
-	
 	private Widget initStatusBox() {
 		statusBox = new TextBox();
 		statusBox.setEnabled(false);
@@ -105,7 +106,7 @@ public class FilterMenu extends Visualisation {
 		return statusBox;
 	}
 	
-	/** Creates a suggestion ox for countries
+	/** Creates a suggestion box for countries
 	 * 
 	 * @return a panel with a suggestion box
 	 */
@@ -142,7 +143,7 @@ public class FilterMenu extends Visualisation {
 		return suggestPanel;
 	}
 
-	/** Creates a suggestion ox for cities
+	/** Creates a suggestion box for cities
 	 * 
 	 * @return a panel with a suggestion box
 	 */
@@ -219,7 +220,7 @@ public class FilterMenu extends Visualisation {
 	}
 
 	/**
-	 * Creates the box to set max. uncertainty
+	 * Creates box to set max. uncertainty
 	 * @return panel with uncertainty option
 	 */
 	public Widget addInaccuracyPanel() {
@@ -234,7 +235,7 @@ public class FilterMenu extends Visualisation {
 	}
 	
 	/**
-	 * Creates date pickers with a box for date filtering
+	 * Creates date pickers with boxes for date filtering
 	 * @return a panel with date filter option
 	 */
 	public Widget addDateFilterPanel() {
@@ -267,8 +268,6 @@ public class FilterMenu extends Visualisation {
 	
 	/** 
 	 * Method collects all inputs set by the user for the filter and creates a Filter object
-	 * TODO: dates
-	 * 
 	 * @return a Filter object
 	 */
 	public Filter getFilterValues(){
