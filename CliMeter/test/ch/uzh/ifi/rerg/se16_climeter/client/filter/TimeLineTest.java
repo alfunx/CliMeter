@@ -1,4 +1,4 @@
-package ch.uzh.ifi.rerg.se16_climeter.client.timeline;
+package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 
 import static org.junit.Assert.*;
 import org.junit.Test;

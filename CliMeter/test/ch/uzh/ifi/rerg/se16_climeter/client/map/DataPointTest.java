@@ -35,7 +35,7 @@ public class DataPointTest extends GWTTestCase {
 			@Override
 			public void run() {
 				final MapComposite mapComposite = new MapComposite();
-				DataPoint dataPoint = new DataPoint(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(1).get(0));
+				DataPoint dataPoint = new DataPoint(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(1).get(0), false);
 				assertNotNull(dataPoint);
 			}
 		};

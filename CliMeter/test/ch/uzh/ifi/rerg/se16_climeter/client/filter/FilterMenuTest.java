@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ch.uzh.ifi.rerg.se16_climeter.client.filtermenu;
+package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 
 import static org.junit.Assert.*;
 

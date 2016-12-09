@@ -35,7 +35,7 @@ public class TemperatureOverlayTest extends GWTTestCase {
 			@Override
 			public void run() {
 				final MapComposite mapComposite = new MapComposite();
-				TemperatureOverlay temperatureOverlay = new TemperatureOverlay(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(100));
+				TemperatureOverlay temperatureOverlay = new TemperatureOverlay(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(100), false);
 				assertNotNull(temperatureOverlay);
 			}
 		};
@@ -60,7 +60,7 @@ public class TemperatureOverlayTest extends GWTTestCase {
 			@Override
 			public void run() {
 				final MapComposite mapComposite = new MapComposite();
-				TemperatureOverlay temperatureOverlay = new TemperatureOverlay(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(100));
+				TemperatureOverlay temperatureOverlay = new TemperatureOverlay(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(100), false);
 				assertEquals(100, temperatureOverlay.getDataPoints().size());
 			}
 		};
