@@ -102,6 +102,7 @@ public class MapComposite extends Composite implements Filterable {
 
 		// add mapWidget to panel
 		LayoutPanel mapPanel = new LayoutPanel();
+		mapPanel.addStyleName("map");
 		this.mapWidget = new MapWidget(options);
 		mapPanel.clear();
 		mapPanel.add(this.mapWidget);
