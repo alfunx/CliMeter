@@ -60,7 +60,7 @@ public class TimeLineTest extends GWTTestCase {
 			@Override
 			public void run() {
 				MapComposite mapComposite = new MapComposite();
-				TimeLine timeLine = new TimeLine(1800, 2016, new MapComposite());
+				TimeLine timeLine = new TimeLine(1800, 2016, mapComposite);
 				assertEquals(1800.0, timeLine.getMinValue());
 				assertEquals(2016.0, timeLine.getMaxValue());
 			}
