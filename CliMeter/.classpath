@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-ajaxloader-1.1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-incubator-20101117-r1766.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/mysql-connector-java-5.1.40-bin.jar"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
