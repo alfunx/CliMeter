@@ -205,7 +205,7 @@ public class FilterMenu extends Visualisation {
 				resetFilter();
 				filterable.apply(new Filter());
 				Console.log("Reset successful, wait for table to be updated...");
-				statusBox.setText("Reseting table...");
+				statusBox.setText("Resetting table...");
 				statusBox.setStyleName("statusBoxLoading");
 				countrySuggestBox.setFocus(true);
 			}
