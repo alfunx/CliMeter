@@ -491,6 +491,12 @@ public class Table extends Visualisation implements Filterable {
 
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
+				
+//				if (result.isEmpty() == true) {
+//					filterMenu.getStatusBox().setText("Connection error!");
+//				    filterMenu.getStatusBox().setStyleName("statusBoxError");
+//				}
+				
 				dataProvider.getList().clear();
 			    dataProvider.getList().addAll(result);
 			    dataProvider.flush();
@@ -516,6 +522,12 @@ public class Table extends Visualisation implements Filterable {
 
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
+				
+//				if (result.size() == 0) {
+//					filterMenu.getStatusBox().setText("No data found!");
+//				    filterMenu.getStatusBox().setStyleName("statusBoxError");
+//				}
+				
 				dataProvider.getList().clear();
 			    dataProvider.getList().addAll(result);
 			    dataProvider.flush();
