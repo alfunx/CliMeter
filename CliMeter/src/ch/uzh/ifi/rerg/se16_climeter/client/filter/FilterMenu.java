@@ -200,7 +200,7 @@ public class FilterMenu extends Visualisation {
 		});
 		applyButton.setStyleName("applyButton");
 		
-		Button resetButton = new Button("RESET", new ClickHandler() {
+		Button resetButton = new Button("Reset", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				resetFilter();
 				filterable.apply(new Filter());
