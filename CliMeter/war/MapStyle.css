@@ -3,18 +3,13 @@
 .temperatureOverlay {
 	border: 1px solid rgba(0,0,0,1);
 	border-radius: 50%;
-	width: 30px;
-	height: 30px;
-	line-height: 30px;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
 }
 
 .avgTempText {
 	font-size: 10px;
 	text-align: center;
 	font-weight: bold;
-}
-
-.uncertaintyText {
-	font-size: 6px;
-	text-align: center;
 }

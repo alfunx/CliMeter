@@ -157,7 +157,6 @@ public class MapComposite extends Composite implements Filterable {
 	 * @param dataSet a list of Data to add on the map
 	 */
 	public void addTemperatureOverlay(List<Data> dataSet) {
-		// TODO
 		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 		newTemperatureOverlay.setVisibility(true);
 
