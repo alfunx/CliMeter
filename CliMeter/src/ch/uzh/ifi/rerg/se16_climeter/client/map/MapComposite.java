@@ -43,7 +43,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filter.TimeLine;
  * 				2016-11-28 AM Optional caching for temperature overlays
  * 				2016-12-06 AM Connection to SQL server
  * 				2016-12-10 AM Added FilterMenu
- * @version 	2016-12-06 AM 2.0
+ * @version 	2016-12-10 AM 2.0
  * @responsibilities 
  * 				This class contains the map and all layers on top of it. It 
  * 				loads the TimeLine aswell.
