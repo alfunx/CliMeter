@@ -37,6 +37,7 @@ public class TemperatureOverlay {
 		this.mapWidget = mapWidget;
 		this.colorTransition = colorTransition;
 		this.dataSet = dataSet;
+
 		this.dataPoints = new ArrayList<DataPoint>();
 
 		initTemperatureOverlay();

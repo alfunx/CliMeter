@@ -37,7 +37,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filter.TimeLine;
  * 				2016-11-25 AM ShuffleButton as placeholder for TimeLine
  * 				2016-11-25 AM Map constants added
  * 				2016-11-28 AM Optional caching for temperature overlays
- * @version 	2016-11-28 AM 1.5
+ * 				2016-12-06 AM Connection to SQL server
+ * @version 	2016-12-06 AM 1.6
  * @responsibilities 
  * 				This class contains the map and all layers on top of it. It 
  * 				loads the TimeLine aswell.
@@ -65,7 +66,6 @@ public class MapComposite extends Composite implements Filterable {
 	 * Initialize as Composite and add google map on it.
 	 * @pre -
 	 * @post panel != null, mapWidget != null
-	 * @param dataSet Data objects which will be visualised on the map
 	 */
 	public MapComposite() {
 		this.filter = new Filter();
@@ -157,6 +157,7 @@ public class MapComposite extends Composite implements Filterable {
 	 * @param dataSet a list of Data to add on the map
 	 */
 	public void addTemperatureOverlay(List<Data> dataSet) {
+		// TODO
 		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 		newTemperatureOverlay.setVisibility(true);
 

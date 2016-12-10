@@ -1,15 +1,14 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 
-import com.google.gwt.widgetideas.client.SliderBar;
-
-import ch.uzh.ifi.rerg.se16_climeter.client.Console;
-
 import java.util.Date;
 
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.widgetideas.client.SliderBar;
+
+import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 
 /**
  * The class TimeLine extends the SliderBar class
