@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
@@ -100,19 +101,22 @@ public class Table extends Visualisation implements Filterable {
 	 */
 	private DataGrid<Data> initTable() {
 		table  = new DataGrid<Data>();
+		
 		dataProvider = new ListDataProvider<Data>();
+		
+		// create filterMenu
+		initFilterMenu();
 		
 		// Do not refresh the headers every time the data is updated.
 		table.setAutoHeaderRefreshDisabled(true);
 		
 		// Set the message to display when the table is empty.
-	    table.setEmptyTableWidget(new Label("Table does NOT contain any data! (SQL database not connected yet)"));
+	    table.setEmptyTableWidget(new Label("Table does not contain any data."));
 	    
 	    // create pager for page handling and set table as the display
 	    pager = new SimplePager();
 	    pager.addStyleName("pager");
 	    pager.setDisplay(table);
-	    
 	    
 	    // set how many rows per page
 		pager.setPageSize(PAGE_SIZE);
@@ -126,15 +130,10 @@ public class Table extends Visualisation implements Filterable {
 		initColumns();
 		
 		// add raw data
-		addData();
+		addRawData();
 		
 		// Create sortHandler
 		initSortHandler();
-		
-		// create filterMenu
-		initFilterMenu();
-		
-		
 				
 		// create footerpanel for pager and toggleButton
 		footerPanel = new DockLayoutPanel(Unit.EM);
@@ -144,7 +143,7 @@ public class Table extends Visualisation implements Filterable {
 		// create docklayoutPanel to organize the view of table, filter and pager
 		dockLayoutPanel = new DockLayoutPanel(Unit.EM);
 		dockLayoutPanel.addEast(filterMenu.getPanel(), 18);
-		dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
+		//dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
 		dockLayoutPanel.addSouth(footerPanel, 3);
 		dockLayoutPanel.add(table);
 		
@@ -163,7 +162,7 @@ public class Table extends Visualisation implements Filterable {
 		filterMenu = new FilterMenu(this);
 		
 		// create button to toggle filter visibility
-		filterHidden = true;
+		filterHidden = false;
 		toggleFilterButton = new Button();
 		toggleFilterButton.removeStyleName("gwt-Button");
 		toggleFilterButton.addClickHandler(new ClickHandler() {
@@ -483,26 +482,15 @@ public class Table extends Visualisation implements Filterable {
 	}
 	
 	/**
-	 * adds an arrayList with Data objects to a DataGrid
-	 * @pre table != null && dataProvider != null
-	 * @post table filled with Data objects if data != null
-	 * @param data
-	 * @param table
-	 * @param dataProvider
+	 * Requests raw data from database and adds them to the table
+	 * 
 	 */
-	public void addData(ArrayList<Data> data){
-		
-		dataProvider.getList().clear();
-	    dataProvider.getList().addAll(data);
-	    dataProvider.flush();
-	    dataProvider.refresh();
-	    //table.redraw();
-	    //table.setRowCount(dataList.size(), true);
-	}
-	
-	public void addData(){
+	public void addRawData(){
 		SQL sql = new SQL();
-
+		
+		filterMenu.getStatusBox().setText("Loading raw data...");
+		filterMenu.getStatusBox().setStyleName("statusBoxLoading");
+		
 		sql.getData(new Filter(), new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -517,6 +505,8 @@ public class Table extends Visualisation implements Filterable {
 			    dataProvider.refresh();
 			    table.redraw();
 			    Console.log("Raw data loaded");
+			    filterMenu.getStatusBox().setText("Table ready");
+			    filterMenu.getStatusBox().setStyleName("statusBoxReady");
 			}
 		});
 	}
@@ -524,6 +514,8 @@ public class Table extends Visualisation implements Filterable {
 	@Override
 	public void apply(Filter filter) {
 		SQL sql = new SQL();
+		
+		
 		sql.getData(filter, new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -538,6 +530,8 @@ public class Table extends Visualisation implements Filterable {
 			    dataProvider.refresh();
 			    table.redraw();
 			    Console.log("Table updated.");
+			    filterMenu.getStatusBox().setText("Table ready");
+			    filterMenu.getStatusBox().setStyleName("statusBoxReady");
 			}
 		});
 	
