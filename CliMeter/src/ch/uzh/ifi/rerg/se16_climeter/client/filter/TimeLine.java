@@ -32,7 +32,7 @@ public class TimeLine extends SliderBar {
 	protected double value = this.getCurrentValue();
 	private Filterable filterable = null;
 
-	public TimeLine(double minValue, double maxValue, Filterable filterable) {
+	public TimeLine(Filterable filterable, double minValue, double maxValue) {
 		super(minValue, maxValue, new LabelFormatter() {
 			@Override
 			public String formatLabel(SliderBar slider, double value) {

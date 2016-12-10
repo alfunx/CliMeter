@@ -23,7 +23,6 @@ import com.google.gwt.user.datepicker.client.DatePicker;
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
-import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
 /**
  * The class FilterMenu includes the different widgets with which the date can be filtered.
@@ -34,9 +33,10 @@ import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
  * 				2016-12-04 JS Prepared to apply filter on table
  * 				2016-12-04 JS Visual changes and filter now applicable on Table
  * 				2016-12-09 JS Gets data from database
- * 				2016-12-10 JS Visual changes				
+ * 				2016-12-10 JS Visual changes
+ * 				2016-12-12 AM Adjustment to make FilterMenu work with map				
  * 
- * @version 	2016-11-28 JB 1.2
+ * @version 	2016-12-12 JB 1.4
  * @responsibilities 
  * 				This class inherits from the class Visualisation.
  */
@@ -45,9 +45,6 @@ public class FilterMenu extends Visualisation {
 	
 	final static Date STANDARD_BEGIN_DATE = new Date(-200, 0, 1);
 	final static Date STANDARD_END_DATE = new Date(116, 11, 31);
-
-	String[] countryArray;
-	String[] cityArray;
 	
 	private Filterable filterable;
 	
@@ -56,6 +53,7 @@ public class FilterMenu extends Visualisation {
 	
 	private DateBox beginDateBox;
 	private DateBox endDateBox;
+	private boolean isDateFilter;
 	
 	private CheckBox inaccuracyCheckBox;
 	private TextBox inaccuracyBox;
@@ -63,10 +61,11 @@ public class FilterMenu extends Visualisation {
 	private TextBox statusBox;
 	
 
-	public FilterMenu(Filterable filterable){
+	public FilterMenu(Filterable filterable, boolean isDateFilter){
 
 		VerticalPanel filterMenuPanel = new VerticalPanel();
 		this.filterable = filterable;
+		this.isDateFilter = isDateFilter;
 		
 		
 		filterMenuPanel.setSpacing(10);
@@ -74,8 +73,10 @@ public class FilterMenu extends Visualisation {
 		filterMenuPanel.add(initFilterTitle());
 		filterMenuPanel.add(countryBox());
 		filterMenuPanel.add(cityBox());
-		filterMenuPanel.add(addDateFilterPanel());	
-		filterMenuPanel.add(addInaccuracyPanel());	
+		if (isDateFilter) {
+			filterMenuPanel.add(addDateFilterPanel());
+		}
+		filterMenuPanel.add(addInaccuracyPanel());
 		filterMenuPanel.add(addButtons());
 		filterMenuPanel.add(initStatusBox());
 
@@ -83,7 +84,9 @@ public class FilterMenu extends Visualisation {
 		panel.add(filterMenuPanel);
 	}
 	
-	
+	public FilterMenu(Filterable filterable) {
+		this(filterable, true);
+	}
 
 	/** 
 	 * Creates a title for the FilterMenu
@@ -101,7 +104,7 @@ public class FilterMenu extends Visualisation {
 	private Widget initStatusBox() {
 		statusBox = new TextBox();
 		statusBox.setEnabled(false);
-		statusBox.setText("");
+		setStatus("", FilterStatus.red);
 		
 		return statusBox;
 	}
@@ -124,12 +127,7 @@ public class FilterMenu extends Visualisation {
 
 			@Override
 			public void onSuccess(ArrayList<String> result) {
-				countryArray = new String[result.size()];
-				countryArray = result.toArray(countryArray);
-				// add strings which are displayed when typing character(s)
-				for (int i = 0; i < countryArray.length; ++i) {
-				oracle.add(countryArray[i]);
-		}
+				oracle.addAll(result);
 			}
 		});
 	
@@ -161,13 +159,7 @@ public class FilterMenu extends Visualisation {
 
 			@Override
 			public void onSuccess(ArrayList<String> result) {
-				cityArray = new String[result.size()];
-				cityArray = result.toArray(cityArray);
-				
-				// add strings which are displayed when typing character(s)
-				for (int i = 0; i < cityArray.length; ++i) {
-				cityOracle.add(cityArray[i]);
-		}
+				cityOracle.addAll(result);
 			}
 		});
 
@@ -192,21 +184,19 @@ public class FilterMenu extends Visualisation {
 		Button applyButton = new Button("Apply", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				filterable.apply(getFilterValues());
-				Console.log("Filter applied, wait for table to be updated...");
-				statusBox.setText("Updating table...");
-				statusBox.setStyleName("statusBoxLoading");
+				Console.log("Filter applied.");
+				setStatus("Updating data...", FilterStatus.yellow);
 			}
 			//TODO keyevent ENTER
 		});
 		applyButton.setStyleName("applyButton");
 		
-		Button resetButton = new Button("RESET", new ClickHandler() {
+		Button resetButton = new Button("Reset", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				resetFilter();
 				filterable.apply(new Filter());
-				Console.log("Reset successful, wait for table to be updated...");
-				statusBox.setText("Resetting table...");
-				statusBox.setStyleName("statusBoxLoading");
+				Console.log("Reset successful.");
+				setStatus("Resetting data...", FilterStatus.yellow);
 				countrySuggestBox.setFocus(true);
 			}
 		});
@@ -271,7 +261,7 @@ public class FilterMenu extends Visualisation {
 	 * @return a Filter object
 	 */
 	public Filter getFilterValues(){
-		Filter filter = new Filter();
+		Filter filter = filterable.getOldFilter();
 		
 		String country = null;
 		String city = null;
@@ -294,12 +284,12 @@ public class FilterMenu extends Visualisation {
 			Console.log("MaxUncertainty: " + maxUncertainty);
 		}
 		
-		if (beginDateBox.getValue() != null) {
+		if (isDateFilter && beginDateBox.getValue() != null) {
 			beginDate = beginDateBox.getValue();
 			Console.log("Start date: " + beginDate);
 		}
 		
-		if (endDateBox.getValue() != null) {
+		if (isDateFilter && endDateBox.getValue() != null) {
 			endDate = endDateBox.getValue();
 			Console.log("End date: " + endDate);
 		}
@@ -307,8 +297,10 @@ public class FilterMenu extends Visualisation {
 		filter.setCountry(country);
 		filter.setCity(city);
 		filter.setMaxUncertainty(maxUncertainty);
-		filter.setBeginDate(beginDate);
-		filter.setEndDate(endDate);
+		if (isDateFilter) {
+			filter.setBeginDate(beginDate);
+			filter.setEndDate(endDate);
+		}
 		
 		return filter;
 	}
@@ -319,17 +311,24 @@ public class FilterMenu extends Visualisation {
 	public void resetFilter() {
 		countrySuggestBox.setValue("");
 		citySuggestBox.setValue("");
-		beginDateBox.setValue(STANDARD_BEGIN_DATE);
-		endDateBox.setValue(STANDARD_END_DATE);
+		if (isDateFilter) {
+			beginDateBox.setValue(STANDARD_BEGIN_DATE);
+			endDateBox.setValue(STANDARD_END_DATE);
+		}
 		inaccuracyBox.setValue("");
 		inaccuracyCheckBox.setValue(false);
 	}
 	
-	public SuggestBox getCountrySuggestBox() {
-		return countrySuggestBox;
+	public void setStatus(String text, FilterStatus filterStatus) {
+		statusBox.setText(text);
+		switch (filterStatus) {
+			case green: statusBox.setStyleName("statusBoxReady");
+				break;
+			case yellow: statusBox.setStyleName("statusBoxLoading");
+				break;
+			case red: statusBox.setStyleName("statusBoxError");
+				break;
+		}
 	}
 	
-	public TextBox getStatusBox() {
-		return statusBox;
-	}
 }
