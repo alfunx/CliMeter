@@ -5,6 +5,7 @@
 *.class
 *.cache.js
 *.symbolMap
+*.gwt.rpc
 
 # Package Files #
 *.jar

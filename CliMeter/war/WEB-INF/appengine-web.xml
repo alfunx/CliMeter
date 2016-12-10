@@ -19,6 +19,5 @@
   <!-- Configure java.util.logging -->
   <system-properties>
     <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
-    <property name="cloudsql.dev" value="jdbc:google:mysql://climeter-150120:us-central1:myinstance/cliMeter?user=root&amp;password=3Vy;Jf/X#Hey"/>
   </system-properties>
 </appengine-web-app>

@@ -49,7 +49,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 			properties.setProperty("user", "root");
 			properties.setProperty("password", "3Vy;Jf/X#Hey");
 
-			url = "jdbc:google:mysql://climeter-150120:us-central1:myinstance/cliMeter";
+			url = "jdbc:google:mysql://climeter-150120:newinstance/cliMeter";
 			log.info("Connection to Google SQL ready");
 			return DriverManager.getConnection(url, properties);
 		} else {
