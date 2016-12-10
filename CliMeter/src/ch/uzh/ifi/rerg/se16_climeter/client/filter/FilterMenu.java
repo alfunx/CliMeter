@@ -104,7 +104,7 @@ public class FilterMenu extends Visualisation {
 	private Widget initStatusBox() {
 		statusBox = new TextBox();
 		statusBox.setEnabled(false);
-		statusBox.setText("");
+		setStatus("", FilterStatus.red);
 		
 		return statusBox;
 	}
@@ -184,9 +184,8 @@ public class FilterMenu extends Visualisation {
 		Button applyButton = new Button("Apply", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				filterable.apply(getFilterValues());
-				Console.log("Filter applied, wait for table to be updated...");
-				statusBox.setText("Updating table...");
-				statusBox.setStyleName("statusBoxLoading");
+				Console.log("Filter applied.");
+				setStatus("Updating data...", FilterStatus.yellow);
 			}
 			//TODO keyevent ENTER
 		});
@@ -196,9 +195,8 @@ public class FilterMenu extends Visualisation {
 			public void onClick(ClickEvent event) {
 				resetFilter();
 				filterable.apply(new Filter());
-				Console.log("Reset successful, wait for table to be updated...");
-				statusBox.setText("Resetting table...");
-				statusBox.setStyleName("statusBoxLoading");
+				Console.log("Reset successful.");
+				setStatus("Resetting data...", FilterStatus.yellow);
 				countrySuggestBox.setFocus(true);
 			}
 		});
@@ -321,11 +319,16 @@ public class FilterMenu extends Visualisation {
 		inaccuracyCheckBox.setValue(false);
 	}
 	
-	public SuggestBox getCountrySuggestBox() {
-		return countrySuggestBox;
+	public void setStatus(String text, FilterStatus filterStatus) {
+		statusBox.setText(text);
+		switch (filterStatus) {
+			case green: statusBox.setStyleName("statusBoxReady");
+				break;
+			case yellow: statusBox.setStyleName("statusBoxLoading");
+				break;
+			case red: statusBox.setStyleName("statusBoxError");
+				break;
+		}
 	}
 	
-	public TextBox getStatusBox() {
-		return statusBox;
-	}
 }

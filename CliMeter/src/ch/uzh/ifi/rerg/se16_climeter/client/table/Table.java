@@ -28,6 +28,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterMenu;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterStatus;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filterable;
 
 /**
@@ -479,13 +480,13 @@ public class Table extends Visualisation implements Filterable {
 	public void addRawData(){
 		SQL sql = new SQL();
 		
-		filterMenu.getStatusBox().setText("Loading raw data...");
-		filterMenu.getStatusBox().setStyleName("statusBoxLoading");
+		filterMenu.setStatus("Loading raw data...", FilterStatus.yellow);
 		
 		sql.getData(new Filter(), new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Console.log("SQL Error.");
+				Console.log("SQL error.");
+				filterMenu.setStatus("SQL error.", FilterStatus.red);
 			}
 
 			@Override
@@ -495,9 +496,8 @@ public class Table extends Visualisation implements Filterable {
 			    dataProvider.flush();
 			    dataProvider.refresh();
 			    table.redraw();
-			    Console.log("Raw data loaded");
-			    filterMenu.getStatusBox().setText("Table ready");
-			    filterMenu.getStatusBox().setStyleName("statusBoxReady");
+			    Console.log("Raw data loaded.");
+			    filterMenu.setStatus("Table ready.", FilterStatus.green);
 			}
 		});
 	}
@@ -510,7 +510,8 @@ public class Table extends Visualisation implements Filterable {
 		sql.getData(filter, new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Console.log("SQL Error.");
+				Console.log("SQL error.");
+				filterMenu.setStatus("SQL error.", FilterStatus.red);
 			}
 
 			@Override
@@ -521,8 +522,7 @@ public class Table extends Visualisation implements Filterable {
 			    dataProvider.refresh();
 			    table.redraw();
 			    Console.log("Table updated.");
-			    filterMenu.getStatusBox().setText("Table ready");
-			    filterMenu.getStatusBox().setStyleName("statusBoxReady");
+			    filterMenu.setStatus("Table ready.", FilterStatus.green);
 			}
 		});
 	

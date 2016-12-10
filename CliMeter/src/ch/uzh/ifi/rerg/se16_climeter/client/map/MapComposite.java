@@ -23,6 +23,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterMenu;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterStatus;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.TimeLine;
 
@@ -65,7 +66,9 @@ public class MapComposite extends Composite implements Filterable {
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
 
+	private FilterMenu filterMenu;
 	private boolean filterHidden = true;
+
 	private TemperatureOverlay activeTemperatureOverlay;
 	private HashMap<Filter, TemperatureOverlay> temperatureOverlays;
 
@@ -105,14 +108,14 @@ public class MapComposite extends Composite implements Filterable {
 		this.mapWidget.setSize("100%", "100%");
 
 		// add filterMenu to panel
-		FilterMenu filterMenu = new FilterMenu(this, false);
-		panel.addEast(filterMenu.getPanel(), FILTERMENU_WIDTH);
-		panel.setWidgetHidden(filterMenu.getPanel(), true);
+		this.filterMenu = new FilterMenu(this, false);
+		panel.addEast(this.filterMenu.getPanel(), FILTERMENU_WIDTH);
+		panel.setWidgetHidden(this.filterMenu.getPanel(), true);
 
 		// add timeLine and button to panel
 		DockLayoutPanel southPanel = new DockLayoutPanel(Unit.EM);
 		southPanel.getElement().getStyle().setBackgroundColor("#efebe7");
-		southPanel.addEast(getFilterButton(filterMenu), 3.5);
+		southPanel.addEast(getFilterButton(this.filterMenu), 3.5);
 		southPanel.add(getTimeLine());
 
 		// add to composite panel
@@ -231,16 +234,19 @@ public class MapComposite extends Composite implements Filterable {
 
 	@Override
 	public void apply(final Filter filter) {
+		this.filterMenu.setStatus("Loading data...", FilterStatus.yellow);
 		SQL sql = new SQL();
 		sql.getMapData(filter, new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Console.log("SQL Error.");
+				Console.log("SQL error.");
+				filterMenu.setStatus("SQL error.", FilterStatus.red);
 			}
 
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
 				addTemperatureOverlay(filter, result);
+				filterMenu.setStatus("Map ready.", FilterStatus.green);
 			}
 		});
 	}
