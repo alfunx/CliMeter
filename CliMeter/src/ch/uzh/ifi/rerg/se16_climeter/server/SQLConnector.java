@@ -108,10 +108,14 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getData(Filter filter) {
-		if (filter.isGroupByYear()) {
+		if (filter.isGroupByYear() && filter.isGroupByCountry()) {
 			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
 					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
-					"Latitude, Longitude", "YEAR(dt)"));
+					"Latitude, Longitude", "YEAR(dt), Country"));
+		} else if (filter.isGroupByYear() && !filter.isGroupByCountry()) {
+			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
+					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
+					"Latitude, Longitude", "YEAR(dt), City"));
 		} else {
 			return getDataList(getQuery(filter, "*", null));
 		}
@@ -123,9 +127,15 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getMapData(Filter filter) {
-		return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
-				"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
-				"Latitude, Longitude", "City"));
+		if (filter.isGroupByCountry()) {
+			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
+					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
+					"Latitude, Longitude", "Country"));
+		} else {
+			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
+					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
+					"Latitude, Longitude", "City"));
+		}
 	}
 
 	/**
