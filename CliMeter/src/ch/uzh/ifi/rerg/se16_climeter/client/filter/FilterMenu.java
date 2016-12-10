@@ -49,7 +49,7 @@ public class FilterMenu extends Visualisation {
 	String[] countryArray;
 	String[] cityArray;
 	
-	private Table table;
+	private Filterable filterable;
 	
 	private SuggestBox citySuggestBox;
 	private SuggestBox countrySuggestBox;
@@ -63,10 +63,10 @@ public class FilterMenu extends Visualisation {
 	private TextBox statusBox;
 	
 
-	public FilterMenu(Table table){
+	public FilterMenu(Filterable filterable){
 
 		VerticalPanel filterMenuPanel = new VerticalPanel();
-		this.table = table;
+		this.filterable = filterable;
 		
 		
 		filterMenuPanel.setSpacing(10);
@@ -191,7 +191,7 @@ public class FilterMenu extends Visualisation {
 		
 		Button applyButton = new Button("Apply", new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				table.apply(getFilterValues());
+				filterable.apply(getFilterValues());
 				Console.log("Filter applied, wait for table to be updated...");
 				statusBox.setText("Updating table...");
 				statusBox.setStyleName("statusBoxLoading");
@@ -203,7 +203,7 @@ public class FilterMenu extends Visualisation {
 		Button resetButton = new Button("RESET", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				resetFilter();
-				table.apply(new Filter());
+				filterable.apply(new Filter());
 				Console.log("Reset successful, wait for table to be updated...");
 				statusBox.setText("Reseting table...");
 				statusBox.setStyleName("statusBoxLoading");
