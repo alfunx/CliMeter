@@ -18,16 +18,19 @@
 }
 
 .filterButton {
-	margin-top: 3px;
-	margin-bottom: 3px;
+	margin: 3px;
 }
 
 .resetButton {
 	margin: 5px;
+	height: 30px;
+	width: 50px;
 }
 
 .applyButton {
 	margin: 5px;
+	height: 30px;
+	width: 50px;
 }
 
 .filterTitle {
@@ -51,6 +54,11 @@
 
 .statusBoxLoading {
 	background: #ffe600;
+	color: black;
+}
+
+.statusBoxError {
+	background: #ff2d00;
 	color: black;
 }
 
