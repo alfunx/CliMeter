@@ -1,7 +1,9 @@
 package ch.uzh.ifi.rerg.se16_climeter.client.map;
 
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
@@ -31,7 +33,7 @@ public class MapCompositeTest extends GWTTestCase {
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
-				final MapComposite mapComposite = new MapComposite();
+				MapComposite mapComposite = new MapComposite();
 				assertNotNull(mapComposite);
 			}
 		};
@@ -55,7 +57,7 @@ public class MapCompositeTest extends GWTTestCase {
 		Runnable onLoad = new Runnable() {
 			@Override
 			public void run() {
-				final MapComposite mapComposite = new MapComposite();
+				MapComposite mapComposite = new MapComposite();
 				assertNotNull(mapComposite.getMapWidget());
 			}
 		};

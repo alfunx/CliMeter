@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -19,6 +22,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterMenu;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterStatus;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filterable;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.TimeLine;
 
@@ -38,7 +43,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filter.TimeLine;
  * 				2016-11-25 AM Map constants added
  * 				2016-11-28 AM Optional caching for temperature overlays
  * 				2016-12-06 AM Connection to SQL server
- * @version 	2016-12-06 AM 1.6
+ * 				2016-12-10 AM Added FilterMenu
+ * @version 	2016-12-10 AM 2.0
  * @responsibilities 
  * 				This class contains the map and all layers on top of it. It 
  * 				loads the TimeLine aswell.
@@ -49,6 +55,7 @@ public class MapComposite extends Composite implements Filterable {
 	private static final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
 	private static final boolean MAP_STREETVIEW = false;
 	private static final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
+	private static final double FILTERMENU_WIDTH = 15;
 	private static final double SOUTHPANEL_HEIGHT = 3.6;
 
 	private static final double DATASET_MIN = 39.0;
@@ -58,6 +65,9 @@ public class MapComposite extends Composite implements Filterable {
 	private DockLayoutPanel panel;
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
+
+	private FilterMenu filterMenu;
+	private boolean filterHidden = true;
 
 	private TemperatureOverlay activeTemperatureOverlay;
 	private HashMap<Filter, TemperatureOverlay> temperatureOverlays;
@@ -92,17 +102,25 @@ public class MapComposite extends Composite implements Filterable {
 
 		// add mapWidget to panel
 		LayoutPanel mapPanel = new LayoutPanel();
+		mapPanel.addStyleName("map");
 		this.mapWidget = new MapWidget(options);
 		mapPanel.clear();
 		mapPanel.add(this.mapWidget);
 		this.mapWidget.setSize("100%", "100%");
 
-		// add timeLine to panel
-		LayoutPanel timeLinePanel = new LayoutPanel();
-		addTimeLineToPanel(timeLinePanel);
+		// add filterMenu to panel
+		this.filterMenu = new FilterMenu(this, false);
+		panel.addEast(this.filterMenu.getPanel(), FILTERMENU_WIDTH);
+		panel.setWidgetHidden(this.filterMenu.getPanel(), true);
+
+		// add timeLine and button to panel
+		DockLayoutPanel southPanel = new DockLayoutPanel(Unit.EM);
+		southPanel.getElement().getStyle().setBackgroundColor("#efebe7");
+		southPanel.addEast(getFilterButton(this.filterMenu), 3.5);
+		southPanel.add(getTimeLine());
 
 		// add to composite panel
-		this.panel.addSouth(timeLinePanel, SOUTHPANEL_HEIGHT);
+		this.panel.addSouth(southPanel, SOUTHPANEL_HEIGHT);
 		this.panel.add(mapPanel);
 	}
 
@@ -157,7 +175,6 @@ public class MapComposite extends Composite implements Filterable {
 	 * @param dataSet a list of Data to add on the map
 	 */
 	public void addTemperatureOverlay(List<Data> dataSet) {
-		// TODO
 		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 		newTemperatureOverlay.setVisibility(true);
 
@@ -169,18 +186,42 @@ public class MapComposite extends Composite implements Filterable {
 	}
 
 	/**
-	 * Add timeLine to panel and return.
+	 * Generate a timeline.
 	 * @pre timeLinePanel != null
 	 * @post -
-	 * @param timeLinePanel the panel to add timeLine
-	 * @return the panel with the timeLine in it
+	 * @return a panel with the timeline in it
 	 */
-	protected LayoutPanel addTimeLineToPanel(LayoutPanel timeLinePanel) {
+	protected LayoutPanel getTimeLine() {
+		LayoutPanel timeLinePanel = new LayoutPanel();
 		timeLinePanel.setSize("100%", "100%");
-		TimeLine timeLine = new TimeLine(1895, 2015, this);
+		TimeLine timeLine = new TimeLine(this, 1895, 2015);
 
 		timeLinePanel.add(timeLine);
 		return timeLinePanel;
+	}
+
+	/**
+	 * Generate a filter button.
+	 * @pre timeLinePanel != null
+	 * @post -
+	 * @param the filterMenu related to the button
+	 * @return the filter button
+	 */
+	protected Button getFilterButton(final FilterMenu filterMenu) {
+		final Button filterButton = new Button();
+		filterButton.removeStyleName("gwt-Button");
+		filterButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				filterButton.setFocus(false);
+				panel.setWidgetHidden(filterMenu.getPanel(), !filterHidden);
+				panel.animate(300);
+				filterHidden = !filterHidden;
+			}
+		});
+		filterButton.addStyleName("toggleFilterButton");
+		filterButton.getElement().getStyle().setMarginTop(0.7, Unit.EM);
+		return filterButton;
 	}
 
 	/**
@@ -194,16 +235,19 @@ public class MapComposite extends Composite implements Filterable {
 
 	@Override
 	public void apply(final Filter filter) {
+		this.filterMenu.setStatus("Loading data...", FilterStatus.yellow);
 		SQL sql = new SQL();
 		sql.getMapData(filter, new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Console.log("SQL Error.");
+				Console.log("SQL error.");
+				filterMenu.setStatus("SQL error.", FilterStatus.red);
 			}
 
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
 				addTemperatureOverlay(filter, result);
+				filterMenu.setStatus("Map ready.", FilterStatus.green);
 			}
 		});
 	}

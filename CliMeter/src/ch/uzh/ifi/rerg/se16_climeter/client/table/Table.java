@@ -20,7 +20,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
@@ -29,6 +28,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterMenu;
+import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterStatus;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filterable;
 
 /**
@@ -142,7 +142,7 @@ public class Table extends Visualisation implements Filterable {
 		
 		// create docklayoutPanel to organize the view of table, filter and pager
 		dockLayoutPanel = new DockLayoutPanel(Unit.EM);
-		dockLayoutPanel.addEast(filterMenu.getPanel(), 18);
+		dockLayoutPanel.addEast(filterMenu.getPanel(), 15);
 		//dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
 		dockLayoutPanel.addSouth(footerPanel, 3);
 		dockLayoutPanel.add(table);
@@ -169,18 +169,10 @@ public class Table extends Visualisation implements Filterable {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (filterHidden == true){
-					toggleFilterButton.setFocus(false);
-					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
-					dockLayoutPanel.animate(300);
-					filterHidden = false;
-				}
-				else {
-					toggleFilterButton.setFocus(false);
-					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
-					dockLayoutPanel.animate(300);
-					filterHidden = true;
-				}	
+				toggleFilterButton.setFocus(false);
+				dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), !filterHidden);
+				dockLayoutPanel.animate(300);
+				filterHidden = !filterHidden;
 			}
 		});
 		toggleFilterButton.addStyleName("toggleFilterButton");
@@ -488,25 +480,30 @@ public class Table extends Visualisation implements Filterable {
 	public void addRawData(){
 		SQL sql = new SQL();
 		
-		filterMenu.getStatusBox().setText("Loading raw data...");
-		filterMenu.getStatusBox().setStyleName("statusBoxLoading");
+		filterMenu.setStatus("Loading raw data...", FilterStatus.yellow);
 		
 		sql.getData(new Filter(), new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Console.log("SQL Error.");
+				Console.log("SQL error.");
+				filterMenu.setStatus("SQL error.", FilterStatus.red);
 			}
 
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
+				
+//				if (result.isEmpty() == true) {
+//					filterMenu.getStatusBox().setText("Connection error!");
+//				    filterMenu.getStatusBox().setStyleName("statusBoxError");
+//				}
+				
 				dataProvider.getList().clear();
 			    dataProvider.getList().addAll(result);
 			    dataProvider.flush();
 			    dataProvider.refresh();
 			    table.redraw();
-			    Console.log("Raw data loaded");
-			    filterMenu.getStatusBox().setText("Table ready");
-			    filterMenu.getStatusBox().setStyleName("statusBoxReady");
+			    Console.log("Raw data loaded.");
+			    filterMenu.setStatus("Table ready.", FilterStatus.green);
 			}
 		});
 	}
@@ -519,19 +516,25 @@ public class Table extends Visualisation implements Filterable {
 		sql.getData(filter, new AsyncCallback<ArrayList<Data>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Console.log("SQL Error.");
+				Console.log("SQL error.");
+				filterMenu.setStatus("SQL error.", FilterStatus.red);
 			}
 
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
+				
+//				if (result.size() == 0) {
+//					filterMenu.getStatusBox().setText("No data found!");
+//				    filterMenu.getStatusBox().setStyleName("statusBoxError");
+//				}
+				
 				dataProvider.getList().clear();
 			    dataProvider.getList().addAll(result);
 			    dataProvider.flush();
 			    dataProvider.refresh();
 			    table.redraw();
 			    Console.log("Table updated.");
-			    filterMenu.getStatusBox().setText("Table ready");
-			    filterMenu.getStatusBox().setStyleName("statusBoxReady");
+			    filterMenu.setStatus("Table ready.", FilterStatus.green);
 			}
 		});
 	
@@ -539,8 +542,7 @@ public class Table extends Visualisation implements Filterable {
 
 	@Override
 	public Filter getOldFilter() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Filter();
 	}
 
 }
