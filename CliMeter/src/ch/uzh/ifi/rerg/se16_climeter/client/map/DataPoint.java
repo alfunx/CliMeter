@@ -24,18 +24,17 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
  * @history 	2016-11-20 AM Initial commit
  * 				2016-12-08 AM Restructured and added InfoWindow
  * 				2016-12-09 AM Flickering glitch fixed
- * @version 	2016-11-20 AM 1.2
+ * @version 	2016-12-09 AM 1.2
  * @responsibilities 
  * 				This class displays one data object on the map.
  */
 public class DataPoint {
 
-	private static final int INFOWINDOW_OFFSET = -18;
+	private static final int INFOWINDOW_OFFSET = 18;
 
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
 	private Data data;
-	private boolean groupByCountry;
 
 	private OverlayViewOnDrawHandler onDrawHandler;
 	private OverlayViewOnAddHandler onAddHandler;
@@ -49,13 +48,11 @@ public class DataPoint {
 	 * @param mapWidget the MapWidget, on which the DataPoint should be displayed
 	 * @param colorTransition the ColorTransition to choose a color for a DataPoint object
 	 * @param data Data object that should be displayed
-	 * @param groupByCountry if data points are grouped by countries
 	 */
-	public DataPoint(MapWidget mapWidget, ColorTransition colorTransition, Data data, boolean groupByCountry) {
+	public DataPoint(MapWidget mapWidget, ColorTransition colorTransition, Data data) {
 		this.mapWidget = mapWidget;
 		this.colorTransition = colorTransition;
 		this.data = data;
-		this.groupByCountry = groupByCountry;
 
 		initDataPoint();
 	}
@@ -135,11 +132,7 @@ public class DataPoint {
 		// content of info window
 		VerticalPanel infoWindowPanel = new VerticalPanel();
 		infoWindowPanel.clear();
-		if (groupByCountry) {
-			infoWindowPanel.add(new HTML("<b>" + data.getCountry() + "</b>"));
-		} else {
-			infoWindowPanel.add(new HTML("<b>" + data.getCity() + ", " + data.getCountry() + "</b>"));
-		}
+		infoWindowPanel.add(new HTML("<b>" + data.getCity() + ", " + data.getCountry() + "</b>"));
 		infoWindowPanel.add(new HTML("Avg. temperature: " + NumberFormat.getFormat("0.0000").format(this.data.getAverageTemperature())));
 		infoWindowPanel.add(new HTML("Avg. uncertainty: &plusmn;" + NumberFormat.getFormat("0.0000").format(this.data.getUncertainty())));
 
@@ -152,8 +145,17 @@ public class DataPoint {
 		return InfoWindow.newInstance(infoWindowOptions);
 	}
 
+	/**
+	 * Sets the offset on the y-axis of an InfoWindow.
+	 * (Workaround cause InfoWindowOptions.setPixelOffet(Size) does not work.)
+	 * @pre -
+	 * @post -
+	 * @param infoWindowOptions the InfoWindowOptions object
+	 * @param offset the offset in px
+	 * @return the modified InfoWindowOptions
+	 */
 	public native InfoWindowOptions setPixelOffset(InfoWindowOptions infoWindowOptions, int offset) /*-{
-		infoWindowOptions.pixelOffset = new $wnd.google.maps.Size(0, offset);
+		infoWindowOptions.pixelOffset = new $wnd.google.maps.Size(0, -offset);
 		return infoWindowOptions;
 	}-*/;
 

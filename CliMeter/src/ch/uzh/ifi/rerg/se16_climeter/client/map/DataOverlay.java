@@ -14,14 +14,15 @@ import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnDrawHand
 import com.google.gwt.maps.client.overlays.overlayhandlers.OverlayViewOnRemoveHandler;
 
 /**
- * This class is a copy of OverlayView, to make a small adjustment on 
- * row 84. InfoWindow will be shown on click on passed panel.
+ * This class is a copy of OverlayView, to make a small adjustment on lines 
+ * 72 and 90. InfoWindow will be shown on mouseover and hidden on mouseout.
  * 
  * @author 		Alphonse Mariyagnanaseelan
  * @history 	2016-12-08 AM Initial commit
  * @version 	2016-12-08 AM 1.0
  * @responsibilities 
- * 				This class displays one data object on the map.
+ * 				This class generates a JavaScriptObject displaying one 
+ * 				data point.
  * 
  * @see 		{@link OverlayView}
  * @see			com.google.gwt.maps.client.overlays.OverlayView
@@ -68,6 +69,7 @@ public class DataOverlay extends MVCObject<DataOverlay> {
 	private final static native JavaScriptObject createJso(MapImpl map, OverlayViewOnDrawHandler onDrawHandler,
 			OverlayViewOnAddHandler onAddHandler, OverlayViewOnRemoveHandler onRemoveHandler, Element panel, InfoWindow infoWindow) /*-{
 		function MapOverlay(map) {
+			// setMap() will be called manually when adding a point
 			// this.setMap(map);
 		}
 

@@ -37,7 +37,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filter.TimeLine;
  * 				2016-11-25 AM ShuffleButton as placeholder for TimeLine
  * 				2016-11-25 AM Map constants added
  * 				2016-11-28 AM Optional caching for temperature overlays
- * @version 	2016-11-28 AM 1.5
+ * 				2016-12-06 AM Connection to SQL server
+ * @version 	2016-12-06 AM 1.6
  * @responsibilities 
  * 				This class contains the map and all layers on top of it. It 
  * 				loads the TimeLine aswell.
@@ -135,7 +136,7 @@ public class MapComposite extends Composite implements Filterable {
 		TemperatureOverlay newTemperatureOverlay = this.temperatureOverlays.get(filter);
 
 		if (newTemperatureOverlay == null) {
-			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet, filter.isGroupByCountry());
+			newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 			this.temperatureOverlays.put(filter, newTemperatureOverlay);
 		}
 
@@ -157,7 +158,7 @@ public class MapComposite extends Composite implements Filterable {
 	 */
 	public void addTemperatureOverlay(List<Data> dataSet) {
 		// TODO
-		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet, false);
+		TemperatureOverlay newTemperatureOverlay = new TemperatureOverlay(this.mapWidget, this.colorTransition, dataSet);
 		newTemperatureOverlay.setVisibility(true);
 
 		if (this.activeTemperatureOverlay != null) {

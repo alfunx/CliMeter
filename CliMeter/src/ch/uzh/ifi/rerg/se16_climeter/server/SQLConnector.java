@@ -108,11 +108,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getData(Filter filter) {
-		if (filter.isGroupByYear() && filter.isGroupByCountry()) {
-			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
-					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
-					"Latitude, Longitude", "YEAR(dt), Country"));
-		} else if (filter.isGroupByYear() && !filter.isGroupByCountry()) {
+		if (filter.isGroupByYear()) {
 			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
 					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
 					"Latitude, Longitude", "YEAR(dt), City"));
@@ -127,15 +123,9 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getMapData(Filter filter) {
-		if (filter.isGroupByCountry()) {
-			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
-					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
-					"Latitude, Longitude", "Country"));
-		} else {
-			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
-					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
-					"Latitude, Longitude", "City"));
-		}
+		return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
+				"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
+				"Latitude, Longitude", "City"));
 	}
 
 	/**
@@ -237,6 +227,11 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 		return query;
 	}
 
+	/**
+	 * Checks if a given query string contains illegal chars.
+	 * @param string the query
+	 * @return if query is dangerous
+	 */
 	private boolean isQueryDangerous(String string) {
 		if (string == null) {
 			return false;
