@@ -54,6 +54,7 @@ public class MapComposite extends Composite implements Filterable {
 	private static final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
 	private static final boolean MAP_STREETVIEW = false;
 	private static final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
+	private static final double FILTERMENU_WIDTH = 15;
 	private static final double SOUTHPANEL_HEIGHT = 3.6;
 
 	private static final double DATASET_MIN = 39.0;
@@ -105,7 +106,7 @@ public class MapComposite extends Composite implements Filterable {
 
 		// add filterMenu to panel
 		FilterMenu filterMenu = new FilterMenu(this, false);
-		panel.addEast(filterMenu.getPanel(), 18);
+		panel.addEast(filterMenu.getPanel(), FILTERMENU_WIDTH);
 		panel.setWidgetHidden(filterMenu.getPanel(), true);
 
 		// add timeLine and button to panel

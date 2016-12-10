@@ -141,7 +141,7 @@ public class Table extends Visualisation implements Filterable {
 		
 		// create docklayoutPanel to organize the view of table, filter and pager
 		dockLayoutPanel = new DockLayoutPanel(Unit.EM);
-		dockLayoutPanel.addEast(filterMenu.getPanel(), 18);
+		dockLayoutPanel.addEast(filterMenu.getPanel(), 15);
 		//dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
 		dockLayoutPanel.addSouth(footerPanel, 3);
 		dockLayoutPanel.add(table);
