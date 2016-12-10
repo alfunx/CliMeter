@@ -539,8 +539,7 @@ public class Table extends Visualisation implements Filterable {
 
 	@Override
 	public Filter getOldFilter() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Filter();
 	}
 
 }
