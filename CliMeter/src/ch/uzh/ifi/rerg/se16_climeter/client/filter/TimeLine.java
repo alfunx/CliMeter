@@ -36,7 +36,7 @@ public class TimeLine extends SliderBar {
 		super(minValue, maxValue, new LabelFormatter() {
 			@Override
 			public String formatLabel(SliderBar slider, double value) {
-				return (int) (10 * value) / 10 + "";
+				return (int) value + "";
 			}
 		});
 
@@ -45,8 +45,8 @@ public class TimeLine extends SliderBar {
 		this.setStepSize(1);
 		this.setCurrentValue(minValue + ((maxValue-minValue)/2));
 
-		this.setNumTicks((int)(maxValue - minValue));
-		this.setNumLabels((int)(maxValue - minValue)/10);
+		this.setNumTicks((int)(maxValue - minValue)/2);
+		this.setNumLabels((int)(maxValue - minValue)/20);
 
 		this.setSize("100%", "100%");
 

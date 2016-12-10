@@ -10,7 +10,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
-import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -51,15 +50,16 @@ import ch.uzh.ifi.rerg.se16_climeter.client.filter.TimeLine;
  */
 public class MapComposite extends Composite implements Filterable {
 
-	private static final int MAP_ZOOM = 5;
-	private static final LatLng MAP_CENTER = LatLng.newInstance(47.37174, 8.54226);
+	private static final int MAP_ZOOM = 2;
 	private static final boolean MAP_STREETVIEW = false;
 	private static final MapTypeId MAP_TYPE = MapTypeId.TERRAIN;
 	private static final double FILTERMENU_WIDTH = 15;
 	private static final double SOUTHPANEL_HEIGHT = 3.6;
 
-	private static final double DATASET_MIN = 39.0;
-	private static final double DATASET_MAX = -27.0;
+	private static final double DATASET_MIN = 31.0;
+	private static final double DATASET_MAX = -11.0;
+	private static final double TIMELINE_MIN = 1734;
+	private static final double TIMELINE_MAX = 2014;
 
 	private Filter filter;
 	private DockLayoutPanel panel;
@@ -96,7 +96,6 @@ public class MapComposite extends Composite implements Filterable {
 		// set up basic map
 		MapOptions options = MapOptions.newInstance();
 		options.setZoom(MAP_ZOOM);
-		options.setCenter(MAP_CENTER);
 		options.setStreetViewControl(MAP_STREETVIEW);
 		options.setMapTypeId(MAP_TYPE);
 
@@ -194,7 +193,7 @@ public class MapComposite extends Composite implements Filterable {
 	protected LayoutPanel getTimeLine() {
 		LayoutPanel timeLinePanel = new LayoutPanel();
 		timeLinePanel.setSize("100%", "100%");
-		TimeLine timeLine = new TimeLine(this, 1895, 2015);
+		TimeLine timeLine = new TimeLine(this, TIMELINE_MIN, TIMELINE_MAX);
 
 		timeLinePanel.add(timeLine);
 		return timeLinePanel;
