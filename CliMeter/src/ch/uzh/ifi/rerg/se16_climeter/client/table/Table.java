@@ -20,7 +20,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
@@ -169,18 +168,10 @@ public class Table extends Visualisation implements Filterable {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (filterHidden == true){
-					toggleFilterButton.setFocus(false);
-					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), false);
-					dockLayoutPanel.animate(300);
-					filterHidden = false;
-				}
-				else {
-					toggleFilterButton.setFocus(false);
-					dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), true);
-					dockLayoutPanel.animate(300);
-					filterHidden = true;
-				}	
+				toggleFilterButton.setFocus(false);
+				dockLayoutPanel.setWidgetHidden(filterMenu.getPanel(), !filterHidden);
+				dockLayoutPanel.animate(300);
+				filterHidden = !filterHidden;
 			}
 		});
 		toggleFilterButton.addStyleName("toggleFilterButton");

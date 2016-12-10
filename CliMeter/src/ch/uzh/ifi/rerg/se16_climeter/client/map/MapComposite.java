@@ -111,7 +111,6 @@ public class MapComposite extends Composite implements Filterable {
 		// add timeLine and button to panel
 		DockLayoutPanel southPanel = new DockLayoutPanel(Unit.EM);
 		southPanel.getElement().getStyle().setBackgroundColor("#efebe7");
-
 		southPanel.addEast(getFilterButton(filterMenu), 3.5);
 		southPanel.add(getTimeLine());
 
@@ -209,18 +208,10 @@ public class MapComposite extends Composite implements Filterable {
 		filterButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (filterHidden == true){
-					filterButton.setFocus(false);
-					panel.setWidgetHidden(filterMenu.getPanel(), false);
-					panel.animate(300);
-					filterHidden = false;
-				}
-				else {
-					filterButton.setFocus(false);
-					panel.setWidgetHidden(filterMenu.getPanel(), true);
-					panel.animate(300);
-					filterHidden = true;
-				}	
+				filterButton.setFocus(false);
+				panel.setWidgetHidden(filterMenu.getPanel(), !filterHidden);
+				panel.animate(300);
+				filterHidden = !filterHidden;
 			}
 		});
 		filterButton.addStyleName("toggleFilterButton");
