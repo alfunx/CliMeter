@@ -31,6 +31,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 public class DataPoint {
 
 	private static final int INFOWINDOW_OFFSET = 18;
+	private static final double MIN_RELIABLE_UNCERTAINTY = 1.0;
+	private static final double MAX_RELIABLE_UNCERTAINTY = 5.0;
 
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;
@@ -107,6 +109,7 @@ public class DataPoint {
 	public VerticalPanel getDataPanel() {
 		VerticalPanel dataPanel = new VerticalPanel();
 		dataPanel.addStyleName("temperatureOverlay");
+		dataPanel.getElement().getStyle().setOpacity(this.data.getNumberOfData() / 24.0 + 0.5);
 
 		// calculate corresponding color for a data object
 		Color color = colorTransition.getPercentageColor(this.data.getAverageTemperature());
@@ -134,7 +137,22 @@ public class DataPoint {
 		infoWindowPanel.clear();
 		infoWindowPanel.add(new HTML("<b>" + data.getCity() + ", " + data.getCountry() + "</b>"));
 		infoWindowPanel.add(new HTML("Avg. temperature: " + NumberFormat.getFormat("0.0000").format(this.data.getAverageTemperature()) + "&deg;C"));
-		infoWindowPanel.add(new HTML("Avg. uncertainty: &plusmn;" + NumberFormat.getFormat("0.0000").format(this.data.getUncertainty())));
+		
+		HTML uncertainty = new HTML("Avg. uncertainty: &plusmn;" + NumberFormat.getFormat("0.0000").format(this.data.getUncertainty()));
+		if (data.getUncertainty() > MIN_RELIABLE_UNCERTAINTY) {
+			Color[] c = {new Color(0, 0, 0), new Color(255, 0, 0)};
+			ColorTransition ct = new ColorTransition(c, MIN_RELIABLE_UNCERTAINTY, MAX_RELIABLE_UNCERTAINTY);
+			uncertainty.getElement().getStyle().setColor(ct.getPercentageColor(data.getUncertainty()).getHexString());
+		}
+		infoWindowPanel.add(uncertainty);
+		
+		HTML numberOfData = new HTML("Nr. of measurements: " + data.getNumberOfData());
+		if (data.getNumberOfData() < 12) {
+			Color[] c = {new Color(255, 0, 0), new Color(0, 0, 0)};
+			ColorTransition ct = new ColorTransition(c, 1, 12);
+			numberOfData.getElement().getStyle().setColor(ct.getPercentageColor(data.getNumberOfData()).getHexString());
+		}
+		infoWindowPanel.add(numberOfData);
 
 		InfoWindowOptions infoWindowOptions = InfoWindowOptions.newInstance();
 		infoWindowOptions.setContent(infoWindowPanel);

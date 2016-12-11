@@ -88,6 +88,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 					data.setCountry(result.getString("Country"));
 					data.setLatitude(result.getString("Latitude"));
 					data.setLongitude(result.getString("Longitude"));
+					data.setNumberOfData(result.getInt("NumberOfData"));
 					dataList.add(data);
 				}
 			} finally {
@@ -108,13 +109,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getData(Filter filter) {
-		if (filter.isGroupByYear()) {
-			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
-					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
-					"Latitude, Longitude", "YEAR(dt), City"));
-		} else {
-			return getDataList(getQuery(filter, "*", null));
-		}
+		return getDataList(getQuery(filter, "*, 1 AS NumberOfData", null));
 	}
 
 	/**
@@ -125,7 +120,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	public ArrayList<Data> getMapData(Filter filter) {
 		return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
 				"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
-				"Latitude, Longitude", "City"));
+				"Latitude, Longitude, COUNT(AverageTemperature) AS NumberOfData", "City"));
 	}
 
 	/**
