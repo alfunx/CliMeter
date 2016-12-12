@@ -5,6 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 
+/**
+ * The class TimeLine extends the SliderBar class
+ * and creates a SliderBar object which is used
+ * in the MapComposite class.
+ * 
+ * @author 	Timo Surbeck
+ * @responsibilities 
+ */
 public class TimeLineTest extends GWTTestCase {
 
 	@Override

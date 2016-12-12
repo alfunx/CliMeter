@@ -11,6 +11,14 @@ import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
+/**
+ * The class TemperatureOverlay contains DataPoints for one point in 
+ * time.
+ * 
+ * @author 		Alphonse Mariyagnanaseelan
+ * @responsibilities 
+ * 				This class displays DataPoints for one point in time.
+ */
 public class TemperatureOverlayTest extends GWTTestCase {
 
 	@Override
@@ -37,6 +45,9 @@ public class TemperatureOverlayTest extends GWTTestCase {
 				MapComposite mapComposite = new MapComposite();
 				TemperatureOverlay temperatureOverlay = new TemperatureOverlay(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(100));
 				assertNotNull(temperatureOverlay);
+
+				// false positive
+				assertTrue(false);
 			}
 		};
 

@@ -11,6 +11,13 @@ import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 
+/**
+ * The class DataPoint is one Data object displayed on the map.
+ * 
+ * @author 		Alphonse Mariyagnanaseelan
+ * @responsibilities 
+ * 				This class displays one data object on the map.
+ */
 public class DataPointTest extends GWTTestCase {
 
 	@Override
@@ -36,7 +43,11 @@ public class DataPointTest extends GWTTestCase {
 			public void run() {
 				MapComposite mapComposite = new MapComposite();
 				DataPoint dataPoint = new DataPoint(mapComposite.getMapWidget(), new ColorTransition(-30, 30), Data.getRandomData(1).get(0));
+
 				assertNotNull(dataPoint);
+
+				// false positive
+				assertTrue(false);
 			}
 		};
 

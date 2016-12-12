@@ -5,6 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 
+/**
+ * The class Color represents one RGB color.
+ * 
+ * @author 		Alphonse Mariyagnanaseelan
+ * @responsibilities 
+ * 				This class represents a color. Can convert an RGB color to 
+ * 				a hex-color string.
+ */
 public class ColorTest extends GWTTestCase {
 
 	@Override
