@@ -26,6 +26,7 @@ public interface Filterable {
 	 * Return old filter, to rewrite with new information.
 	 * @pre -
 	 * @post -
+	 * @return the filter
 	 */
 	public Filter getOldFilter();
 

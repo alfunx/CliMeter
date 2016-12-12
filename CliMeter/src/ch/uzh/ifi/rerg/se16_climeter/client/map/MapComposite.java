@@ -103,9 +103,9 @@ public class MapComposite extends Composite implements Filterable {
 		LayoutPanel mapPanel = new LayoutPanel();
 		mapPanel.addStyleName("map");
 		this.mapWidget = new MapWidget(options);
+		this.mapWidget.setSize("100%", "100%");
 		mapPanel.clear();
 		mapPanel.add(this.mapWidget);
-		this.mapWidget.setSize("100%", "100%");
 
 		// add filterMenu to panel
 		this.filterMenu = new FilterMenu(this, false);
@@ -233,6 +233,12 @@ public class MapComposite extends Composite implements Filterable {
 	}
 
 	@Override
+	/**
+	 * Apply the given filter to the visualisation.
+	 * @pre -
+	 * @post -
+	 * @param filter the filter to apply on visualisation
+	 */
 	public void apply(final Filter filter) {
 		this.filterMenu.setStatus("Loading data...", FilterStatus.yellow);
 		SQL sql = new SQL();
@@ -252,6 +258,12 @@ public class MapComposite extends Composite implements Filterable {
 	}
 
 	@Override
+	/**
+	 * Return old filter, to rewrite with new information.
+	 * @pre -
+	 * @post -
+	 * @return the filter
+	 */
 	public Filter getOldFilter() {
 		return this.filter;
 	}

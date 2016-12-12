@@ -194,13 +194,4 @@ public class DataPoint {
 		}
 	}
 
-	/**
-	 * @pre -
-	 * @post -
-	 * @return the DataPoint as OverlayView
-	 */
-	public DataOverlay getDataOverlay() {
-		return this.dataPoint;
-	}
-
 }

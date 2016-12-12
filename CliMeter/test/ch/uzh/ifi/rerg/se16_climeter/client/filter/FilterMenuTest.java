@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 
 import static org.junit.Assert.*;
@@ -9,7 +6,6 @@ import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import ch.uzh.ifi.rerg.se16_climeter.client.Data;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.FilterMenu;
 import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
 
@@ -18,7 +14,6 @@ import ch.uzh.ifi.rerg.se16_climeter.client.table.Table;
  *
  */
 public class FilterMenuTest extends GWTTestCase {
-	
 	
 	@Override
 	public String getModuleName() {
@@ -33,10 +28,6 @@ public class FilterMenuTest extends GWTTestCase {
 		
 		assertNull(menu1);
 		assertNotNull(menu);
-		
 	}
-
-	
-
 	
 }

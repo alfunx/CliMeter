@@ -29,8 +29,8 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 public class TimeLine extends SliderBar {
 
 	// reference time value for change checking in updateValue(double value)
-	protected double value = this.getCurrentValue();
-	private Filterable filterable = null;
+	protected double value;
+	private Filterable filterable;
 
 	public TimeLine(Filterable filterable, double minValue, double maxValue) {
 		super(minValue, maxValue, new LabelFormatter() {

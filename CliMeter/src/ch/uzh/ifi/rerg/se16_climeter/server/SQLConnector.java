@@ -109,7 +109,10 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getData(Filter filter) {
-		return getDataList(getQuery(filter, "*, 1 AS NumberOfData", null));
+//		return getDataList(getQuery(filter, "*, 1 AS NumberOfData", null));
+		return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
+				"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
+				"Latitude, Longitude, COUNT(AverageTemperature) AS NumberOfData", "YEAR(dt), City"));
 	}
 
 	/**
