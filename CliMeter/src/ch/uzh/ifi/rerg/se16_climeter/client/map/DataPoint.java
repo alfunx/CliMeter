@@ -32,7 +32,7 @@ public class DataPoint {
 
 	private static final int INFOWINDOW_OFFSET = 18;
 	private static final double MIN_RELIABLE_UNCERTAINTY = 1.0;
-	private static final double MAX_RELIABLE_UNCERTAINTY = 5.0;
+	private static final double MAX_RELIABLE_UNCERTAINTY = 3.0;
 
 	private MapWidget mapWidget;
 	private ColorTransition colorTransition;

@@ -109,10 +109,13 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the resulted database query as a ArrayList of Data
 	 */
 	public ArrayList<Data> getData(Filter filter) {
-//		return getDataList(getQuery(filter, "*, 1 AS NumberOfData", null));
-		return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
-				"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
-				"Latitude, Longitude, COUNT(AverageTemperature) AS NumberOfData", "YEAR(dt), City"));
+		if (filter.isGroupByYear()) {
+			return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
+					"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
+					"Latitude, Longitude, COUNT(AverageTemperature) AS NumberOfData"));
+		} else {
+			return getDataList(getQuery(filter, "*, 1 AS NumberOfData"));
+		}
 	}
 
 	/**
@@ -123,7 +126,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	public ArrayList<Data> getMapData(Filter filter) {
 		return getDataList(getQuery(filter, "dt, AVG(AverageTemperature) AS AverageTemperature, " + 
 				"AVG(AverageTemperatureUncertainty) AS AverageTemperatureUncertainty, City, Country, " + 
-				"Latitude, Longitude, COUNT(AverageTemperature) AS NumberOfData", "City"));
+				"Latitude, Longitude, COUNT(AverageTemperature) AS NumberOfData"));
 	}
 
 	/**
@@ -162,7 +165,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the distinct list of cities
 	 */
 	public ArrayList<String> getDistinctCity() {
-		return getStringList(getQuery(null, "DISTINCT City", null));
+		return getStringList(getQuery(null, "DISTINCT City"));
 	}
 
 	/**
@@ -170,7 +173,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @return the distinct list of countries
 	 */
 	public ArrayList<String> getDistinctCountry() {
-		return getStringList(getQuery(null, "DISTINCT Country", null));
+		return getStringList(getQuery(null, "DISTINCT Country"));
 	}
 
 	/**
@@ -180,10 +183,9 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @param groupBy the group by statement
 	 * @return the complete query string
 	 */
-	private String getQuery(Filter filter, String select, String groupBy) {
+	private String getQuery(Filter filter, String select) {
 		// check if query contains illegal chars
-		if (isQueryDangerous(select) || 
-				isQueryDangerous(groupBy)) {
+		if (isQueryDangerous(select)) {
 			throw new IllegalArgumentException("Query contains invalid symbols.");
 		}
 		if (filter != null && 
@@ -216,8 +218,8 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 				query += " AND City='" + filter.getCity() + "'";
 			}
 
-			if (groupBy != null) {
-				query += " GROUP BY " + groupBy + "";
+			if (filter.isGroupByYear() == true) {
+				query += " GROUP BY YEAR(dt), City";
 			}
 		}
 		query += ";";
