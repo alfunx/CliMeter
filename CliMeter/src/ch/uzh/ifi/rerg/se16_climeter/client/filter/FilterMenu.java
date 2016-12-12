@@ -45,7 +45,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 
 public class FilterMenu extends Visualisation {
 	
-	final static int FIRST_YEAR = 1740;
+	final static int FIRST_YEAR = 1730;
 	final static int LAST_YEAR = 2015;
 	
 	final static Date STANDARD_BEGIN_DATE = new Date(FIRST_YEAR-1900, 0, 1);
@@ -242,7 +242,7 @@ public class FilterMenu extends Visualisation {
 	}
 	
 	public Widget getGroupByYearCheckBox() {
-		groupByYearCheckBox = new CheckBox("Group by year");
+		groupByYearCheckBox = new CheckBox("Group by year avg.");
 		groupByYearCheckBox.setValue(true);
 		
 		return groupByYearCheckBox;
@@ -329,7 +329,7 @@ public class FilterMenu extends Visualisation {
 			String month = endMonthListBox.getSelectedValue();
 			
 			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MMMM-dd");
-		    endDate = dateTimeFormat.parse(year + "-" + month + "-30");
+		    endDate = dateTimeFormat.parse(year + "-" + month + "-01");
 			Console.log("End date: " + endDate);
 		}
 		

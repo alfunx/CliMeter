@@ -384,7 +384,7 @@ public class Table extends Visualisation implements Filterable {
 	 */
 	private void initColumns() {
 		// add dates
-		dateCell = new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy"));
+		dateCell = new DateCell(DateTimeFormat.getFormat("MM-yyyy"));
 		dateColumn = new Column<Data, Date>(dateCell) {
 			 
 			@Override
@@ -534,11 +534,6 @@ public class Table extends Visualisation implements Filterable {
 
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
-				
-//				if (result.size() == 0) {
-//					filterMenu.getStatusBox().setText("No data found!");
-//				    filterMenu.getStatusBox().setStyleName("statusBoxError");
-//				}
 				
 				dataProvider.getList().clear();
 			    dataProvider.getList().addAll(result);
