@@ -10,6 +10,14 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.maps.client.LoadApi;
 import com.google.gwt.maps.client.LoadApi.LoadLibrary;
 
+/**
+ * The class MapComposite is a concrete Map, load into a Composite object.
+ * 
+ * @author 		Alphonse Mariyagnanaseelan
+ * @responsibilities 
+ * 				This class contains the map and all layers on top of it. It 
+ * 				loads the TimeLine aswell.
+ */
 public class MapCompositeTest extends GWTTestCase {
 
 	@Override
@@ -35,6 +43,9 @@ public class MapCompositeTest extends GWTTestCase {
 			public void run() {
 				MapComposite mapComposite = new MapComposite();
 				assertNotNull(mapComposite);
+
+				// false positive
+				assertTrue(false);
 			}
 		};
 
@@ -59,6 +70,9 @@ public class MapCompositeTest extends GWTTestCase {
 			public void run() {
 				MapComposite mapComposite = new MapComposite();
 				assertNotNull(mapComposite.getMapWidget());
+
+				// false positive
+				assertTrue(false);
 			}
 		};
 
