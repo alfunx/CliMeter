@@ -59,7 +59,7 @@ public class FilterMenu extends Visualisation {
 	private SuggestBox citySuggestBox;
 	private SuggestBox countrySuggestBox;
 	
-	private boolean isDateFilter;
+	private boolean isTable;
 	
 	private ListBox beginYearListBox;
 	private ListBox beginMonthListBox;
@@ -71,12 +71,14 @@ public class FilterMenu extends Visualisation {
 	
 	private TextBox statusBox;
 	
+	private CheckBox groupByYearCheckBox;
+	
 
-	public FilterMenu(Filterable filterable, boolean isDateFilter){
+	public FilterMenu(Filterable filterable, boolean isTable){
 
 		VerticalPanel filterMenuPanel = new VerticalPanel();
 		this.filterable = filterable;
-		this.isDateFilter = isDateFilter;
+		this.isTable = isTable;
 		
 		
 		filterMenuPanel.setSpacing(10);
@@ -84,10 +86,13 @@ public class FilterMenu extends Visualisation {
 		filterMenuPanel.add(initFilterTitle());
 		filterMenuPanel.add(countryBox());
 		filterMenuPanel.add(cityBox());
-		if (isDateFilter) {
+		if (isTable) {
 			filterMenuPanel.add(addDateFilterPanel());
 		}
 		filterMenuPanel.add(addInaccuracyPanel());
+		if(isTable) {
+			filterMenuPanel.add(getGroupByYearCheckBox());
+		}
 		filterMenuPanel.add(addButtons());
 		filterMenuPanel.add(initStatusBox());
 
@@ -236,6 +241,13 @@ public class FilterMenu extends Visualisation {
 		return inaccuracyPanel;
 	}
 	
+	public Widget getGroupByYearCheckBox() {
+		groupByYearCheckBox = new CheckBox("Group by year");
+		groupByYearCheckBox.setValue(true);
+		
+		return groupByYearCheckBox;
+	}
+	
 	/**
 	 * Creates date pickers with list boxes for date filtering
 	 * @return a panel with date filter option
@@ -302,7 +314,7 @@ public class FilterMenu extends Visualisation {
 			Console.log("MaxUncertainty: " + maxUncertainty);
 		}
 		
-		if (isDateFilter) {
+		if (isTable) {
 			String year = beginYearListBox.getSelectedValue();
 			String month = beginMonthListBox.getSelectedValue();
 			
@@ -311,7 +323,7 @@ public class FilterMenu extends Visualisation {
 			Console.log("Start date: " + beginDate);
 		}
 		
-		if (isDateFilter) {
+		if (isTable) {
 			String year = endYearListBox.getSelectedValue();
 			String month = endMonthListBox.getSelectedValue();
 			
@@ -323,7 +335,7 @@ public class FilterMenu extends Visualisation {
 		filter.setCountry(country);
 		filter.setCity(city);
 		filter.setMaxUncertainty(maxUncertainty);
-		if (isDateFilter) {
+		if (isTable) {
 			filter.setBeginDate(beginDate);
 			filter.setEndDate(endDate);
 		}
@@ -337,7 +349,7 @@ public class FilterMenu extends Visualisation {
 	public void resetFilter() {
 		countrySuggestBox.setValue("");
 		citySuggestBox.setValue("");
-		if (isDateFilter) {
+		if (isTable) {
 			beginYearListBox.setSelectedIndex(0);
 			endYearListBox.setSelectedIndex(LAST_YEAR-FIRST_YEAR);
 			beginMonthListBox.setSelectedIndex(0);
