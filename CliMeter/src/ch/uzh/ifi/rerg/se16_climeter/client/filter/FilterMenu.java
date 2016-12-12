@@ -374,6 +374,8 @@ public class FilterMenu extends Visualisation {
 			beginMonthListBox.setSelectedIndex(0);
 			endMonthListBox.setSelectedIndex(11);
 			groupByYearCheckBox.setValue(GROUP_BY_YEAR);
+			beginMonthListBox.setEnabled(!GROUP_BY_YEAR);
+			endMonthListBox.setEnabled(!GROUP_BY_YEAR);
 		}
 		inaccuracyBox.setValue("");
 		inaccuracyCheckBox.setValue(false);
