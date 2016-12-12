@@ -38,7 +38,7 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
  * 				2016-12-10 JS Visual changes
  * 				2016-12-12 AM Adjustment to make FilterMenu work with map				
  * 
- * @version 	2016-12-12 JB 1.4
+ * @version 	2016-12-12 AM 1.4
  * @responsibilities 
  * 				This class inherits from the class Visualisation.
  */
@@ -359,6 +359,13 @@ public class FilterMenu extends Visualisation {
 		inaccuracyCheckBox.setValue(false);
 	}
 	
+	/**
+	 * Set the status of the FilterMenu.
+	 * @pre -
+	 * @post -
+	 * @param text the status text
+	 * @param filterStatus the color of the statusbox
+	 */
 	public void setStatus(String text, FilterStatus filterStatus) {
 		statusBox.setText(text);
 		switch (filterStatus) {

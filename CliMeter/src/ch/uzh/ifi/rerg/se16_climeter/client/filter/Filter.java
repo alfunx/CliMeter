@@ -24,7 +24,7 @@ public class Filter implements IsSerializable {
 	private float maxUncertainty = Float.MAX_VALUE;
 	private String country;
 	private String city;
-	private boolean groupByYear = false;
+	private boolean groupByYear = true;
 
 	/**
 	 * Default constructor.

@@ -29,6 +29,7 @@ public class Data implements IsSerializable{
 	private String country;
 	private float latitude = Float.NaN;
 	private float longitude = Float.NaN;
+	private int numberOfData = 1;
 
 	/**
 	 * Default constructor.
@@ -269,6 +270,24 @@ public class Data implements IsSerializable{
 		} else {
 			this.longitude = Float.parseFloat(longitude.substring(0, longitude.length() - 1));
 		}
+	}
+
+	/**
+	 * @pre -
+	 * @post -
+	 * @return the numberOfData
+	 */
+	public int getNumberOfData() {
+		return numberOfData;
+	}
+
+	/**
+	 * @pre -
+	 * @post -
+	 * @param numberOfData the numberOfData to set
+	 */
+	public void setNumberOfData(int numberOfData) {
+		this.numberOfData = numberOfData;
 	}
 
 }
