@@ -39,12 +39,5 @@ public class TableTest extends GWTTestCase {
 		assertNull(table1);
 	}
 	
-	@Test
-	public void testAddData() {
-		
-		
-	}
-
 	
-
 }
