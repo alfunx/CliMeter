@@ -7,7 +7,6 @@ import java.util.Date;
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
 
 public class SQLConnectorTest extends GWTTestCase {
@@ -27,10 +26,15 @@ public class SQLConnectorTest extends GWTTestCase {
 		filter.setEndDate(new Date(31, 5, 2013 - 1900));
 		filter.setGroupByYear(true);
 
-		SQL sql = new SQL();
-//		sql.g
+		SQLConnector sql = new SQLConnector();
 		
-//		assertEquals("", sql.ge);
+		assertEquals("SELECT * FROM primaryTable"
+				+ " WHERE AverageTemperatureUncertainty<='" + 2.33F + "'"
+				+ " AND dt>='" + "10-03-2006" + "'"
+				+ " AND dt<='" + "31-06-2013" + "'"
+				+ " AND Country='" + "Zurich" + "'"
+				+ " AND City='" + "Switzerland" + "'"
+				+ " GROUP BY YEAR(dt), City;", sql.getQuery(filter, "*"));
 	}
 
 }
