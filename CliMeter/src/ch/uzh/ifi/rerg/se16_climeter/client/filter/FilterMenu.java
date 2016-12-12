@@ -206,7 +206,7 @@ public class FilterMenu extends Visualisation {
 		Button resetButton = new Button("Reset", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				resetFilter();
-				filterable.apply(new Filter());
+				filterable.apply(getFilterValues());
 				Console.log("Reset successful.");
 				setStatus("Resetting data...", FilterStatus.yellow);
 				countrySuggestBox.setFocus(true);
