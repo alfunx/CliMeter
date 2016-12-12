@@ -3,7 +3,6 @@ package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -18,7 +17,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
@@ -209,7 +207,7 @@ public class FilterMenu extends Visualisation {
 		Button resetButton = new Button("Reset", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				resetFilter();
-				filterable.apply(new Filter());
+				filterable.apply(getFilterValues());
 				Console.log("Reset successful.");
 				setStatus("Resetting data...", FilterStatus.yellow);
 				countrySuggestBox.setFocus(true);
