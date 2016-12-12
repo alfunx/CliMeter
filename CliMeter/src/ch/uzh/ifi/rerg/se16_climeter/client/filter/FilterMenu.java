@@ -12,13 +12,15 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.google.gwt.user.datepicker.client.DatePicker;
+
+
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
@@ -43,8 +45,14 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 
 public class FilterMenu extends Visualisation {
 	
-	final static Date STANDARD_BEGIN_DATE = new Date(-200, 0, 1);
-	final static Date STANDARD_END_DATE = new Date(116, 11, 31);
+	final static int FIRST_YEAR = 1740;
+	final static int LAST_YEAR = 2015;
+	
+	final static Date STANDARD_BEGIN_DATE = new Date(FIRST_YEAR-1900, 0, 1);
+	final static Date STANDARD_END_DATE = new Date(LAST_YEAR-1900, 11, 31);
+	
+	final static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July",
+			"August", "September", "October", "November", "December"};
 	
 	private Filterable filterable;
 	
@@ -54,6 +62,11 @@ public class FilterMenu extends Visualisation {
 	private DateBox beginDateBox;
 	private DateBox endDateBox;
 	private boolean isDateFilter;
+	
+	private ListBox beginYearListBox;
+	private ListBox beginMonthListBox;
+	private ListBox endYearListBox;
+	private ListBox endMonthListBox;
 	
 	private CheckBox inaccuracyCheckBox;
 	private TextBox inaccuracyBox;
@@ -81,6 +94,7 @@ public class FilterMenu extends Visualisation {
 		filterMenuPanel.add(initStatusBox());
 
 		filterMenuPanel.setStyleName("filterMenuPanel");
+		resetFilter();
 		panel.add(filterMenuPanel);
 	}
 	
@@ -225,33 +239,39 @@ public class FilterMenu extends Visualisation {
 	}
 	
 	/**
-	 * Creates date pickers with boxes for date filtering
+	 * Creates date pickers with list boxes for date filtering
 	 * @return a panel with date filter option
 	 */
 	public Widget addDateFilterPanel() {
 
 		VerticalPanel dateFilterPanel = new VerticalPanel();
-		DateTimeFormat dateTimeFormat = DateTimeFormat.getLongDateFormat();
+		HorizontalPanel beginDatePanel = new HorizontalPanel();
+		HorizontalPanel endDatePanel = new HorizontalPanel();
+		
+		beginYearListBox = new ListBox();
+		endYearListBox = new ListBox();
+		for (int i = FIRST_YEAR; i <= LAST_YEAR; i++){
+			beginYearListBox.addItem(i+"");
+			endYearListBox.addItem(i+"");
+			
+		}
+		beginDatePanel.add(beginYearListBox);
+		endDatePanel.add(endYearListBox);
+		
+		beginMonthListBox = new ListBox();
+		endMonthListBox = new ListBox();
+		for (int i = 0; i < MONTHS.length; i++) {
+			beginMonthListBox.addItem(MONTHS[i]);
+			endMonthListBox.addItem(MONTHS[i]);
+		}
+		beginDatePanel.add(beginMonthListBox);
+		endDatePanel.add(endMonthListBox);
 		
 		dateFilterPanel.add(new Label("Dates from: "));
-		beginDateBox = new DateBox();
-		beginDateBox.setFormat(new DateBox.DefaultFormat(dateTimeFormat));
-		DatePicker beginDatePicker = beginDateBox.getDatePicker();
-		beginDatePicker.setValue(STANDARD_BEGIN_DATE, true);
-		beginDatePicker.setYearAndMonthDropdownVisible(true);
-		beginDatePicker.setVisibleYearCount(600);
-		beginDateBox.setStyleName("beginDateBox");
-		dateFilterPanel.add(beginDateBox);
+		dateFilterPanel.add(beginDatePanel);
 		
 		dateFilterPanel.add(new Label("To: "));
-		endDateBox = new DateBox();
-		endDateBox.setFormat(new DateBox.DefaultFormat(dateTimeFormat));
-		DatePicker endDatePicker = endDateBox.getDatePicker();
-		endDatePicker.setValue(STANDARD_END_DATE, true);
-		endDatePicker.setYearAndMonthDropdownVisible(true);
-		endDatePicker.setVisibleYearCount(600);
-		endDateBox.setStyleName("endDateBox");
-		dateFilterPanel.add(endDateBox);
+		dateFilterPanel.add(endDatePanel);
 
 		return dateFilterPanel;
 	}
@@ -284,13 +304,21 @@ public class FilterMenu extends Visualisation {
 			Console.log("MaxUncertainty: " + maxUncertainty);
 		}
 		
-		if (isDateFilter && beginDateBox.getValue() != null) {
-			beginDate = beginDateBox.getValue();
+		if (isDateFilter) {
+			String year = beginYearListBox.getSelectedValue();
+			String month = beginMonthListBox.getSelectedValue();
+			
+			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MMMM-dd");
+		    beginDate = dateTimeFormat.parse(year + "-" + month + "-01");
 			Console.log("Start date: " + beginDate);
 		}
 		
-		if (isDateFilter && endDateBox.getValue() != null) {
-			endDate = endDateBox.getValue();
+		if (isDateFilter) {
+			String year = endYearListBox.getSelectedValue();
+			String month = endMonthListBox.getSelectedValue();
+			
+			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MMMM-dd");
+		    endDate = dateTimeFormat.parse(year + "-" + month + "-01");
 			Console.log("End date: " + endDate);
 		}
 		
@@ -312,8 +340,10 @@ public class FilterMenu extends Visualisation {
 		countrySuggestBox.setValue("");
 		citySuggestBox.setValue("");
 		if (isDateFilter) {
-			beginDateBox.setValue(STANDARD_BEGIN_DATE);
-			endDateBox.setValue(STANDARD_END_DATE);
+			beginYearListBox.setSelectedIndex(0);
+			endYearListBox.setSelectedIndex(LAST_YEAR-FIRST_YEAR);
+			beginMonthListBox.setSelectedIndex(0);
+			endMonthListBox.setSelectedIndex(11);
 		}
 		inaccuracyBox.setValue("");
 		inaccuracyCheckBox.setValue(false);
