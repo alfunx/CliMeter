@@ -41,14 +41,16 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 
 public class FilterMenu extends Visualisation {
 	
-	final static int FIRST_YEAR = 1730;
-	final static int LAST_YEAR = 2015;
+	private final static int FIRST_YEAR = 1730;
+	private final static int LAST_YEAR = 2015;
 	
-	final static Date STANDARD_BEGIN_DATE = new Date(FIRST_YEAR-1900, 0, 1);
-	final static Date STANDARD_END_DATE = new Date(LAST_YEAR-1900, 11, 31);
-	
-	final static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July",
+	private final static Date STANDARD_BEGIN_DATE = new Date(FIRST_YEAR-1900, 0, 1);
+	private final static Date STANDARD_END_DATE = new Date(LAST_YEAR-1900, 11, 31);
+
+	private final static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July",
 			"August", "September", "October", "November", "December"};
+	
+	private final static boolean GROUP_BY_YEAR = true;
 	
 	private Filterable filterable;
 	
@@ -239,7 +241,19 @@ public class FilterMenu extends Visualisation {
 	
 	public Widget getGroupByYearCheckBox() {
 		groupByYearCheckBox = new CheckBox("Group by year avg.");
-		groupByYearCheckBox.setValue(true);
+		groupByYearCheckBox.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				beginMonthListBox.setEnabled(!groupByYearCheckBox.getValue());
+				endMonthListBox.setEnabled(!groupByYearCheckBox.getValue());
+				if (groupByYearCheckBox.getValue()){
+					beginMonthListBox.setSelectedIndex(0);
+					endMonthListBox.setSelectedIndex(11);
+				}
+			}
+		});
+		groupByYearCheckBox.setValue(GROUP_BY_YEAR);
 		
 		return groupByYearCheckBox;
 	}
@@ -278,7 +292,10 @@ public class FilterMenu extends Visualisation {
 		
 		dateFilterPanel.add(new Label("To: "));
 		dateFilterPanel.add(endDatePanel);
-
+		
+		beginMonthListBox.setEnabled(!GROUP_BY_YEAR);
+		endMonthListBox.setEnabled(!GROUP_BY_YEAR);
+		
 		return dateFilterPanel;
 	}
 	
@@ -356,7 +373,7 @@ public class FilterMenu extends Visualisation {
 			endYearListBox.setSelectedIndex(LAST_YEAR-FIRST_YEAR);
 			beginMonthListBox.setSelectedIndex(0);
 			endMonthListBox.setSelectedIndex(11);
-			groupByYearCheckBox.setValue(true);
+			groupByYearCheckBox.setValue(GROUP_BY_YEAR);
 		}
 		inaccuracyBox.setValue("");
 		inaccuracyCheckBox.setValue(false);
