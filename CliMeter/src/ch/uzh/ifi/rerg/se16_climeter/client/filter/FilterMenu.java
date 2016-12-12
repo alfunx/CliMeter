@@ -59,8 +59,6 @@ public class FilterMenu extends Visualisation {
 	private SuggestBox citySuggestBox;
 	private SuggestBox countrySuggestBox;
 	
-	private DateBox beginDateBox;
-	private DateBox endDateBox;
 	private boolean isDateFilter;
 	
 	private ListBox beginYearListBox;
