@@ -137,6 +137,7 @@ public class Table extends Visualisation implements Filterable {
 				
 		// create footerpanel for pager and toggleButton
 		footerPanel = new DockLayoutPanel(Unit.EM);
+		footerPanel.setStyleName("footerPanel");
 		footerPanel.addEast(toggleFilterButton, 5);
 		footerPanel.add(pager);
 		

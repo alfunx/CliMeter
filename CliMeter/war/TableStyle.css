@@ -44,3 +44,7 @@
 	-webkit-box-shadow:inset 0px 0px 0px 0px #ffffff;
 	box-shadow:inset 0px 0px 0px 0px #ffffff;
 }
+
+.footerPanel {
+	background: #efebe7;
+}
