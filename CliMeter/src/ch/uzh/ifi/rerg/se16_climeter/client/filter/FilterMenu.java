@@ -298,6 +298,7 @@ public class FilterMenu extends Visualisation {
 		Date beginDate = STANDARD_BEGIN_DATE;
 		Date endDate = STANDARD_END_DATE;
 		float maxUncertainty = Float.MAX_VALUE;
+		Boolean groupByYear = true;
 		
 		if (countrySuggestBox.getValue() != "") {
 			country = countrySuggestBox.getValue();
@@ -328,8 +329,12 @@ public class FilterMenu extends Visualisation {
 			String month = endMonthListBox.getSelectedValue();
 			
 			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MMMM-dd");
-		    endDate = dateTimeFormat.parse(year + "-" + month + "-01");
+		    endDate = dateTimeFormat.parse(year + "-" + month + "-30");
 			Console.log("End date: " + endDate);
+		}
+		
+		if (isTable) {
+			groupByYear = groupByYearCheckBox.getValue();
 		}
 		
 		filter.setCountry(country);
@@ -339,6 +344,7 @@ public class FilterMenu extends Visualisation {
 			filter.setBeginDate(beginDate);
 			filter.setEndDate(endDate);
 		}
+		filter.setGroupByYear(groupByYear);
 		
 		return filter;
 	}
@@ -354,6 +360,7 @@ public class FilterMenu extends Visualisation {
 			endYearListBox.setSelectedIndex(LAST_YEAR-FIRST_YEAR);
 			beginMonthListBox.setSelectedIndex(0);
 			endMonthListBox.setSelectedIndex(11);
+			groupByYearCheckBox.setValue(true);
 		}
 		inaccuracyBox.setValue("");
 		inaccuracyCheckBox.setValue(false);
