@@ -137,7 +137,7 @@ public class DataPoint {
 		infoWindowPanel.clear();
 		infoWindowPanel.add(new HTML("<b>" + data.getCity() + ", " + data.getCountry() + "</b>"));
 		infoWindowPanel.add(new HTML("Avg. temperature: " + NumberFormat.getFormat("0.0000").format(this.data.getAverageTemperature()) + "&deg;C"));
-		
+
 		HTML uncertainty = new HTML("Avg. uncertainty: &plusmn;" + NumberFormat.getFormat("0.0000").format(this.data.getUncertainty()));
 		if (data.getUncertainty() > MIN_RELIABLE_UNCERTAINTY) {
 			Color[] c = {new Color(0, 0, 0), new Color(255, 0, 0)};
@@ -145,8 +145,8 @@ public class DataPoint {
 			uncertainty.getElement().getStyle().setColor(ct.getPercentageColor(data.getUncertainty()).getHexString());
 		}
 		infoWindowPanel.add(uncertainty);
-		
-		HTML numberOfData = new HTML("Nr. of measurements: " + data.getNumberOfData());
+
+		HTML numberOfData = new HTML("No. of measurements: " + data.getNumberOfData());
 		if (data.getNumberOfData() < 12) {
 			Color[] c = {new Color(255, 0, 0), new Color(0, 0, 0)};
 			ColorTransition ct = new ColorTransition(c, 1, 12);

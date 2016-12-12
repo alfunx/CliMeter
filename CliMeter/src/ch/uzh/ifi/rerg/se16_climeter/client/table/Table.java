@@ -72,6 +72,7 @@ public class Table extends Visualisation implements Filterable {
 	private TextColumn<Data> countryColumn;
 	private Column<Data, Number> latitudeColumn;
 	private Column<Data, Number> longitudeColumn;
+	private Column<Data, Number> numberOfDataColumn;
 	
 	private ListHandler<Data> columnSortHandler;
 	
@@ -383,7 +384,7 @@ public class Table extends Visualisation implements Filterable {
 	 */
 	private void initColumns() {
 		// add dates
-		dateCell = new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy"));
+		dateCell = new DateCell(DateTimeFormat.getFormat("MM-yyyy"));
 		dateColumn = new Column<Data, Date>(dateCell) {
 			 
 			@Override
@@ -462,6 +463,15 @@ public class Table extends Visualisation implements Filterable {
 		};
 		table.addColumn(longitudeColumn, "Longitude");
 		longitudeColumn.setSortable(true);
+		
+		// add numberOfData
+		numberOfDataColumn = new Column<Data, Number>(new NumberCell()) {
+			@Override
+			public Double getValue(Data object) {
+				return object.getNumberOfData() + 0.0;
+			}
+		};
+		table.addColumn(numberOfDataColumn, "No. Meauserements");
 			
 		// add styles
 		table.addStyleName("table");
@@ -472,6 +482,7 @@ public class Table extends Visualisation implements Filterable {
 		table.addColumnStyleName(4, "tableHeader");
 		table.addColumnStyleName(5, "tableHeader");
 		table.addColumnStyleName(6, "tableHeader");
+		table.addColumnStyleName(7, "tableHeader");
 	}
 	
 	/**
@@ -523,11 +534,6 @@ public class Table extends Visualisation implements Filterable {
 
 			@Override
 			public void onSuccess(ArrayList<Data> result) {
-				
-//				if (result.size() == 0) {
-//					filterMenu.getStatusBox().setText("No data found!");
-//				    filterMenu.getStatusBox().setStyleName("statusBoxError");
-//				}
 				
 				dataProvider.getList().clear();
 			    dataProvider.getList().addAll(result);

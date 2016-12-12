@@ -183,7 +183,7 @@ public class SQLConnector extends RemoteServiceServlet implements GreetingServic
 	 * @param groupBy the group by statement
 	 * @return the complete query string
 	 */
-	private String getQuery(Filter filter, String select) {
+	protected String getQuery(Filter filter, String select) {
 		// check if query contains illegal chars
 		if (isQueryDangerous(select)) {
 			throw new IllegalArgumentException("Query contains invalid symbols.");

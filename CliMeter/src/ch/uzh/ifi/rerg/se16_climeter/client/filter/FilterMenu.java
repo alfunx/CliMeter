@@ -3,7 +3,6 @@ package ch.uzh.ifi.rerg.se16_climeter.client.filter;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -18,9 +17,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
-
-
 
 import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 import ch.uzh.ifi.rerg.se16_climeter.client.SQL;
@@ -45,21 +41,23 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Visualisation;
 
 public class FilterMenu extends Visualisation {
 	
-	final static int FIRST_YEAR = 1740;
-	final static int LAST_YEAR = 2015;
+	private final static int FIRST_YEAR = 1730;
+	private final static int LAST_YEAR = 2015;
 	
-	final static Date STANDARD_BEGIN_DATE = new Date(FIRST_YEAR-1900, 0, 1);
-	final static Date STANDARD_END_DATE = new Date(LAST_YEAR-1900, 11, 31);
-	
-	final static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July",
+	private final static Date STANDARD_BEGIN_DATE = new Date(FIRST_YEAR-1900, 0, 1);
+	private final static Date STANDARD_END_DATE = new Date(LAST_YEAR-1900, 11, 31);
+
+	private final static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July",
 			"August", "September", "October", "November", "December"};
+	
+	private final static boolean GROUP_BY_YEAR = true;
 	
 	private Filterable filterable;
 	
 	private SuggestBox citySuggestBox;
 	private SuggestBox countrySuggestBox;
 	
-	private boolean isDateFilter;
+	private boolean isTable;
 	
 	private ListBox beginYearListBox;
 	private ListBox beginMonthListBox;
@@ -71,12 +69,14 @@ public class FilterMenu extends Visualisation {
 	
 	private TextBox statusBox;
 	
+	private CheckBox groupByYearCheckBox;
+	
 
-	public FilterMenu(Filterable filterable, boolean isDateFilter){
+	public FilterMenu(Filterable filterable, boolean isTable){
 
 		VerticalPanel filterMenuPanel = new VerticalPanel();
 		this.filterable = filterable;
-		this.isDateFilter = isDateFilter;
+		this.isTable = isTable;
 		
 		
 		filterMenuPanel.setSpacing(10);
@@ -84,10 +84,13 @@ public class FilterMenu extends Visualisation {
 		filterMenuPanel.add(initFilterTitle());
 		filterMenuPanel.add(countryBox());
 		filterMenuPanel.add(cityBox());
-		if (isDateFilter) {
+		if (isTable) {
 			filterMenuPanel.add(addDateFilterPanel());
 		}
 		filterMenuPanel.add(addInaccuracyPanel());
+		if(isTable) {
+			filterMenuPanel.add(getGroupByYearCheckBox());
+		}
 		filterMenuPanel.add(addButtons());
 		filterMenuPanel.add(initStatusBox());
 
@@ -206,7 +209,7 @@ public class FilterMenu extends Visualisation {
 		Button resetButton = new Button("Reset", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				resetFilter();
-				filterable.apply(new Filter());
+				filterable.apply(getFilterValues());
 				Console.log("Reset successful.");
 				setStatus("Resetting data...", FilterStatus.yellow);
 				countrySuggestBox.setFocus(true);
@@ -234,6 +237,25 @@ public class FilterMenu extends Visualisation {
 		inaccuracyPanel.add(inaccuracyCheckBox);
 		inaccuracyPanel.add(inaccuracyBox);
 		return inaccuracyPanel;
+	}
+	
+	public Widget getGroupByYearCheckBox() {
+		groupByYearCheckBox = new CheckBox("Group by year avg.");
+		groupByYearCheckBox.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				beginMonthListBox.setEnabled(!groupByYearCheckBox.getValue());
+				endMonthListBox.setEnabled(!groupByYearCheckBox.getValue());
+				if (groupByYearCheckBox.getValue()){
+					beginMonthListBox.setSelectedIndex(0);
+					endMonthListBox.setSelectedIndex(11);
+				}
+			}
+		});
+		groupByYearCheckBox.setValue(GROUP_BY_YEAR);
+		
+		return groupByYearCheckBox;
 	}
 	
 	/**
@@ -270,7 +292,10 @@ public class FilterMenu extends Visualisation {
 		
 		dateFilterPanel.add(new Label("To: "));
 		dateFilterPanel.add(endDatePanel);
-
+		
+		beginMonthListBox.setEnabled(!GROUP_BY_YEAR);
+		endMonthListBox.setEnabled(!GROUP_BY_YEAR);
+		
 		return dateFilterPanel;
 	}
 	
@@ -286,6 +311,7 @@ public class FilterMenu extends Visualisation {
 		Date beginDate = STANDARD_BEGIN_DATE;
 		Date endDate = STANDARD_END_DATE;
 		float maxUncertainty = Float.MAX_VALUE;
+		Boolean groupByYear = true;
 		
 		if (countrySuggestBox.getValue() != "") {
 			country = countrySuggestBox.getValue();
@@ -302,7 +328,7 @@ public class FilterMenu extends Visualisation {
 			Console.log("MaxUncertainty: " + maxUncertainty);
 		}
 		
-		if (isDateFilter) {
+		if (isTable) {
 			String year = beginYearListBox.getSelectedValue();
 			String month = beginMonthListBox.getSelectedValue();
 			
@@ -311,7 +337,7 @@ public class FilterMenu extends Visualisation {
 			Console.log("Start date: " + beginDate);
 		}
 		
-		if (isDateFilter) {
+		if (isTable) {
 			String year = endYearListBox.getSelectedValue();
 			String month = endMonthListBox.getSelectedValue();
 			
@@ -320,13 +346,18 @@ public class FilterMenu extends Visualisation {
 			Console.log("End date: " + endDate);
 		}
 		
+		if (isTable) {
+			groupByYear = groupByYearCheckBox.getValue();
+		}
+		
 		filter.setCountry(country);
 		filter.setCity(city);
 		filter.setMaxUncertainty(maxUncertainty);
-		if (isDateFilter) {
+		if (isTable) {
 			filter.setBeginDate(beginDate);
 			filter.setEndDate(endDate);
 		}
+		filter.setGroupByYear(groupByYear);
 		
 		return filter;
 	}
@@ -337,11 +368,12 @@ public class FilterMenu extends Visualisation {
 	public void resetFilter() {
 		countrySuggestBox.setValue("");
 		citySuggestBox.setValue("");
-		if (isDateFilter) {
+		if (isTable) {
 			beginYearListBox.setSelectedIndex(0);
 			endYearListBox.setSelectedIndex(LAST_YEAR-FIRST_YEAR);
 			beginMonthListBox.setSelectedIndex(0);
 			endMonthListBox.setSelectedIndex(11);
+			groupByYearCheckBox.setValue(GROUP_BY_YEAR);
 		}
 		inaccuracyBox.setValue("");
 		inaccuracyCheckBox.setValue(false);
