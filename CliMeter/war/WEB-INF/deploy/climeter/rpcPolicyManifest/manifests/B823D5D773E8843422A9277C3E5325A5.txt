@@ -1,0 +1,2 @@
+serviceClass: ch.uzh.ifi.rerg.se16_climeter.client.GreetingService
+path: 22BA16FBAA619A9807D5B03085D49656.gwt.rpc

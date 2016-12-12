@@ -29,14 +29,14 @@ import ch.uzh.ifi.rerg.se16_climeter.client.Console;
 public class TimeLine extends SliderBar {
 
 	// reference time value for change checking in updateValue(double value)
-	protected double value = this.getCurrentValue();
-	private Filterable filterable = null;
+	protected double value;
+	private Filterable filterable;
 
 	public TimeLine(Filterable filterable, double minValue, double maxValue) {
 		super(minValue, maxValue, new LabelFormatter() {
 			@Override
 			public String formatLabel(SliderBar slider, double value) {
-				return (int) (10 * value) / 10 + "";
+				return (int) value + "";
 			}
 		});
 
@@ -45,8 +45,8 @@ public class TimeLine extends SliderBar {
 		this.setStepSize(1);
 		this.setCurrentValue(minValue + ((maxValue-minValue)/2));
 
-		this.setNumTicks((int)(maxValue - minValue));
-		this.setNumLabels((int)(maxValue - minValue)/10);
+		this.setNumTicks((int)(maxValue - minValue)/2);
+		this.setNumLabels((int)(maxValue - minValue)/20);
 
 		this.setSize("100%", "100%");
 
