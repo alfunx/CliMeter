@@ -5,6 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 
+/**
+ * The class ColorTransition calculates a color in a color transition 
+ * between two colors for a given value in a set.
+ * 
+ * @author 		Alphonse Mariyagnanaseelan
+ * @responsibilities 
+ * 				This class calculates a color for a given value.
+ */
 public class ColorTransitionTest extends GWTTestCase {
 
 	@Override

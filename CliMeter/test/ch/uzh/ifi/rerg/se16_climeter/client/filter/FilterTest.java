@@ -4,6 +4,13 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import com.google.gwt.junit.client.GWTTestCase;
 
+/**
+ * The class Filter contains all filtering criteria.
+ * 
+ * @author 		Alphonse Mariyagnanaseelan
+ * @responsibilities 
+ * 				This class contains filtering criteria.
+ */
 public class FilterTest extends GWTTestCase{
 
 	@Override

@@ -9,6 +9,14 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.filter.Filter;
 
+/**
+ * The class MapComposite is a concrete Map, load into a Composite object.
+ * 
+ * @author 		Christian Himmel
+ * @responsibilities 
+ * 				This class creates a connection between the project and the database 
+ * 				and converts the results into a LinkedList.
+ */
 public class SQLConnectorTest extends GWTTestCase {
 
 	@Override

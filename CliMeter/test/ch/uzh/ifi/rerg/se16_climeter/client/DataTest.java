@@ -12,6 +12,14 @@ import com.google.gwt.maps.client.base.LatLng;
 
 import ch.uzh.ifi.rerg.se16_climeter.client.map.MapComposite;
 
+/**
+ * The class Data represents one data point of the measurements.
+ * 
+ * @author 		Alphonse Mariyagnanaseelan
+ * @responsibilities 
+ * 				This class represents one data point. Offers method
+ * 				getRandomData() for testing purposes.
+ */
 public class DataTest extends GWTTestCase {
 
 	@Override

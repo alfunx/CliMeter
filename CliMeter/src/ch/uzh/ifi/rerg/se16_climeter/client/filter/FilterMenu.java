@@ -128,7 +128,7 @@ public class FilterMenu extends Visualisation {
 	 * 
 	 * @return a panel with a suggestion box
 	 */
-	public Widget countryBox() {
+	private Widget countryBox() {
 		// Define the oracle that finds suggestions
 		final MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
 		
@@ -160,7 +160,7 @@ public class FilterMenu extends Visualisation {
 	 * 
 	 * @return a panel with a suggestion box
 	 */
-	public Widget cityBox() {
+	private Widget cityBox() {
 		// Define the oracle that finds suggestions
 		final MultiWordSuggestOracle cityOracle = new MultiWordSuggestOracle();
 		
@@ -192,7 +192,7 @@ public class FilterMenu extends Visualisation {
 	 * Creates the apply and reset buttons for the filter
 	 * @return a horizontal panel with 2 buttons
 	 */
-	public Widget addButtons() {
+	private Widget addButtons() {
 		
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		
@@ -228,7 +228,7 @@ public class FilterMenu extends Visualisation {
 	 * Creates box to set max. uncertainty
 	 * @return panel with uncertainty option
 	 */
-	public Widget addInaccuracyPanel() {
+	private Widget addInaccuracyPanel() {
 
 		VerticalPanel inaccuracyPanel = new VerticalPanel();
 		inaccuracyCheckBox = new CheckBox("Set max. uncertainty");
@@ -239,7 +239,7 @@ public class FilterMenu extends Visualisation {
 		return inaccuracyPanel;
 	}
 	
-	public Widget getGroupByYearCheckBox() {
+	private Widget getGroupByYearCheckBox() {
 		groupByYearCheckBox = new CheckBox("Group by year avg.");
 		groupByYearCheckBox.addClickHandler(new ClickHandler() {
 			
@@ -262,7 +262,7 @@ public class FilterMenu extends Visualisation {
 	 * Creates date pickers with list boxes for date filtering
 	 * @return a panel with date filter option
 	 */
-	public Widget addDateFilterPanel() {
+	private Widget addDateFilterPanel() {
 
 		VerticalPanel dateFilterPanel = new VerticalPanel();
 		HorizontalPanel beginDatePanel = new HorizontalPanel();
@@ -303,7 +303,7 @@ public class FilterMenu extends Visualisation {
 	 * Method collects all inputs set by the user for the filter and creates a Filter object
 	 * @return a Filter object
 	 */
-	public Filter getFilterValues(){
+	private Filter getFilterValues(){
 		Filter filter = filterable.getOldFilter();
 		
 		String country = null;
@@ -365,7 +365,7 @@ public class FilterMenu extends Visualisation {
 	/**
 	 * Resets all text boxes of the filter
 	 */
-	public void resetFilter() {
+	private void resetFilter() {
 		countrySuggestBox.setValue("");
 		citySuggestBox.setValue("");
 		if (isTable) {
