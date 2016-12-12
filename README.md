@@ -1,2 +1,2 @@
 # CliMeter
-[latest version running on Google App Engine](https://climeter-149514.appspot.com)
+[latest version running on Google App Engine](https://climeter-150120.appspot.com)
