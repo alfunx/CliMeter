@@ -203,7 +203,6 @@ public class FilterMenu extends Visualisation {
 				Console.log("Filter applied.");
 				setStatus("Updating data...", FilterStatus.yellow);
 			}
-			//TODO keyevent ENTER
 		});
 		applyButton.setStyleName("applyButton");
 		

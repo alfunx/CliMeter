@@ -471,7 +471,7 @@ public class Table extends Visualisation implements Filterable {
 				return object.getNumberOfData() + 0.0;
 			}
 		};
-		table.addColumn(numberOfDataColumn, "No. Meauserements");
+		table.addColumn(numberOfDataColumn, "Measurements");
 			
 		// add styles
 		table.addStyleName("table");
