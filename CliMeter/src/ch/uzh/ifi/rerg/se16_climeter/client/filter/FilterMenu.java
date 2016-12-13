@@ -5,6 +5,8 @@ import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -93,7 +95,6 @@ public class FilterMenu extends Visualisation {
 		}
 		filterMenuPanel.add(addButtons());
 		filterMenuPanel.add(initStatusBox());
-
 		filterMenuPanel.setStyleName("filterMenuPanel");
 		resetFilter();
 		panel.add(filterMenuPanel);
@@ -241,10 +242,10 @@ public class FilterMenu extends Visualisation {
 	
 	private Widget getGroupByYearCheckBox() {
 		groupByYearCheckBox = new CheckBox("Group by year avg.");
-		groupByYearCheckBox.addClickHandler(new ClickHandler() {
+		groupByYearCheckBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				beginMonthListBox.setEnabled(!groupByYearCheckBox.getValue());
 				endMonthListBox.setEnabled(!groupByYearCheckBox.getValue());
 				if (groupByYearCheckBox.getValue()){
@@ -292,9 +293,6 @@ public class FilterMenu extends Visualisation {
 		
 		dateFilterPanel.add(new Label("To: "));
 		dateFilterPanel.add(endDatePanel);
-		
-		beginMonthListBox.setEnabled(!GROUP_BY_YEAR);
-		endMonthListBox.setEnabled(!GROUP_BY_YEAR);
 		
 		return dateFilterPanel;
 	}
